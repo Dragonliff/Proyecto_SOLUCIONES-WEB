@@ -1,7 +1,10 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="Modelo.usuarios" %>
 <%@ include file="layout.jsp" %>
+<jsp:include page="../seguridad.jsp" />
 <%
-    request.setAttribute("titulo", "Vista del Empleado");
+    List<usuarios> lista = (List<usuarios>) request.getAttribute("lista");
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -15,85 +18,158 @@
 </head>
 
 <body>
-    <div class="container my-4">
-        <h1 class="h3 mb-4">Panel del Empleado</h1>
-        <p class="text-muted">Aquí puedes consultar tus máquinas asignadas, revisar mantenimientos y reportar fallas.</p>
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Gestión de Empleados (Mecánicos y Conductores)</h2>
 
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="card text-bg-primary mb-3 shadow-sm">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Máquinas Asignadas</h5>
-                        <p class="fs-4 mb-0">5</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card text-bg-success mb-3 shadow-sm">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Mantenimientos Pendientes</h5>
-                        <p class="fs-4 mb-0">2</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card text-bg-warning mb-3 shadow-sm">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Fallas Reportadas</h5>
-                        <p class="fs-4 mb-0">1</p>
-                    </div>
-                </div>
-            </div>
+        <!-- Botón para abrir modal -->
+        <div class="text-end mb-3">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#empleadoModal" onclick="abrirModalAgregar()">
+                ➕ Nuevo Empleado
+            </button>
         </div>
 
-        <h2 class="h4 mb-3">Mis Máquinas</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <!-- Máquina 1 -->
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="https://source.unsplash.com/400x250/?truck,machine" class="card-img-top" alt="Camión Volvo A1">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Camión Volvo A1</h5>
-                        <p><span class="badge bg-success">Activo</span></p>
-                        <a href="#" class="btn btn-primary btn-sm">Detalles</a>
-                        <a href="reportarFalla.jsp" class="btn btn-danger btn-sm ms-2">Reportar Falla</a>
-
-                        <div class="mt-3">
-                            <small class="text-muted">Antigüedad: 35%</small>
-                            <div class="progress">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 35%;" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="card shadow-sm">
-                    <img src="https://source.unsplash.com/400x250/?excavator" class="card-img-top" alt="Excavadora X5">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Excavadora X5</h5>
-                        <p><span class="badge bg-warning text-dark">En Mantenimiento</span></p>
-                        <a href="#" class="btn btn-primary btn-sm">Detalles</a>
-                        <a href="reportarFalla.jsp" class="btn btn-danger btn-sm ms-2">Reportar Falla</a>
-
-                        <div class="mt-3">
-                            <small class="text-muted">Antigüedad: 65%</small>
-                            <div class="progress">
-                                <div class="progress-bar bg-warning" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <h2 class="h4 mt-5 mb-3">Mapa de mis máquinas</h2>
-        <div style="width:100%; height:400px; background:#eaeaea; display:flex; align-items:center; justify-content:center; border-radius:8px;">
-            <span class="text-muted">[Aquí iría un mapa con la ubicación de las máquinas asignadas]</span>
-        </div>
+        <!-- Tabla de empleados -->
+        <table class="table table-bordered table-hover align-middle shadow-sm">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre Completo</th>
+                    <th>Usuario</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            <% if (lista != null && !lista.isEmpty()) { 
+                   for (usuarios u : lista) { %>
+                <tr>
+                    <td><%= u.getIdUsuario() %></td>
+                    <td><%= u.getNombreCompleto() %></td>
+                    <td><%= u.getUsuario() %></td>
+                    <td><%= u.getCorreo() %></td>
+                    <td><%= u.getTelefono() %></td>
+                    <td><%= (u.getIdRol() == 2 ? "Mecánico" : "Conductor") %></td>
+                    <td><span class="badge bg-<%= u.getEstado().equalsIgnoreCase("Activo") ? "success" : "secondary" %>">
+                        <%= u.getEstado() %>
+                    </span></td>
+                    <td class="text-center">
+                        <button class="btn btn-warning btn-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#empleadoModal"
+                                onclick="editarEmpleado('<%= u.getIdUsuario() %>',
+                                                       '<%= u.getNombreCompleto() %>',
+                                                       '<%= u.getUsuario() %>',
+                                                       '<%= u.getCorreo() %>',
+                                                       '<%= u.getTelefono() %>',
+                                                       '<%= u.getIdRol() %>',
+                                                       '<%= u.getEstado() %>')">
+                            ✏️ Editar
+                        </button>
+                        <a href="EmpleadoServlet?action=eliminar&id=<%= u.getIdUsuario() %>"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Eliminar este empleado?');">
+                            🗑️ Eliminar
+                        </a>
+                    </td>
+                </tr>
+            <% }} else { %>
+                <tr><td colspan="8" class="text-center text-muted">No hay empleados registrados</td></tr>
+            <% } %>
+            </tbody>
+        </table>
     </div>
+
+    <!-- ========================================================= -->
+    <!-- MODAL DE EMPLEADOS (Fuera del container principal) -->
+    <!-- ========================================================= -->
+    <div class="modal fade" id="empleadoModal"
+         data-bs-backdrop="static"
+         data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="empleadoModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <form id="formEmpleado" action="${pageContext.request.contextPath}/EmpleadoServlet" method="post" class="modal-content shadow-lg">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="empleadoModalLabel">Agregar Empleado</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <input type="hidden" name="idUsuario" id="idUsuario">
+
+            <div class="mb-3">
+                <label class="form-label">Nombre Completo:</label>
+                <input type="text" name="nombreCompleto" id="nombreCompleto" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Usuario:</label>
+                <input type="text" name="usuario" id="usuario" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Correo:</label>
+                <input type="email" name="correo" id="correo" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Teléfono:</label>
+                <input type="text" name="telefono" id="telefono" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Rol:</label>
+                <select name="idRol" id="idRol" class="form-select" required>
+                    <option value="2">Mecánico</option>
+                    <option value="3">Conductor</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Estado:</label>
+                <select name="estado" id="estado" class="form-select">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Contraseña:</label>
+                <input type="password" name="contrasena" id="contrasena" class="form-control" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" name="action" value="guardar" class="btn btn-success">💾 Guardar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+                
+    <script>
+    function abrirModalAgregar() {
+        document.getElementById("empleadoModalLabel").innerText = "Agregar Empleado";
+        document.querySelector("form").reset();
+        document.getElementById("idUsuario").value = "";
+    }
+
+    function editarEmpleado(id, nombre, usuario, correo, telefono, rol, estado) {
+        document.getElementById("empleadoModalLabel").innerText = "Editar Empleado";
+        document.getElementById("idUsuario").value = id;
+        document.getElementById("nombreCompleto").value = nombre;
+        document.getElementById("usuario").value = usuario;
+        document.getElementById("correo").value = correo;
+        document.getElementById("telefono").value = telefono;
+        document.getElementById("idRol").value = rol;
+        document.getElementById("estado").value = estado;
+        document.getElementById("contrasena").value = ""; // opcional
+    }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

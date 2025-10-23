@@ -17,34 +17,34 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="inicio.jsp" class="nav-link sidebar-link text-white">Inicio</a>
+                    <a href="${pageContext.request.contextPath}/vistasAdmin/inicio.jsp" class="nav-link sidebar-link text-white">Inicio</a>
                 </li>
                 <li>
-                    <a href="Empleados.jsp" class="nav-link sidebar-link text-white">Empleados</a>
+                    <a href="<%= request.getContextPath() %>/EmpleadoServlet" class="nav-link sidebar-link text-white">Empleados</a>
                 </li>
                 <li>
-                    <a href="maquinas.jsp" class="nav-link sidebar-link text-white">Máquinas / Vehículos</a>
+                    <a href="${pageContext.request.contextPath}/vistasAdmin/maquinas.jsp" class="nav-link sidebar-link text-white">Máquinas / Vehículos</a>
                 </li>
                 <li>
-                    <a href="horas.jsp" class="nav-link sidebar-link text-white">Horas de uso / Kilómetros</a>
+                    <a href="${pageContext.request.contextPath}/vistasAdmin/horas.jsp" class="nav-link sidebar-link text-white">Horas de uso / Kilómetros</a>
                 </li>
                 <li>
-                    <a href="inventario.jsp" class="nav-link sidebar-link text-white">Inventario</a>
+                    <a href="${pageContext.request.contextPath}/vistasAdmin/inventario.jsp" class="nav-link sidebar-link text-white">Inventario</a>
                 </li>
                 <li>
-                    <a href="mantenimientos.jsp" class="nav-link sidebar-link text-white">Mantenimientos</a>
-                </li>  
-                <li>
-                    <a href="fallasReportadas.jsp" class="nav-link sidebar-link text-white">Fallas reportadas</a>
+                    <a href="${pageContext.request.contextPath}/vistasAdmin/mantenimientos.jsp" class="nav-link sidebar-link text-white">Mantenimientos</a>
                 </li>
                 <li>
-                    <a href="alertasPredictivas.jsp" class="nav-link sidebar-link text-white">Alertas predictivas</a>
+                    <a href="${pageContext.request.contextPath}/vistasAdmin/fallasReportadas.jsp" class="nav-link sidebar-link text-white">Fallas reportadas</a>
                 </li>
                 <li>
-                    <a href="reportes.jsp" class="nav-link sidebar-link text-white">Reportes</a>
+                    <a href="${pageContext.request.contextPath}/vistasAdmin/alertasPredictivas.jsp" class="nav-link sidebar-link text-white">Alertas predictivas</a>
                 </li>
                 <li>
-                    <a href="<%= request.getContextPath() %>/CerrarSesionServlet" class="nav-link sidebar-link text-white">Cerrar Sesión</a>
+                    <a href="${pageContext.request.contextPath}/vistasAdmin/reportes.jsp" class="nav-link sidebar-link text-white">Reportes</a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/CerrarSesionServlet" class="nav-link sidebar-link text-white">Cerrar Sesión</a>
                 </li>             
             </ul>
             <hr>
