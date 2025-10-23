@@ -9,14 +9,18 @@ package Modelo;
  * @author Raidth
  */
 public class vehiculos {
-   private int idVehiculo;
-   private String placa;
-   private String marca;
-   private String modelo;
-   private int anio;
-   private String tipoVehiculo;
-   private double kilometrajeActual;
-   private String estado;
+    private int idVehiculo;
+    private String placa;
+    private String marca;
+    private String modelo;
+    private int anio;
+    private String tipoVehiculo;
+    private double kilometrajeActual;
+    private String estado;
+   
+    public vehiculos(){
+        
+    }
 
     public vehiculos(int idVehiculo, String placa, String marca, String modelo, int anio, String tipoVehiculo, double kilometrajeActual, String estado) {
         this.idVehiculo = idVehiculo;
