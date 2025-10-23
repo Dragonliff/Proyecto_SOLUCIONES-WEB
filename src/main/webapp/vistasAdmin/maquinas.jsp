@@ -1,15 +1,8 @@
 
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
-<%@ page import="Modelo.Activo" %>
 <%@ include file="layout.jsp" %>
-<%
-    request.setAttribute("titulo", "Listado de Máquinas");
-        
 
-    List<Activo> activos = (List<Activo>) request.getAttribute("activos");
-
-%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -36,7 +29,7 @@
         <div class="modal fade" id="modalAgregarActivo" tabindex="-1" aria-labelledby="modalAgregarActivoLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content">
-              <form action="<%= request.getContextPath() %>/ActivoServlet" method="post">
+              <form >
                 <div class="modal-header">
                   <h5 class="modal-title" id="modalAgregarActivoLabel">Agregar Nuevo Vehículo</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
@@ -113,79 +106,7 @@
           </div>
         </div>
 
-       <!-- LISTA DE VEHÍCULOS -->
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-            <%
-                if (activos != null && !activos.isEmpty()) {
-                    for (Activo a : activos) {
-                        String estadoColorClass = "status-badge-secondary";
-                        if ("Activo".equalsIgnoreCase(a.getEstado())) estadoColorClass = "status-badge-success";
-                        else if ("Mantenimiento".equalsIgnoreCase(a.getEstado())) estadoColorClass = "status-badge-warning";
-                        else if ("Inactivo".equalsIgnoreCase(a.getEstado())) estadoColorClass = "status-badge-danger";
-                        
-                        String ubicacion = "Taller Central";
-                        double eficiencia = 95.5;
-                        int combustible = 80;
-            %>
-                <div class="col">
-                    <div class="custom-machine-card shadow-sm p-3">
-                        
-                        <div class="d-flex justify-content-between align-items-start mb-3">
-                            <div class="d-flex align-items-center">
-                                <div class="vehicle-icon-wrapper">
-                                    <i class="bi bi-truck vehicle-icon-placeholder"></i>
-                                </div>
-                                <div>
-                                    <h5 class="machine-id mb-0"><%= a.getNombre() %></h5>
-                                    <small class="text-muted"><%= a.getModelo() %> (Distribución B)</small>
-                                </div>
-                            </div>
-                            <span class="status-badge <%= estadoColorClass %>"><%= a.getEstado() %></span>
-                        </div>
-
-                        <div class="mb-3 machine-detail-group">
-                            <p class="mb-1"><i class="bi bi-geo-alt-fill me-2"></i><%= ubicacion %></p>
-                            <p class="mb-0"><i class="bi bi-person-fill me-2"></i>Conductor: <strong><%= a.getConductor() %></strong></p>
-                        </div>
-                        
-                        <div class="metrics-grid">
-                            <div class="metric-item">
-                                <i class="bi bi-graph-up metric-icon-green"></i>
-                                <h4 class="metric-value text-success mb-0"><%= String.format("%.1f", eficiencia) %>%</h4>
-                                <small class="metric-label text-muted">Eficiencia</small>
-                            </div>
-
-                            <div class="metric-item">
-                                <i class="bi bi-fuel-pump-fill metric-icon-blue"></i>
-                                <h4 class="metric-value text-info mb-0"><%= combustible %></h4>
-                                <small class="metric-label text-muted">Combustible</small>
-                            </div>
-
-                            <div class="metric-item">
-                                <i class="bi bi-clock metric-icon-secondary"></i>
-                                <h4 class="metric-value text-secondary mb-0"><%= String.format("%,d", a.getKilometraje()) %> km</h4>
-                                <small class="metric-label text-muted">km</small>
-                            </div>
-                        </div>
-
-                        <div class="mt-3 text-center">
-                            <a href="#" class="btn btn-sm btn-outline-primary w-100">Ver Detalles</a>
-                        </div>
-                        
-                    </div>
-                </div>
-                <%
-                        } 
-                    } else {
-                %>
-                <div class="col-12">
-                    <p class="text-muted">No hay máquinas registradas aún.</p>
-                </div>
-                <% } %>
-        </div>
-    </div>
-        
-        
+    </div>  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
