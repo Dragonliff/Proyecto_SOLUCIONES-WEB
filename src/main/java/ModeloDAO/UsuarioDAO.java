@@ -14,7 +14,9 @@ public class UsuarioDAO {
 
     public usuarios validarUsuarioPorCorreo(String correo, String contrasena) {
         usuarios u = null;
-        String sql = " SELECT u.*, r.nombreRol FROM usuarios u INNER JOIN roles r ON u.idRol = r.idRol WHERE u.correo = ? AND u.contrasena = ? AND u.estado = 'Activo'";
+        String sql = "SELECT u.*, r.nombreRol FROM usuarios u " +
+                     "INNER JOIN roles r ON u.idRol = r.idRol " +
+                     "WHERE u.correo = ? AND u.contrasena = ? AND u.estado = 'Activo'";
 
         try {
             con = Conexion.getConexion();
