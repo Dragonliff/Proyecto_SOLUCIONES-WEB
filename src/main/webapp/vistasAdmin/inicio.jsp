@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="css/barraNavegacion.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-GO
+
 <body>
     <div class="container my-4">
         <header class="mb-4">
