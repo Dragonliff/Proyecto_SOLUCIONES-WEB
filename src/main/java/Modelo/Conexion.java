@@ -7,14 +7,13 @@ import java.sql.SQLException;
 public class Conexion {
     private static final String URL = "jdbc:mysql://localhost:3306/mantenimiento_predictivo2";
     private static final String USER = "root"; 
-    private static final String PASSWORD = "admin123"; 
+    private static final String PASSWORD = "abc123"; 
 
     // Mantenemos tu versión simple de conexión
     public static Connection getConexion() {
         Connection conexion = null; // Inicializar a null
 
         try {
-            // Este es el driver que necesita el conector que agregaste
             Class.forName("com.mysql.cj.jdbc.Driver");
             
             // Usamos la URL simple, si falla, es probable que necesites los parámetros extra.

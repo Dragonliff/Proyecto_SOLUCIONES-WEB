@@ -29,7 +29,7 @@
                     <a href="${pageContext.request.contextPath}/vistasAdmin/horas.jsp" class="nav-link sidebar-link text-white">Horas de uso / Kilómetros</a>
                 </li>
                 <li>
-                    <a href="${pageContext.request.contextPath}/vistasAdmin/inventario.jsp" class="nav-link sidebar-link text-white">Inventario</a>
+                    <a href="<%= request.getContextPath() %>/HerramientaServlet" class="nav-link sidebar-link text-white">Inventario</a>
                 </li>
                 <li>
                     <a href="${pageContext.request.contextPath}/vistasAdmin/mantenimientos.jsp" class="nav-link sidebar-link text-white">Mantenimientos</a>
