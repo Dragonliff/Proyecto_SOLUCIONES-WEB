@@ -21,7 +21,7 @@ public class VehiculoServlet extends HttpServlet {
 
         String accion = request.getParameter("accion");
         if (accion == null) {
-            accion = "listar"; // Acción por defecto
+            accion = "listar"; // 👈🏼 Acción por defecto: LISTAR
         }
 
         switch (accion) {
@@ -31,13 +31,13 @@ public class VehiculoServlet extends HttpServlet {
                 break;
 
             case "eliminar":
-                // 🔴 CAMBIO CLAVE: Llamar al método de ELIMINACIÓN FÍSICA
+                // 🔴 CAMBIO CLAVE: Llama a la eliminación FÍSICA
                 eliminarFisicamente(request, response); 
                 break;
 
             case "activar":
-                // Mantenemos esta para alta lógica, pero ajustaremos los valores del ENUM
-                cambiarEstadoVehiculo(request, response, "Operativo"); // Activar a 'Operativo'
+                // Llama al cambio de estado para activar
+                cambiarEstadoVehiculo(request, response, "Operativo"); 
                 break;
         }
     }
@@ -59,7 +59,7 @@ public class VehiculoServlet extends HttpServlet {
 // LÓGICA DE MÉTODOS AUXILIARES
 // ----------------------------------------------------
 
-    // READ: Listar
+    // READ: Listar (Muestra todos los vehículos al inicio)
     private void listarVehiculos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -69,19 +69,18 @@ public class VehiculoServlet extends HttpServlet {
         request.getRequestDispatcher("/vistasAdmin/maquinas.jsp").forward(request, response);
     }
 
-    // CREATE/UPDATE: Guardar
+    // CREATE/UPDATE: Guardar (No se modifica la lógica de guardado/edición)
     private void guardarVehiculo(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         String idParam = request.getParameter("idVehiculo");
         int anio = 0;
         double kilometrajeActual = 0.0;
         boolean resultado = false;
         
         try {
-            // Conversión de numéricos. Si falla, se atrapa la excepción.
+            // Conversión de numéricos.
             anio = Integer.parseInt(request.getParameter("anio"));
-            // Usamos replace para manejar posibles comas decimales
             String kmStr = request.getParameter("kilometrajeActual");
             kilometrajeActual = Double.parseDouble(kmStr.replace(',', '.')); 
 
@@ -128,7 +127,7 @@ public class VehiculoServlet extends HttpServlet {
         }
     }
 
-    // 🔴 NUEVO MÉTODO PARA ELIMINACIÓN FÍSICA
+    // 🔴 IMPLEMENTACIÓN DE LA ELIMINACIÓN FÍSICA
     private void eliminarFisicamente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -142,7 +141,6 @@ public class VehiculoServlet extends HttpServlet {
             return;
         }
 
-        // 🔴 CAMBIO CLAVE: Llamar al método de eliminación física del DAO
         if (vehiculoDAO.eliminarFisico(idVehiculo)) {
             System.out.println("✅ Vehículo ID " + idVehiculo + " ELIMINADO FÍSICAMENTE.");
             response.sendRedirect("VehiculoServlet?exito=eliminado");
@@ -151,7 +149,7 @@ public class VehiculoServlet extends HttpServlet {
         }
     }
     
-    // DELETE: Cambiar Estado (Mantenemos por si se usa 'activar' o necesitas baja lógica)
+    // Cambiar Estado (Usado por 'activar')
     private void cambiarEstadoVehiculo(HttpServletRequest request, HttpServletResponse response, String nuevoEstado)
             throws ServletException, IOException {
 
@@ -165,7 +163,6 @@ public class VehiculoServlet extends HttpServlet {
             return;
         }
 
-        // Usamos el valor 'Operativo' si es activación.
         if (vehiculoDAO.cambiarEstado(idVehiculo, nuevoEstado)) {
             response.sendRedirect("VehiculoServlet?exito=estadoCambiado");
         } else {

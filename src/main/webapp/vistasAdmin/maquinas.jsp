@@ -36,14 +36,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% 
-                        // Obtener la lista de vehículos que el Servlet colocó en el request
+                    <%  
+                        // 🔴 CAMBIO CLAVE: Obtención de la lista
+                        // Se obtiene el atributo "vehiculos" que envía el Servlet.
+                        // Si no lo encuentra, usa una lista vacía para evitar NullPointerException.
                         List<vehiculos> lista = (List<vehiculos>) request.getAttribute("vehiculos");
+                        if (lista == null) {
+                            lista = java.util.Collections.emptyList();
+                        }
                         
-                        if (lista != null) {
+                        if (!lista.isEmpty()) {
                             for (vehiculos v : lista) { 
                                 String estadoClass = "estado-default";
-                                // Usar equalsIgnoreCase para la clase CSS (solo visual)
                                 if ("Operativo".equalsIgnoreCase(v.getEstado())) {
                                     estadoClass = "estado-operativo";
                                 } else if ("En Mantenimiento".equalsIgnoreCase(v.getEstado())) {
@@ -78,11 +82,11 @@
                             </button>
                             
                             <% 
-                            // BOTONES ELIMINAR / ACTIVAR (Baja/Alta Lógica)
+                            // BOTONES ELIMINAR / ACTIVAR
                             if ("Operativo".equalsIgnoreCase(v.getEstado())) { %>
                                 <a href="VehiculoServlet?accion=eliminar&id=<%= v.getIdVehiculo() %>" 
                                    class="btn btn-sm btn-danger" 
-                                   onclick="return confirm('¿Confirma la BAJA LÓGICA (Fuera de Servicio) de la placa <%= v.getPlaca() %>?');">
+                                   onclick="return confirm('¿Confirma la ELIMINACIÓN PERMANENTE de la placa <%= v.getPlaca() %>?');">
                                     Eliminar
                                 </a>
                             <% } else { %>
@@ -174,10 +178,8 @@
     <script>
         /**
          * Prepara el formulario del modal para Agregar o Editar.
-         * Asegura la correcta asignación de valores y maneja el campo Placa.
          */
         function prepararFormulario(id, placa, marca, modelo, anio, tipo, km, estado) {
-            // Valores por defecto que COINCIDEN exactamente con los ENUM de la DB
             const defaultTipo = 'Auto'; 
             const defaultEstado = 'Operativo'; 
 
@@ -191,7 +193,7 @@
             document.getElementById('modeloModal').value = modelo || '';
             document.getElementById('anioModal').value = anio || '';
             
-            // Manejo de kilometraje (convierte a número con 2 decimales si existe)
+            // Manejo de kilometraje
             document.getElementById('kilometrajeActualModal').value = km ? parseFloat(km).toFixed(2) : ''; 
             
             // Asignar el valor a los SELECTs

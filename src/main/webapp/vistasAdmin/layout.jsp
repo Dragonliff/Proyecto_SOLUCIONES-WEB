@@ -23,7 +23,7 @@
                     <a href="<%= request.getContextPath() %>/EmpleadoServlet" class="nav-link sidebar-link text-white">Empleados</a>
                 </li>
                 <li>
-                    <a href="${pageContext.request.contextPath}/vistasAdmin/maquinas.jsp" class="nav-link sidebar-link text-white">Máquinas / Vehículos</a>
+                    <a href="${pageContext.request.contextPath}/VehiculoServlet" class="nav-link sidebar-link text-white">Máquinas / Vehículos</a>
                 </li>
                 <li>
                     <a href="${pageContext.request.contextPath}/vistasAdmin/horas.jsp" class="nav-link sidebar-link text-white">Horas de uso / Kilómetros</a>
