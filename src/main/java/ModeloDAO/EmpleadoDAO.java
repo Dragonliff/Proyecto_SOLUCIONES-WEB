@@ -129,17 +129,71 @@ public class EmpleadoDAO {
         }
     }
 
-    // --- Eliminar empleado
+
+    // --- Eliminar empleado correctamente
     public boolean eliminarEmpleado(int idUsuario) {
-        String sql = "DELETE FROM usuarios WHERE idUsuario=?";
+        String sqlRol = "SELECT idRol FROM usuarios WHERE idUsuario=?";
+        String sqlEliminarMecanico = "DELETE FROM mecanicos WHERE idUsuario=?";
+        String sqlEliminarConductor = "DELETE FROM conductores WHERE idUsuario=?";
+        String sqlEliminarUsuario = "DELETE FROM usuarios WHERE idUsuario=?";
+
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
         try {
             con = Conexion.getConexion();
-            ps = con.prepareStatement(sql);
+            con.setAutoCommit(false); // 🔒 Iniciar transacción
+
+            // 1️⃣ Verificar qué rol tiene el usuario
+            ps = con.prepareStatement(sqlRol);
             ps.setInt(1, idUsuario);
-            return ps.executeUpdate() > 0;
+            rs = ps.executeQuery();
+
+            int idRol = 0;
+            if (rs.next()) {
+                idRol = rs.getInt("idRol");
+            }
+            rs.close();
+            ps.close();
+
+            // 2️⃣ Eliminar primero de la tabla hija correspondiente
+            if (idRol == 2) { // Mecánico
+                ps = con.prepareStatement(sqlEliminarMecanico);
+                ps.setInt(1, idUsuario);
+                ps.executeUpdate();
+                ps.close();
+            } else if (idRol == 3) { // Conductor
+                ps = con.prepareStatement(sqlEliminarConductor);
+                ps.setInt(1, idUsuario);
+                ps.executeUpdate();
+                ps.close();
+            }
+
+            // 3️⃣ Luego eliminar de la tabla usuarios
+            ps = con.prepareStatement(sqlEliminarUsuario);
+            ps.setInt(1, idUsuario);
+            ps.executeUpdate();
+
+            con.commit(); // ✅ Confirmar transacción
+            return true;
+
         } catch (Exception e) {
             System.out.println("Error eliminarEmpleado: " + e.getMessage());
+            try {
+                if (con != null) con.rollback(); // ❌ Deshacer cambios si algo falla
+            } catch (SQLException ex) {
+                System.out.println("Error rollback: " + ex.getMessage());
+            }
             return false;
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (con != null) con.setAutoCommit(true);
+                if (con != null) con.close();
+            } catch (SQLException e) {
+                System.out.println("Error cerrar recursos: " + e.getMessage());
+            }
         }
     }
     

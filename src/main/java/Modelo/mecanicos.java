@@ -4,10 +4,6 @@
  */
 package Modelo;
 
-/**
- *
- * @author Raidth
- */
 public class mecanicos {
     private int idMecanico;
     private int idUsuario;
