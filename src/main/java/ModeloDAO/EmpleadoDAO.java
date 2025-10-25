@@ -78,7 +78,7 @@ public class EmpleadoDAO {
         String sql = "INSERT INTO usuarios (idRol, nombreCompleto, usuario, contrasena, correo, telefono, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             con = Conexion.getConexion();
-            ps = con.prepareStatement(sql);
+            ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, u.getIdRol());
             ps.setString(2, u.getNombreCompleto());
             ps.setString(3, u.getUsuario());
@@ -86,7 +86,22 @@ public class EmpleadoDAO {
             ps.setString(5, u.getCorreo());
             ps.setString(6, u.getTelefono());
             ps.setString(7, u.getEstado());
-            return ps.executeUpdate() > 0;
+            ps.executeUpdate();
+
+            // 🔹 Obtener el ID generado del usuario
+            rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                int idUsuarioGenerado = rs.getInt(1);
+
+                // 🔹 Insertar en tabla respectiva según el rol
+                if (u.getIdRol() == 2) {
+                    registrarMecanico(idUsuarioGenerado, u.getTelefono());
+                } else if (u.getIdRol() == 3) {
+                    registrarConductor(idUsuarioGenerado, u.getTelefono());
+                }
+            }
+
+            return true;
         } catch (Exception e) {
             System.out.println("Error agregarEmpleado: " + e.getMessage());
             return false;
@@ -125,6 +140,34 @@ public class EmpleadoDAO {
         } catch (Exception e) {
             System.out.println("Error eliminarEmpleado: " + e.getMessage());
             return false;
+        }
+    }
+    
+        // --- Registrar Conductor
+    private void registrarConductor(int idUsuario, String telefono) {
+        String sql = "INSERT INTO conductores (idUsuario, licenciaConducir, categoriaLicencia, fechaVencimiento, telefono) VALUES (?, '', '', NULL, ?)";
+        try {
+            con = Conexion.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idUsuario);
+            ps.setString(2, telefono);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error registrarConductor: " + e.getMessage());
+        }
+    }
+
+    // --- Registrar Mecánico
+    private void registrarMecanico(int idUsuario, String telefono) {
+        String sql = "INSERT INTO mecanicos (idUsuario, especialidad, experienciaAnios, telefono) VALUES (?, '', 0, ?)";
+        try {
+            con = Conexion.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idUsuario);
+            ps.setString(2, telefono);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error registrarMecanico: " + e.getMessage());
         }
     }
 }
