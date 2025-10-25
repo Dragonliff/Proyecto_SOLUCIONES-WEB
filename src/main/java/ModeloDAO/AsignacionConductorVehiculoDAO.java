@@ -201,6 +201,37 @@ public class AsignacionConductorVehiculoDAO {
         }
         return eliminado;
     }
+    
+    // ------------------------------------------------------------
+    // 7. Listar asignaciones por conductor
+    // ------------------------------------------------------------
+    public List<asignaciones_conductor_vehiculo> listarPorConductor(int idConductor) {
+        List<asignaciones_conductor_vehiculo> lista = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sql = "SELECT * FROM asignaciones_conductor_vehiculo WHERE idConductor = ? ORDER BY fechaInicio DESC";
+
+        try {
+            con = Conexion.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idConductor);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                lista.add(mapResultSetToAsignacion(rs));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("🔴 Error al listar asignaciones por conductor: " + e.getMessage());
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException ex) {}
+            try { if (ps != null) ps.close(); } catch (SQLException ex) {}
+            try { if (con != null) con.close(); } catch (SQLException ex) {}
+        }
+        return lista;
+    }
 
     // ------------------------------------------------------------
     // Utilidad: Mapeo del ResultSet a objeto

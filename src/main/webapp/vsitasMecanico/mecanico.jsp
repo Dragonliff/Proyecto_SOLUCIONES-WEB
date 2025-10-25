@@ -1,17 +1,11 @@
-<%-- 
-    Document   : mecanico
-    Created on : 25 oct 2025, 11:20:24
-    Author     : kristhor
---%>
+<%@ page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
+<%@ include file="../seguridad.jsp" %>
+<div class="container-fluid">
+    <h2 class="mb-4">MECANICO</h2>
+
+</div>
+
+</div> 
+</body>
 </html>

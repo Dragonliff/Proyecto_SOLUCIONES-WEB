@@ -17,7 +17,7 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="empleadoMaquinas.jsp" class="nav-link sidebar-link text-white">Mis Máquinas</a>
+                    <a href="${pageContext.request.contextPath}/EmpleadoAsignacionesServlet" class="nav-link sidebar-link text-white">Mis Máquinas</a>
                 </li>
                 <li>
                     <a href="empleadoFallas.jsp" class="nav-link sidebar-link text-white">Fallas</a>

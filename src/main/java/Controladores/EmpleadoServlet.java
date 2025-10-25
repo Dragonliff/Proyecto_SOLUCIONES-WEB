@@ -47,7 +47,7 @@ public class EmpleadoServlet extends HttpServlet {
             default:
                 List<usuarios> lista = dao.listarEmpleados();
                 request.setAttribute("lista", lista);
-                request.getRequestDispatcher("vistasAdmin/empleados.jsp").forward(request, response);
+                request.getRequestDispatcher("vistasAdmin/Empleados.jsp").forward(request, response);
                 break;
         }
     }

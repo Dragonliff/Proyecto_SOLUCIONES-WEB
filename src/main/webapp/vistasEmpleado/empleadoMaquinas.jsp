@@ -1,70 +1,52 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%
     request.setAttribute("titulo", "Mis Máquinas");
 %>
 <%@ include file="layoutEmpleados.jsp" %>
 <%@ include file="../seguridad.jsp" %>
+
+<%
+    HttpSession sesionUsuario = request.getSession(false);
+    String nombreUsuario = (String) sesionUsuario.getAttribute("nombreUsuario");
+    if (nombreUsuario == null) {
+        nombreUsuario = "Conductor";
+    }
+%>
+
 <div class="container-fluid">
-    <h2 class="mb-4">Mis Máquinas</h2>
+    <h1 class="mb-4">Bienvenido, <%= nombreUsuario %> 👷‍♂️</h1>
+    <h2 class="text-muted mb-4">Aquí puedes ver tus máquinas asignadas</h2>
+    
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Mis Máquinas Asignadas</h2>
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card shadow-sm h-100">
-                <img src="https://source.unsplash.com/400x250/?truck" class="card-img-top" alt="Camión Volvo">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Camión Volvo FH</h5>
-                    <p><span class="badge bg-success">Activo</span></p>
-                    <a href="#" class="btn btn-primary btn-sm">Detalles</a>
-                    <a href="empleadoFallas.jsp" class="btn btn-danger btn-sm ms-2">Reportar Falla</a>
-                    <button class="btn btn-warning btn-sm ms-2">Cambiar Estado</button>
-                    <div class="mt-3">
-                        <small class="text-muted">Antigüedad: 35%</small>
-                        <div class="progress">
-                            <div class="progress-bar bg-info" style="width: 35%;"></div>
-                        </div>
-                    </div>
+        <c:if test="${empty listaAsignaciones}">
+            <div class="alert alert-warning text-center">No tienes máquinas asignadas actualmente.</div>
+        </c:if>
+
+        <c:forEach var="a" items="${listaAsignaciones}">
+            <div class="card mb-3 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">
+                        🚗 ${a.nombreVehiculo} (${a.placa})
+                    </h5>
+                    <p class="card-text mb-1"><strong>Marca:</strong> ${a.marca}</p>
+                    <p class="card-text mb-1"><strong>Modelo:</strong> ${a.modelo}</p>
+                    <p class="card-text mb-1"><strong>Año:</strong> ${a.anio}</p>
+                    <hr>
+                    <p class="card-text">
+                        <strong>Fecha Inicio:</strong> ${a.fechaInicio} <br>
+                        <strong>Fecha Fin:</strong> ${a.fechaFin} <br>
+                        <strong>Estado:</strong> 
+                        <span class="badge bg-${a.estado == 'Activa' ? 'success' : 'secondary'}">${a.estado}</span>
+                    </p>
                 </div>
             </div>
-        </div>
-
-        <div class="col">
-            <div class="card shadow-sm h-100">
-                <img src="https://source.unsplash.com/400x250/?excavator" class="card-img-top" alt="Excavadora ZX200">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Excavadora ZX200</h5>
-                    <p><span class="badge bg-success">Operativa</span></p>
-                    <a href="#" class="btn btn-primary btn-sm">Detalles</a>
-                    <a href="empleadoFallas.jsp" class="btn btn-danger btn-sm ms-2">Reportar Falla</a>
-                    <button class="btn btn-warning btn-sm ms-2">Cambiar Estado</button>
-                    <div class="mt-3">
-                        <small class="text-muted">Antigüedad: 60%</small>
-                        <div class="progress">
-                            <div class="progress-bar bg-warning" style="width: 60%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card shadow-sm h-100">
-                <img src="https://source.unsplash.com/400x250/?pickup,car" class="card-img-top" alt="Toyota Hilux">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Pickup Toyota Hilux</h5>
-                    <p><span class="badge bg-warning text-dark">En uso</span></p>
-                    <a href="#" class="btn btn-primary btn-sm">Detalles</a>
-                    <a href="empleadoFallas.jsp" class="btn btn-danger btn-sm ms-2">Reportar Falla</a>
-                    <button class="btn btn-warning btn-sm ms-2">Cambiar Estado</button>
-                    <div class="mt-3">
-                        <small class="text-muted">Antigüedad: 80%</small>
-                        <div class="progress">
-                            <div class="progress-bar bg-danger" style="width: 80%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </c:forEach>
     </div>
+
+
 </div>
 
 </div> 

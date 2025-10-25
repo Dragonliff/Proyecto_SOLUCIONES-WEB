@@ -60,4 +60,20 @@ public class ConductorDAO {
 
         return lista;
     }
+    
+    public int obtenerIdPorUsuario(int idUsuario) {
+        int idConductor = -1;
+        String sql = "SELECT idConductor FROM conductores WHERE idUsuario = ?";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                idConductor = rs.getInt("idConductor");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener idConductor: " + e.getMessage());
+        }
+        return idConductor;
+    }
 }

@@ -26,29 +26,29 @@
 
     // 2. Definir rutas a verificar (en minúsculas)
     boolean accedeAdmin = requestURI.contains("/vistasadmin/");
-    boolean accedeMecanico = requestURI.contains("/vistasempleado/");
-    boolean accedeConductor = requestURI.contains("/vistasconductor/"); 
+    boolean accedeMecanico = requestURI.contains("/vistasmecanico/");
+    boolean accedeEmpleado = requestURI.contains("/vistasempleado/"); 
 
     // 3. Lógica de Restricción de Acceso
     boolean accesoDenegado = false;
     
     switch (idRol) {
         case 1: // ADMINISTRADOR
-            // SOLO debe acceder a /vistasAdmin/. Denegar si intenta Mecánico O Conductor
-            if (accedeMecanico || accedeConductor) {
+            // Solo puede acceder a /vistasAdmin/
+            if (accedeMecanico || accedeEmpleado) {
                 accesoDenegado = true;
             }
             break;
-            
+
         case 2: // MECÁNICO
-            // SOLO debe acceder a /vistasMecanico/. Denegar si intenta Admin O Conductor
-            if (accedeAdmin || accedeConductor) {
+            // Solo puede acceder a /vistasMecanico/
+            if (accedeAdmin || accedeEmpleado) {
                 accesoDenegado = true;
             }
             break;
-            
-        case 3: // CONDUCTOR
-            // SOLO debe acceder a /vistasConductor/. Denegar si intenta Admin O Mecánico
+
+        case 3: // CONDUCTOR (Empleado)
+            // Solo puede acceder a /vistasEmpleado/
             if (accedeAdmin || accedeMecanico) {
                 accesoDenegado = true;
             }
