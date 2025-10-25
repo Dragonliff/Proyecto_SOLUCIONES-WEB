@@ -26,6 +26,10 @@
                     <a href="${pageContext.request.contextPath}/VehiculoServlet" class="nav-link sidebar-link text-white">Máquinas / Vehículos</a>
                 </li>
                 <li>
+                    <a href="${pageContext.request.contextPath}/AsignacionConductorVehiculoServlet?accion=listar"  class="nav-link sidebar-link text-white">Asignaciones</a>
+                </li>
+                
+                <li>
                     <a href="${pageContext.request.contextPath}/vistasAdmin/horas.jsp" class="nav-link sidebar-link text-white">Horas de uso / Kilómetros</a>
                 </li>
                 <li>

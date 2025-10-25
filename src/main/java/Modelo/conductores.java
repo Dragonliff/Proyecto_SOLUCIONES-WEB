@@ -16,19 +16,17 @@ public class conductores {
     private String licenciaConducir;
     private String categoriaLicencia;
     private Date fechaInicio;
-    private String telefono;
     private String estado;
 
-    public conductores(int idConductor, int idUsuario, String licenciaConducir, String categoriaLicencia, Date fechaInicio, String telefono, String estado) {
+    public conductores(int idConductor, int idUsuario, String licenciaConducir, String categoriaLicencia, Date fechaInicio, String estado) {
         this.idConductor = idConductor;
         this.idUsuario = idUsuario;
         this.licenciaConducir = licenciaConducir;
         this.categoriaLicencia = categoriaLicencia;
         this.fechaInicio = fechaInicio;
-        this.telefono = telefono;
         this.estado = estado;
     }
-
+    
     public int getIdConductor() {
         return idConductor;
     }
@@ -68,15 +66,7 @@ public class conductores {
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
+    
     public String getEstado() {
         return estado;
     }

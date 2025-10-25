@@ -17,6 +17,8 @@ public class asignaciones_conductor_vehiculo {
     private Date fechaInicio;
     private Date fechaFin;
     private String estado;
+    
+    public asignaciones_conductor_vehiculo() {}
 
     public asignaciones_conductor_vehiculo(int idAsignacion, int idConductor, int idVehiculo, Date fechaInicio, Date fechaFin, String estado) {
         this.idAsignacion = idAsignacion;
