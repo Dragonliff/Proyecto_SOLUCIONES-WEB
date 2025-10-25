@@ -3,6 +3,7 @@
 <%@ page import="Modelo.Maquina" %>
 <%@ page import="Controladores.MaquinaServlet" %>
 <%@ include file="layout.jsp" %>
+<%@ include file="../seguridad.jsp" %>
 <%
     request.setAttribute("titulo", "Registro de Uso de Máquinas");
     

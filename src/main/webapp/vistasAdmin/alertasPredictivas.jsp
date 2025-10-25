@@ -1,5 +1,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ include file="layout.jsp" %>
+<%@ include file="../seguridad.jsp" %>
 <%
     request.setAttribute("titulo", "Alertas Predictivas");
 %>

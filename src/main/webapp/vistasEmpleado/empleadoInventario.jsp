@@ -3,6 +3,7 @@
     request.setAttribute("titulo", "Inventario de Herramientas");
 %>
 <%@ include file="layoutEmpleados.jsp" %>
+<%@ include file="../seguridad.jsp" %>
 
 <div class="container-fluid">
     <h2 class="mb-4">Inventario de Herramientas</h2>

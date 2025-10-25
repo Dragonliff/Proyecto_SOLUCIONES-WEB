@@ -5,6 +5,7 @@
     List<herramientas> lista = (List<herramientas>) request.getAttribute("lista");
 %>
 <%@ include file="layout.jsp" %>
+<%@ include file="../seguridad.jsp" %>
 
 <!DOCTYPE html>
 <html>

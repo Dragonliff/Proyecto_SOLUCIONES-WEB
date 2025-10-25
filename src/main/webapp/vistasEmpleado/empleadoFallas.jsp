@@ -3,6 +3,7 @@
     request.setAttribute("titulo", "Fallas Reportadas");
 %>
 <%@ include file="layoutEmpleados.jsp" %>
+<%@ include file="../seguridad.jsp" %>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/estiloFallas.css">
 

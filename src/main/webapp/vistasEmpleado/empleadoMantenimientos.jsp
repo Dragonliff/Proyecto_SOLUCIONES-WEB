@@ -3,6 +3,7 @@
     request.setAttribute("titulo", "Mantenimientos");
 %>
 <%@ include file="layoutEmpleados.jsp" %>
+<%@ include file="../seguridad.jsp" %>
 
 <div class="container-fluid">
     <h2 class="mb-4">Mantenimientos</h2>
