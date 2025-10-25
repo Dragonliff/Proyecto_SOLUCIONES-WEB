@@ -95,9 +95,9 @@ public class EmpleadoDAO {
 
                 // 🔹 Insertar en tabla respectiva según el rol
                 if (u.getIdRol() == 2) {
-                    registrarMecanico(idUsuarioGenerado, u.getTelefono());
+                    registrarMecanico(idUsuarioGenerado);
                 } else if (u.getIdRol() == 3) {
-                    registrarConductor(idUsuarioGenerado, u.getTelefono());
+                    registrarConductor(idUsuarioGenerado);
                 }
             }
 
@@ -143,14 +143,12 @@ public class EmpleadoDAO {
         }
     }
     
-        // --- Registrar Conductor
-    private void registrarConductor(int idUsuario, String telefono) {
-        String sql = "INSERT INTO conductores (idUsuario, licenciaConducir, categoriaLicencia, fechaVencimiento, telefono) VALUES (?, '', '', NULL, ?)";
-        try {
-            con = Conexion.getConexion();
-            ps = con.prepareStatement(sql);
+    // --- Registrar Conductor
+    private void registrarConductor(int idUsuario) {
+        String sql = "INSERT INTO conductores (idUsuario, licenciaConducir, categoriaLicencia, fechaVencimiento) VALUES (?, '', '', NULL)";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idUsuario);
-            ps.setString(2, telefono);
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("Error registrarConductor: " + e.getMessage());
@@ -158,13 +156,11 @@ public class EmpleadoDAO {
     }
 
     // --- Registrar Mecánico
-    private void registrarMecanico(int idUsuario, String telefono) {
-        String sql = "INSERT INTO mecanicos (idUsuario, especialidad, experienciaAnios, telefono) VALUES (?, '', 0, ?)";
-        try {
-            con = Conexion.getConexion();
-            ps = con.prepareStatement(sql);
+    private void registrarMecanico(int idUsuario) {
+        String sql = "INSERT INTO mecanicos (idUsuario, especialidad, experienciaAnios) VALUES (?, '', 0)";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idUsuario);
-            ps.setString(2, telefono);
             ps.executeUpdate();
         } catch (Exception e) {
             System.out.println("Error registrarMecanico: " + e.getMessage());
