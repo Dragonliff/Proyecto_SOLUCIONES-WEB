@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class Conexion {
     private static final String URL = "jdbc:mysql://localhost:3306/mantenimiento_predictivo2";
     private static final String USER = "root"; 
-    private static final String PASSWORD = "abc123"; 
+    private static final String PASSWORD = "123456789"; 
 
     // Mantenemos tu versión simple de conexión
     public static Connection getConexion() {

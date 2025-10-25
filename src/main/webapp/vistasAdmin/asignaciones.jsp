@@ -11,6 +11,7 @@
         (List<vehiculos>) request.getAttribute("listaVehiculos");
 %>
 <%@ include file="layout.jsp" %>
+<%@ include file="../seguridad.jsp" %>
 
 <!DOCTYPE html>
 <html lang="es">

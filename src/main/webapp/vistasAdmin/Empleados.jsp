@@ -2,7 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="Modelo.usuarios" %>
 <%@ include file="layout.jsp" %>
-<jsp:include page="../seguridad.jsp" />
+<%@ include file="../seguridad.jsp" %>
 <%
     List<usuarios> lista = (List<usuarios>) request.getAttribute("lista");
 %>

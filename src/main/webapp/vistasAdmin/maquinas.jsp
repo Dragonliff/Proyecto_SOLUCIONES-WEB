@@ -3,7 +3,7 @@
 <%@ page import="Modelo.vehiculos" %> 
 <%-- Asume que 'layout.jsp' abre <html>, <body> y <main> --%>
 <%@ include file="layout.jsp" %> 
-<jsp:include page="../seguridad.jsp" />
+<%@ include file="../seguridad.jsp" %>
 
 <%-- ************************************************************************* --%>
 <%-- INICIO DEL CONTENIDO DE LA PÁGINA --%>

@@ -24,31 +24,27 @@
             
             <%
                 HttpSession sesion = request.getSession(false);
-                // Obtener el contextPath para construir rutas absolutas
-                String contextPath = request.getContextPath();
+                String contextPath = request.getContextPath(); // OBTENER CONTEXT PATH
                 
-                String volverUrl = contextPath + "/index.jsp"; // Ruta por defecto para deslogueado/fallo
-                String btnTexto = "Volver a la página de inicio";
+                String volverUrl = contextPath + "/index.jsp";
+                String btnTexto = "Volver al inicio";
 
-                // Obtener el ID de Rol (1=ADMIN, 2=CONDUCTOR/EMPLEADO, 3=MECÁNICO)
+                // Obtener el ID de Rol (1=ADMIN, 2=MECANICO, 3=CONDUCTOR)
                 Integer idRol = (sesion != null) ? (Integer) sesion.getAttribute("idRol") : null;
 
                 if (idRol != null) {
                     if (idRol == 1) { // ADMINISTRADOR
-                        // Ruta de inicio del Administrador según seguridad.jsp: /vistasAdmin/inicio.jsp
+                        // RUTA CORREGIDA: Usando contextPath + /vistasAdmin/inicio.jsp
                         volverUrl = contextPath + "/vistasAdmin/inicio.jsp";
                         btnTexto = "Volver al Panel de Administración";
-                    } else if (idRol == 2) { // CONDUCTOR (Empleado)
-                        // Ruta de inicio del Conductor según seguridad.jsp: /vistasEmpleado/empleadoMaquinas.jsp
+                    } else if (idRol == 2) { // MECÁNICO
+                        // Ajusta esta ruta cuando crees la carpeta vistasMecanico
                         volverUrl = contextPath + "/vistasEmpleado/empleadoMaquinas.jsp";
-                        btnTexto = "Volver a Mis Máquinas";
-                    } else if (idRol == 3) { // MECÁNICO
-                        // Ruta de inicio del Mecánico según seguridad.jsp: /vistasMecanico/mecanico.jsp
-                        volverUrl = contextPath + "/vistasMecanico/mecanico.jsp";
-                        btnTexto = "Volver al Panel de Mecánico";
-                    } else {
-                        // Rol válido pero desconocido en el switch
-                        btnTexto = "Volver al inicio de sesión";
+                        btnTexto = "Volver al Panel de Mecánica";
+                    } else if (idRol == 3) { // CONDUCTOR (vistasEmpleado)
+                        // RUTA CORREGIDA: Usando contextPath + /vistasEmpleado/empleadoMaquinas.jsp
+                        volverUrl = contextPath + "/vistasEmpleado/empleadoMaquinas.jsp";
+                        btnTexto = "Volver al Panel de Conducción";
                     }
                 }
             %>
