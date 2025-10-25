@@ -19,7 +19,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String correo = request.getParameter("correo");
-        String contrasena = request.getParameter("passworda");
+        String contrasena = request.getParameter("password");
 
         UsuarioDAO dao = new UsuarioDAO();
         usuarios u = dao.validarUsuarioPorCorreo(correo, contrasena);
