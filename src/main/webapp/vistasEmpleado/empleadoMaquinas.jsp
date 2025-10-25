@@ -15,7 +15,7 @@
 %>
 
 <div class="container-fluid">
-    <h1 class="mb-4">Bienvenido, <%= nombreUsuario %> 👷‍♂️</h1>
+    <h1 class="mb-4">Bienvenido, <%= nombreUsuario %> ️</h1>
     <h2 class="text-muted mb-4">Aquí puedes ver tus máquinas asignadas</h2>
     
     <div class="container mt-4">

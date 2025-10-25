@@ -26,11 +26,10 @@ public class LoginServlet extends HttpServlet {
 
         if (u != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("usuario", u); // Guarda el objeto usuario completo
+            session.setAttribute("usuario", u);
             session.setAttribute("idRol", u.getIdRol());
             session.setAttribute("nombreUsuario", u.getNombreCompleto());
             
-            // 🔹 Agregar este bloque si el usuario es un conductor
             if (u.getIdRol() == 3) {
                 ModeloDAO.ConductorDAO cdao = new ModeloDAO.ConductorDAO();
                 int idConductor = cdao.obtenerIdPorUsuario(u.getIdUsuario());
@@ -39,13 +38,12 @@ public class LoginServlet extends HttpServlet {
 
             int rol = u.getIdRol();
 
-            // Redirecciones según rol
             switch (rol) {
                 case 1:
                     response.sendRedirect("vistasAdmin/inicio.jsp");
                     break;
                 case 2:
-                    response.sendRedirect("vistasMecanico/mecanico.jsp");
+                    response.sendRedirect("vistasMecanico/mecanicoFallas.jsp");
                     break;
                 case 3:
                     response.sendRedirect("vistasEmpleado/empleadoMaquinas.jsp");
