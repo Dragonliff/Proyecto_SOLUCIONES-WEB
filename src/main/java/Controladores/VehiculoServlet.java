@@ -21,7 +21,7 @@ public class VehiculoServlet extends HttpServlet {
 
         String accion = request.getParameter("accion");
         if (accion == null) {
-            accion = "listar"; // 👈🏼 Acción por defecto: LISTAR
+            accion = "listar"; 
         }
 
         switch (accion) {
@@ -31,12 +31,11 @@ public class VehiculoServlet extends HttpServlet {
                 break;
 
             case "eliminar":
-                // 🔴 CAMBIO CLAVE: Llama a la eliminación FÍSICA
                 eliminarFisicamente(request, response); 
                 break;
 
             case "activar":
-                // Llama al cambio de estado para activar
+ 
                 cambiarEstadoVehiculo(request, response, "Operativo"); 
                 break;
         }
@@ -55,11 +54,6 @@ public class VehiculoServlet extends HttpServlet {
         }
     }
 
-// ----------------------------------------------------
-// LÓGICA DE MÉTODOS AUXILIARES
-// ----------------------------------------------------
-
-    // READ: Listar (Muestra todos los vehículos al inicio)
     private void listarVehiculos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -85,7 +79,7 @@ public class VehiculoServlet extends HttpServlet {
             kilometrajeActual = Double.parseDouble(kmStr.replace(',', '.')); 
 
         } catch (NumberFormatException e) {
-            System.err.println("🔴 ERROR de formato numérico en vehículo: " + e.getMessage());
+            System.err.println("ERROR de formato numérico en vehículo: " + e.getMessage());
             response.sendRedirect("VehiculoServlet?error=formatoInvalido");
             return; 
         }
@@ -112,7 +106,7 @@ public class VehiculoServlet extends HttpServlet {
                 vehiculo.setIdVehiculo(idVehiculo);
                 resultado = vehiculoDAO.actualizar(vehiculo);
             } catch (NumberFormatException e) {
-                System.err.println("🔴 ERROR de formato ID: " + e.getMessage());
+                System.err.println("ERROR de formato ID: " + e.getMessage());
                 resultado = false;
             }
         } else {
@@ -127,7 +121,6 @@ public class VehiculoServlet extends HttpServlet {
         }
     }
 
-    // 🔴 IMPLEMENTACIÓN DE LA ELIMINACIÓN FÍSICA
     private void eliminarFisicamente(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -136,20 +129,19 @@ public class VehiculoServlet extends HttpServlet {
         try {
             idVehiculo = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException e) {
-            System.err.println("🔴 ERROR al eliminar: ID de vehículo no válido.");
+            System.err.println(" ERROR al eliminar: ID de vehículo no válido.");
             response.sendRedirect("VehiculoServlet?error=idInvalido");
             return;
         }
 
         if (vehiculoDAO.eliminarFisico(idVehiculo)) {
-            System.out.println("✅ Vehículo ID " + idVehiculo + " ELIMINADO FÍSICAMENTE.");
+            System.out.println("Vehículo ID " + idVehiculo + " ELIMINADO FÍSICAMENTE.");
             response.sendRedirect("VehiculoServlet?exito=eliminado");
         } else {
             response.sendRedirect("VehiculoServlet?error=eliminar");
         }
     }
     
-    // Cambiar Estado (Usado por 'activar')
     private void cambiarEstadoVehiculo(HttpServletRequest request, HttpServletResponse response, String nuevoEstado)
             throws ServletException, IOException {
 

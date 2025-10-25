@@ -4,10 +4,6 @@
  */
 package Controladores;
 
-/**
- *
- * @author kristhor
- */
 import Modelo.Conexion;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;

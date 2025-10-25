@@ -36,12 +36,10 @@ public class AsignacionConductorVehiculoServlet extends HttpServlet {
         try {
             switch (accion) {
                 case "listar":
-                    // Cargar listas de asignaciones, conductores y vehículos
+
                     request.setAttribute("listaAsignaciones", dao.listarTodas());
                     request.setAttribute("listaConductores", conductorDAO.listarTodos());
                     request.setAttribute("listaVehiculos", vehiculoDAO.leerTodos());
-
-                    // Enviar datos al JSP
                     request.getRequestDispatcher("vistasAdmin/asignaciones.jsp").forward(request, response);
                     break;
 
@@ -90,7 +88,6 @@ public class AsignacionConductorVehiculoServlet extends HttpServlet {
                 boolean creada = dao.crear(asignacion);
 
                 if (creada) {
-                    // Actualiza estado del vehículo a “Ocupado”
                     vehiculoDAO.cambiarEstado(idVehiculo, "Ocupado");
                     System.out.println("✅ Asignación creada correctamente.");
                 } else {

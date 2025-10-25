@@ -6,10 +6,6 @@ package Modelo;
 
 import java.security.Timestamp;
 
-/**
- *
- * @author Raidth
- */
 public class detallevehiculo {
     private int idDetalle;
     private int idVehiculo;

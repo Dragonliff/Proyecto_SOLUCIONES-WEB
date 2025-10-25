@@ -4,10 +4,6 @@
  */
 package Modelo;
 
-/**
- *
- * @author Raidth
- */
 public class roles {
     private int idRol;
     private String nombreRol;

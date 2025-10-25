@@ -7,10 +7,6 @@ package Modelo;
 import java.security.Timestamp;
 import java.util.Date;
 
-/**
- *
- * @author Raidth
- */
 public class administradores {
     private int idAdmin;
     private int idUsuario;

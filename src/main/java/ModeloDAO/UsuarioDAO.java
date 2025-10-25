@@ -37,8 +37,6 @@ public class UsuarioDAO {
                         rs.getString("estado"),
                         rs.getTimestamp("fechaRegistro")
                 );
-                // Puedes agregar un campo extra si lo tienes en el modelo:
-                // u.setNombreRol(rs.getString("nombreRol"));
             }
 
         } catch (Exception e) {

@@ -14,9 +14,6 @@ public class VehiculoDAO {
     public VehiculoDAO() {
     }
 
-    // ----------------------------------------------------
-    // CONSTANTES SQL
-    // ----------------------------------------------------
     private static final String SQL_INSERT = 
             "INSERT INTO vehiculos (placa, marca, modelo, anio, tipoVehiculo, kilometrajeActual, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
     
@@ -34,9 +31,7 @@ public class VehiculoDAO {
     
     private static final String SQL_DELETE = "DELETE FROM vehiculos WHERE idVehiculo = ?";
 
-    // ----------------------------------------------------
-    // 1. CREATE
-    // ----------------------------------------------------
+
     public boolean crear(vehiculos vehiculo) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -47,8 +42,7 @@ public class VehiculoDAO {
             if (conn == null) return false;
             
             stmt = conn.prepareStatement(SQL_INSERT);
-            
-            // Setear parámetros
+
             stmt.setString(1, vehiculo.getPlaca());
             stmt.setString(2, vehiculo.getMarca());
             stmt.setString(3, vehiculo.getModelo());
@@ -69,16 +63,13 @@ public class VehiculoDAO {
             System.err.println("🔴 ERROR SQL al crear vehículo: " + ex.getMessage());
             ex.printStackTrace(); 
         } finally {
-            // 🔴 Cierre de recursos usando los métodos estáticos de Conexion
+ 
             try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
             try { if (conn != null) conn.close(); } catch (SQLException e) {}
         }
         return creado;
     }
 
-    // ----------------------------------------------------
-    // 2. READ: Listar Todos
-    // ----------------------------------------------------
     public List<vehiculos> leerTodos() {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -93,16 +84,15 @@ public class VehiculoDAO {
             rs = stmt.executeQuery();
             
             while (rs.next()) {
-                // mapResultSetToVehiculo() ahora tiene manejo de errores interno
+     
                 listaVehiculos.add(mapResultSetToVehiculo(rs));
             }
-            System.out.println("✅ Lectura exitosa. Vehículos encontrados: " + listaVehiculos.size());
+            System.out.println("Lectura exitosa. Vehículos encontrados: " + listaVehiculos.size());
 
         } catch (SQLException ex) {
-            System.err.println("🔴 ERROR SQL al listar vehículos: " + ex.getMessage());
+            System.err.println(" ERROR SQL al listar vehículos: " + ex.getMessage());
             ex.printStackTrace();
         } finally {
-            // 🔴 Cierre de recursos usando los métodos estáticos de Conexion
             try { if (rs != null) rs.close(); } catch (SQLException e) {}
             try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
             try { if (conn != null) conn.close(); } catch (SQLException e) {}
@@ -127,25 +117,21 @@ public class VehiculoDAO {
             
             if (rs.next()) {
                 vehiculo = mapResultSetToVehiculo(rs);
-                System.out.println("✅ Vehículo ID " + idVehiculo + " encontrado.");
+                System.out.println(" Vehículo ID " + idVehiculo + " encontrado.");
             } else {
-                System.out.println("⚠️ Vehículo con ID " + idVehiculo + " no encontrado.");
+                System.out.println("️ Vehículo con ID " + idVehiculo + " no encontrado.");
             }
         } catch (SQLException ex) {
-            System.err.println("🔴 ERROR SQL al buscar vehículo por ID: " + ex.getMessage());
+            System.err.println("ERROR SQL al buscar vehículo por ID: " + ex.getMessage());
             ex.printStackTrace();
         } finally {
-            // 🔴 Cierre de recursos usando los métodos estáticos de Conexion
             try { if (rs != null) rs.close(); } catch (SQLException e) {}
             try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
             try { if (conn != null) conn.close(); } catch (SQLException e) {}
         }
         return vehiculo;
     }
-    
-    // ----------------------------------------------------
-    // 3. UPDATE (Datos principales)
-    // ----------------------------------------------------
+
     public boolean actualizar(vehiculos vehiculo) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -157,7 +143,6 @@ public class VehiculoDAO {
             
             stmt = conn.prepareStatement(SQL_UPDATE); 
             
-            // Setear parámetros
             stmt.setString(1, vehiculo.getPlaca());
             stmt.setString(2, vehiculo.getMarca());
             stmt.setString(3, vehiculo.getModelo());
@@ -170,19 +155,16 @@ public class VehiculoDAO {
             actualizado = stmt.executeUpdate() > 0;
             
         } catch (SQLException ex) {
-            System.err.println("🔴 ERROR SQL al actualizar vehículo: " + ex.getMessage());
+            System.err.println(" ERROR SQL al actualizar vehículo: " + ex.getMessage());
             ex.printStackTrace();
         } finally {
-            // 🔴 Cierre de recursos usando los métodos estáticos de Conexion
             try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
             try { if (conn != null) conn.close(); } catch (SQLException e) {}
         }
         return actualizado;
     }
 
-    // ----------------------------------------------------
-    // 4. UPDATE (Cambiar Estado)
-    // ----------------------------------------------------
+
     public boolean cambiarEstado(int idVehiculo, String nuevoEstado) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -200,19 +182,16 @@ public class VehiculoDAO {
             estadoCambiado = stmt.executeUpdate() > 0;
             
         } catch (SQLException ex) {
-            System.err.println("🔴 ERROR SQL al cambiar estado del vehículo: " + ex.getMessage());
+            System.err.println("ERROR SQL al cambiar estado del vehículo: " + ex.getMessage());
             ex.printStackTrace();
         } finally {
-            // 🔴 Cierre de recursos usando los métodos estáticos de Conexion
             try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
             try { if (conn != null) conn.close(); } catch (SQLException e) {}
         }
         return estadoCambiado;
     }
     
-    // ----------------------------------------------------
-    // 5. DELETE (Eliminación Física)
-    // ----------------------------------------------------
+
     public boolean eliminarFisico(int idVehiculo) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -228,26 +207,23 @@ public class VehiculoDAO {
             eliminado = stmt.executeUpdate() > 0;
             
             if (eliminado) {
-                System.out.println("✅ Vehículo ID " + idVehiculo + " eliminado FÍSICAMENTE de la base de datos.");
+                System.out.println("Vehículo ID " + idVehiculo + " eliminado FÍSICAMENTE de la base de datos.");
             }
         } catch (SQLException ex) {
-            System.err.println("🔴 ERROR SQL al eliminar vehículo (FÍSICO): " + ex.getMessage());
+            System.err.println(" ERROR SQL al eliminar vehículo (FÍSICO): " + ex.getMessage());
             ex.printStackTrace();
         } finally {
-            // 🔴 Cierre de recursos usando los métodos estáticos de Conexion
+
             try { if (stmt != null) stmt.close(); } catch (SQLException e) {}
             try { if (conn != null) conn.close(); } catch (SQLException e) {}
         }
         return eliminado;
     }
 
-    // ----------------------------------------------------
-    // UTILIDADES (Mapeo a prueba de fallos)
-    // ----------------------------------------------------
     private vehiculos mapResultSetToVehiculo(ResultSet rs) throws SQLException {
         vehiculos v = new vehiculos();
         
-        // Asignación segura de campos
+
         v.setIdVehiculo(rs.getInt("idVehiculo"));
         v.setPlaca(rs.getString("placa"));
         v.setMarca(rs.getString("marca"));
@@ -255,13 +231,11 @@ public class VehiculoDAO {
         v.setAnio(rs.getInt("anio"));
         v.setTipoVehiculo(rs.getString("tipoVehiculo"));
         v.setEstado(rs.getString("estado"));
-        
-        // 🔴 Manejo de errores para KilometrajeActual (doble) 
-        // para evitar que un valor NULL o inválido rompa el bucle de lectura.
+
         try {
             v.setKilometrajeActual(rs.getDouble("kilometrajeActual"));
         } catch (SQLException e) {
-            System.err.println("⚠️ Error de formato en KilometrajeActual para ID: " + v.getIdVehiculo() + ". Estableciendo a 0.0. Detalles: " + e.getMessage());
+            System.err.println(" Error de formato en KilometrajeActual para ID: " + v.getIdVehiculo() + ". Estableciendo a 0.0. Detalles: " + e.getMessage());
             v.setKilometrajeActual(0.0); 
         }
         

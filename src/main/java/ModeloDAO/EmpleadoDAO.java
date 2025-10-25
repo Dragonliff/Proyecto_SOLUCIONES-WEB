@@ -44,7 +44,6 @@ public class EmpleadoDAO {
         return lista;
     }
 
-    // --- Obtener por ID
     public usuarios obtenerPorId(int id) {
         usuarios u = null;
         String sql = "SELECT * FROM usuarios WHERE idUsuario=?";
@@ -73,7 +72,6 @@ public class EmpleadoDAO {
         return u;
     }
 
-    // --- Agregar empleado
     public boolean agregarEmpleado(usuarios u) {
         String sql = "INSERT INTO usuarios (idRol, nombreCompleto, usuario, contrasena, correo, telefono, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
@@ -88,12 +86,10 @@ public class EmpleadoDAO {
             ps.setString(7, u.getEstado());
             ps.executeUpdate();
 
-            // 🔹 Obtener el ID generado del usuario
             rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 int idUsuarioGenerado = rs.getInt(1);
 
-                // 🔹 Insertar en tabla respectiva según el rol
                 if (u.getIdRol() == 2) {
                     registrarMecanico(idUsuarioGenerado);
                 } else if (u.getIdRol() == 3) {
@@ -108,7 +104,6 @@ public class EmpleadoDAO {
         }
     }
 
-    // --- Actualizar empleado
     public boolean actualizarEmpleado(usuarios u) {
         String sql = "UPDATE usuarios SET idRol=?, nombreCompleto=?, usuario=?, contrasena=?, correo=?, telefono=?, estado=? WHERE idUsuario=?";
         try {
@@ -130,7 +125,6 @@ public class EmpleadoDAO {
     }
 
 
-    // --- Eliminar empleado correctamente
     public boolean eliminarEmpleado(int idUsuario) {
         String sqlRol = "SELECT idRol FROM usuarios WHERE idUsuario=?";
         String sqlEliminarMecanico = "DELETE FROM mecanicos WHERE idUsuario=?";
@@ -143,9 +137,8 @@ public class EmpleadoDAO {
 
         try {
             con = Conexion.getConexion();
-            con.setAutoCommit(false); // 🔒 Iniciar transacción
+            con.setAutoCommit(false); 
 
-            // 1️⃣ Verificar qué rol tiene el usuario
             ps = con.prepareStatement(sqlRol);
             ps.setInt(1, idUsuario);
             rs = ps.executeQuery();
@@ -157,31 +150,29 @@ public class EmpleadoDAO {
             rs.close();
             ps.close();
 
-            // 2️⃣ Eliminar primero de la tabla hija correspondiente
-            if (idRol == 2) { // Mecánico
+            if (idRol == 2) { 
                 ps = con.prepareStatement(sqlEliminarMecanico);
                 ps.setInt(1, idUsuario);
                 ps.executeUpdate();
                 ps.close();
-            } else if (idRol == 3) { // Conductor
+            } else if (idRol == 3) { 
                 ps = con.prepareStatement(sqlEliminarConductor);
                 ps.setInt(1, idUsuario);
                 ps.executeUpdate();
                 ps.close();
             }
 
-            // 3️⃣ Luego eliminar de la tabla usuarios
             ps = con.prepareStatement(sqlEliminarUsuario);
             ps.setInt(1, idUsuario);
             ps.executeUpdate();
 
-            con.commit(); // ✅ Confirmar transacción
+            con.commit(); 
             return true;
 
         } catch (Exception e) {
             System.out.println("Error eliminarEmpleado: " + e.getMessage());
             try {
-                if (con != null) con.rollback(); // ❌ Deshacer cambios si algo falla
+                if (con != null) con.rollback(); 
             } catch (SQLException ex) {
                 System.out.println("Error rollback: " + ex.getMessage());
             }
@@ -197,7 +188,6 @@ public class EmpleadoDAO {
         }
     }
     
-    // --- Registrar Conductor
     private void registrarConductor(int idUsuario) {
         String sql = "INSERT INTO conductores (idUsuario, licenciaConducir, categoriaLicencia, fechaVencimiento) VALUES (?, '', '', NULL)";
         try (Connection con = Conexion.getConexion();
@@ -209,7 +199,6 @@ public class EmpleadoDAO {
         }
     }
 
-    // --- Registrar Mecánico
     private void registrarMecanico(int idUsuario) {
         String sql = "INSERT INTO mecanicos (idUsuario, especialidad, experienciaAnios) VALUES (?, '', 0)";
         try (Connection con = Conexion.getConexion();

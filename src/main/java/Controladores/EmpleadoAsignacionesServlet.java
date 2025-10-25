@@ -23,7 +23,7 @@ public class EmpleadoAsignacionesServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession sesion = request.getSession();
-        Integer idConductor = (Integer) sesion.getAttribute("idConductor"); // asegúrate que se guarda al iniciar sesión
+        Integer idConductor = (Integer) sesion.getAttribute("idConductor"); 
 
         if (idConductor == null) {
             response.sendRedirect(request.getContextPath() + "/index.jsp");

@@ -4,10 +4,6 @@
  */
 package Modelo;
 
-/**
- *
- * @author Raidth
- */
 public class vehiculos {
     private int idVehiculo;
     private String placa;

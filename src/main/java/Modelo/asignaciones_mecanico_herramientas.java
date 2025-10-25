@@ -6,10 +6,7 @@ package Modelo;
 
 import java.util.Date;
 
-/**
- *
- * @author Raidth
- */
+
 public class asignaciones_mecanico_herramientas {
     private int idAsignacion;
     private int idMecanico;

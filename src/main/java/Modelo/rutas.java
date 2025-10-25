@@ -4,10 +4,7 @@
  */
 package Modelo;
 
-/**
- *
- * @author Raidth
- */
+
 public class rutas {
     private int idRuta;
     private String origen;

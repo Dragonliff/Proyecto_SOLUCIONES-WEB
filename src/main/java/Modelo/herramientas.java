@@ -4,10 +4,6 @@
  */
 package Modelo;
 
-/**
- *
- * @author Raidth
- */
 public class herramientas {
     private int idHerramienta;
     private String nombre;

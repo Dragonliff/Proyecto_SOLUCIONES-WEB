@@ -17,7 +17,6 @@ public class HerramientaDAO {
     PreparedStatement ps;
     ResultSet rs;
 
-    // 📋 Listar todas las herramientas
     public List<herramientas> listarHerramientas() {
         List<herramientas> lista = new ArrayList<>();
         String sql = "SELECT * FROM herramientas";
@@ -44,7 +43,6 @@ public class HerramientaDAO {
         return lista;
     }
 
-    // ➕ Agregar nueva herramienta
     public boolean agregarHerramienta(herramientas h) {
         String sql = "INSERT INTO herramientas (nombre, tipo, estado) VALUES (?, ?, ?)";
         try {
@@ -63,7 +61,6 @@ public class HerramientaDAO {
         }
     }
 
-    // ✏️ Actualizar herramienta
     public boolean actualizarHerramienta(herramientas h) {
         String sql = "UPDATE herramientas SET nombre=?, tipo=?, estado=? WHERE idHerramienta=?";
         try {
@@ -83,7 +80,6 @@ public class HerramientaDAO {
         }
     }
 
-    // ❌ Eliminar herramienta
     public boolean eliminarHerramienta(int idHerramienta) {
         String sql = "DELETE FROM herramientas WHERE idHerramienta=?";
         try {
@@ -100,7 +96,6 @@ public class HerramientaDAO {
         }
     }
 
-    // 🔍 Obtener herramienta por ID
     public herramientas obtenerPorId(int idHerramienta) {
         herramientas h = null;
         String sql = "SELECT * FROM herramientas WHERE idHerramienta=?";
@@ -125,7 +120,6 @@ public class HerramientaDAO {
         return h;
     }
 
-    // 🧹 Cerrar conexión
     private void cerrarConexion() {
         try {
             if (rs != null) rs.close();
