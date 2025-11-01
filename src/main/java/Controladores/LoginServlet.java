@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
                     response.sendRedirect("vistasMecanico/mecanicoFallas.jsp");
                     break;
                 case 3:
-                    response.sendRedirect("vistasEmpleado/empleadoMaquinas.jsp");
+                    response.sendRedirect("EmpleadoAsignacionesServlet");
                     break;
                 default:
                     response.sendRedirect("index.jsp");
