@@ -10,13 +10,18 @@ import java.util.Date;
 public class asignaciones_mecanico_herramientas {
     private int idAsignacion;
     private int idMecanico;
+    private int idHerramienta;
     private Date fechaInicio;
     private Date fechaFin;
     private String estado;
+    
+    public asignaciones_mecanico_herramientas() {
+    }
 
-    public asignaciones_mecanico_herramientas(int idAsignacion, int idMecanico, Date fechaInicio, Date fechaFin, String estado) {
+    public asignaciones_mecanico_herramientas(int idAsignacion, int idMecanico, int idHerramienta, Date fechaInicio, Date fechaFin, String estado) {
         this.idAsignacion = idAsignacion;
         this.idMecanico = idMecanico;
+        this.idHerramienta = idHerramienta;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estado = estado;
@@ -36,6 +41,14 @@ public class asignaciones_mecanico_herramientas {
 
     public void setIdMecanico(int idMecanico) {
         this.idMecanico = idMecanico;
+    }
+
+    public int getIdHerramienta() {
+        return idHerramienta;
+    }
+
+    public void setIdHerramienta(int idHerramienta) {
+        this.idHerramienta = idHerramienta;
     }
 
     public Date getFechaInicio() {

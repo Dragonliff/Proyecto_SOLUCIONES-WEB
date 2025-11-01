@@ -30,6 +30,10 @@
                 </li>
                 
                 <li>
+                    <a href="${pageContext.request.contextPath}/AsignacionHerramientaServlet?accion=listar" class="nav-link sidebar-link text-white">Asignación de Herramientas</a>
+                </li>
+                
+                <li>
                     <a href="${pageContext.request.contextPath}/vistasAdmin/horas.jsp" class="nav-link sidebar-link text-white">Horas de uso / Kilómetros</a>
                 </li>
                 <li>
