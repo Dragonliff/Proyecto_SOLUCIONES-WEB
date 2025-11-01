@@ -11,7 +11,6 @@ import java.util.*;
 
 public class AsignacionConductorVehiculoDAO {
 
-    // --- SQL ---
     private static final String SQL_INSERT = 
         "INSERT INTO asignaciones_conductor_vehiculo (idConductor, idVehiculo, fechaInicio, fechaFin, estado) VALUES (?, ?, ?, ?, ?)";
 
@@ -30,9 +29,6 @@ public class AsignacionConductorVehiculoDAO {
     private static final String SQL_DELETE = 
         "DELETE FROM asignaciones_conductor_vehiculo WHERE idAsignacion=?";
 
-    // ------------------------------------------------------------
-    // 1. Crear nueva asignación
-    // ------------------------------------------------------------
     public boolean crear(asignaciones_conductor_vehiculo asignacion) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -55,7 +51,7 @@ public class AsignacionConductorVehiculoDAO {
             creado = ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.err.println("🔴 Error al crear asignación: " + e.getMessage());
+            System.err.println(" Error al crear asignación: " + e.getMessage());
         } finally {
             try { if (ps != null) ps.close(); } catch (SQLException ex) {}
             try { if (con != null) con.close(); } catch (SQLException ex) {}
@@ -63,9 +59,6 @@ public class AsignacionConductorVehiculoDAO {
         return creado;
     }
 
-    // ------------------------------------------------------------
-    // 2. Listar todas las asignaciones
-    // ------------------------------------------------------------
     public List<asignaciones_conductor_vehiculo> listarTodas() {
         List<asignaciones_conductor_vehiculo> lista = new ArrayList<>();
         Connection con = null;
@@ -82,7 +75,7 @@ public class AsignacionConductorVehiculoDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("🔴 Error al listar asignaciones: " + e.getMessage());
+            System.err.println(" Error al listar asignaciones: " + e.getMessage());
         } finally {
             try { if (rs != null) rs.close(); } catch (SQLException ex) {}
             try { if (ps != null) ps.close(); } catch (SQLException ex) {}
@@ -91,9 +84,6 @@ public class AsignacionConductorVehiculoDAO {
         return lista;
     }
 
-    // ------------------------------------------------------------
-    // 3. Buscar por ID
-    // ------------------------------------------------------------
     public asignaciones_conductor_vehiculo obtenerPorId(int idAsignacion) {
         asignaciones_conductor_vehiculo asignacion = null;
         Connection con = null;
@@ -111,7 +101,7 @@ public class AsignacionConductorVehiculoDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("🔴 Error al obtener asignación por ID: " + e.getMessage());
+            System.err.println("Error al obtener asignación por ID: " + e.getMessage());
         } finally {
             try { if (rs != null) rs.close(); } catch (SQLException ex) {}
             try { if (ps != null) ps.close(); } catch (SQLException ex) {}
@@ -120,9 +110,6 @@ public class AsignacionConductorVehiculoDAO {
         return asignacion;
     }
 
-    // ------------------------------------------------------------
-    // 4. Actualizar una asignación
-    // ------------------------------------------------------------
     public boolean actualizar(asignaciones_conductor_vehiculo asignacion) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -147,7 +134,7 @@ public class AsignacionConductorVehiculoDAO {
             actualizado = ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.err.println("🔴 Error al actualizar asignación: " + e.getMessage());
+            System.err.println("Error al actualizar asignación: " + e.getMessage());
         } finally {
             try { if (ps != null) ps.close(); } catch (SQLException ex) {}
             try { if (con != null) con.close(); } catch (SQLException ex) {}
@@ -155,9 +142,7 @@ public class AsignacionConductorVehiculoDAO {
         return actualizado;
     }
 
-    // ------------------------------------------------------------
-    // 5. Finalizar asignación (cambia estado y fechaFin)
-    // ------------------------------------------------------------
+
     public boolean finalizarAsignacion(int idAsignacion, java.util.Date fechaFin) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -179,9 +164,7 @@ public class AsignacionConductorVehiculoDAO {
         return finalizado;
     }
 
-    // ------------------------------------------------------------
-    // 6. Eliminar asignación (baja física)
-    // ------------------------------------------------------------
+
     public boolean eliminar(int idAsignacion) {
         Connection con = null;
         PreparedStatement ps = null;
@@ -202,9 +185,7 @@ public class AsignacionConductorVehiculoDAO {
         return eliminado;
     }
     
-    // ------------------------------------------------------------
-    // 7. Listar asignaciones por conductor
-    // ------------------------------------------------------------
+
     public List<asignaciones_conductor_vehiculo> listarPorConductor(int idConductor) {
         List<asignaciones_conductor_vehiculo> lista = new ArrayList<>();
         Connection con = null;
@@ -224,7 +205,7 @@ public class AsignacionConductorVehiculoDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("🔴 Error al listar asignaciones por conductor: " + e.getMessage());
+            System.err.println(" Error al listar asignaciones por conductor: " + e.getMessage());
         } finally {
             try { if (rs != null) rs.close(); } catch (SQLException ex) {}
             try { if (ps != null) ps.close(); } catch (SQLException ex) {}
@@ -233,9 +214,7 @@ public class AsignacionConductorVehiculoDAO {
         return lista;
     }
 
-    // ------------------------------------------------------------
-    // Utilidad: Mapeo del ResultSet a objeto
-    // ------------------------------------------------------------
+
     private asignaciones_conductor_vehiculo mapResultSetToAsignacion(ResultSet rs) throws SQLException {
         asignaciones_conductor_vehiculo a = new asignaciones_conductor_vehiculo();
         a.setIdAsignacion(rs.getInt("idAsignacion"));

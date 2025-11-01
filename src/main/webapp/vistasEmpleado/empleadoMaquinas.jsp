@@ -29,7 +29,6 @@
             <div class="card mb-3 shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title text-primary">
-                        🚗 ${a.nombreVehiculo} (${a.placa})
                     </h5>
                     <p class="card-text mb-1"><strong>Marca:</strong> ${a.marca}</p>
                     <p class="card-text mb-1"><strong>Modelo:</strong> ${a.modelo}</p>

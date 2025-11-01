@@ -29,7 +29,7 @@ public class ConductorDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("🔴 Error al listar conductores: " + e.getMessage());
+            System.err.println(" Error al listar conductores: " + e.getMessage());
         }
         return lista;
     }
@@ -55,7 +55,7 @@ public class ConductorDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error al listar conductores: " + e.getMessage());
+            System.err.println("Error al listar conductores: " + e.getMessage());
         }
 
         return lista;
