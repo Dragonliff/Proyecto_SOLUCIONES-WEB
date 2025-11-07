@@ -17,7 +17,7 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li>
-                    <a href="mecanicoFallas.jsp" class="nav-link sidebar-link text-white">Fallas</a>
+                    <a href="${pageContext.request.contextPath}/HerramientasMecanicoServlet" class="nav-link sidebar-link text-white">Fallas</a>
                 </li>
                 <li>
                     <a href="mecanicoMantenimientos.jsp" class="nav-link sidebar-link text-white">Mantenimientos</a>

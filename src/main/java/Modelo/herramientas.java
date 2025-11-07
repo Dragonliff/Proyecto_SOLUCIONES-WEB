@@ -9,12 +9,17 @@ public class herramientas {
     private String nombre;
     private String tipo;
     private String estado;
+    
+    
 
     public herramientas(int idHerramienta, String nombre, String tipo, String estado) {
         this.idHerramienta = idHerramienta;
         this.nombre = nombre;
         this.tipo = tipo;
         this.estado = estado;
+    }
+    
+    public herramientas() {
     }
 
     public int getIdHerramienta() {

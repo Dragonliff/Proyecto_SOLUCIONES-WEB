@@ -100,6 +100,41 @@ public class VehiculoDAO {
         return listaVehiculos;
     }
     
+    public List<vehiculos> listarOperativos() {
+        List<vehiculos> lista = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sql = "SELECT * FROM vehiculos WHERE estado = 'Operativo'";
+
+        try {
+            con = Conexion.getConexion();
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                vehiculos v = new vehiculos();
+                v.setIdVehiculo(rs.getInt("idVehiculo"));
+                v.setPlaca(rs.getString("placa"));
+                v.setMarca(rs.getString("marca"));
+                v.setModelo(rs.getString("modelo"));
+                v.setAnio(rs.getInt("anio"));
+                v.setTipoVehiculo(rs.getString("tipoVehiculo"));
+                v.setEstado(rs.getString("estado"));
+                lista.add(v);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al listar vehículos operativos: " + e.getMessage());
+        } finally {
+            try { if (rs != null) rs.close(); } catch (SQLException ex) {}
+            try { if (ps != null) ps.close(); } catch (SQLException ex) {}
+            try { if (con != null) con.close(); } catch (SQLException ex) {}
+        }
+        return lista;
+    }
+    
     public vehiculos leerPorId(int idVehiculo) {
         Connection conn = null;
         PreparedStatement stmt = null;

@@ -30,6 +30,12 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("idRol", u.getIdRol());
             session.setAttribute("nombreUsuario", u.getNombreCompleto());
             
+            if (u.getIdRol() == 2) { // rol del mecánico
+                ModeloDAO.MecanicoDAO mdao = new ModeloDAO.MecanicoDAO();
+                int idMecanico = mdao.obtenerIdPorUsuario(u.getIdUsuario());
+                session.setAttribute("idMecanico", idMecanico);
+            }
+            
             if (u.getIdRol() == 3) {
                 ModeloDAO.ConductorDAO cdao = new ModeloDAO.ConductorDAO();
                 int idConductor = cdao.obtenerIdPorUsuario(u.getIdUsuario());
@@ -43,7 +49,7 @@ public class LoginServlet extends HttpServlet {
                     response.sendRedirect("vistasAdmin/inicio.jsp");
                     break;
                 case 2:
-                    response.sendRedirect("vistasMecanico/mecanicoFallas.jsp");
+                    response.sendRedirect("HerramientasMecanicoServlet");
                     break;
                 case 3:
                     response.sendRedirect("EmpleadoAsignacionesServlet");

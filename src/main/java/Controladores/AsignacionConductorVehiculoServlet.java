@@ -39,13 +39,19 @@ public class AsignacionConductorVehiculoServlet extends HttpServlet {
 
                     request.setAttribute("listaAsignaciones", dao.listarTodas());
                     request.setAttribute("listaConductores", conductorDAO.listarTodos());
-                    request.setAttribute("listaVehiculos", vehiculoDAO.leerTodos());
+                    request.setAttribute("listaVehiculos", vehiculoDAO.listarOperativos());
                     request.getRequestDispatcher("vistasAdmin/asignaciones.jsp").forward(request, response);
                     break;
 
                 case "finalizar":
                     int idFinalizar = Integer.parseInt(request.getParameter("id"));
-                    dao.finalizarAsignacion(idFinalizar, new java.sql.Date(new Date().getTime()));
+                    asignaciones_conductor_vehiculo asignacion = dao.obtenerPorId(idFinalizar);
+
+                    if (asignacion != null) {
+                        dao.finalizarAsignacion(idFinalizar, new java.sql.Date(new Date().getTime()));
+                        vehiculoDAO.cambiarEstado(asignacion.getIdVehiculo(), "Operativo");
+                    }
+
                     response.sendRedirect("AsignacionConductorVehiculoServlet?accion=listar");
                     break;
 

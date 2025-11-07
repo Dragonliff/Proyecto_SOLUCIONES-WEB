@@ -5,6 +5,7 @@
 package ModeloDAO;
 import Modelo.Conexion;
 import Modelo.asignaciones_mecanico_herramientas;
+import Modelo.herramientas;
 import java.sql.*;
 import java.util.*;
 
@@ -128,6 +129,49 @@ public class AsignacionHerramientaDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return lista;
+    }
+    
+    private static final String SQL_SELECT_POR_MECANICO = 
+        "SELECT a.*, h.nombre, h.tipo, h.estado AS estadoHerramienta " +
+        "FROM asignaciones_mecanico_herramienta a " +
+        "INNER JOIN herramientas h ON a.idHerramienta = h.idHerramienta " +
+        "WHERE a.idMecanico = ? AND a.estado = 'Activa'";
+
+    // 🔹 Listar herramientas asignadas a un mecánico
+    public List<asignaciones_mecanico_herramientas> listarPorMecanico(int idMecanico) {
+        List<asignaciones_mecanico_herramientas> lista = new ArrayList<>();
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(SQL_SELECT_POR_MECANICO)) {
+
+            ps.setInt(1, idMecanico);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                asignaciones_mecanico_herramientas a = new asignaciones_mecanico_herramientas();
+                a.setIdAsignacion(rs.getInt("idAsignacion"));
+                a.setIdMecanico(rs.getInt("idMecanico"));
+                a.setIdHerramienta(rs.getInt("idHerramienta"));
+                a.setFechaInicio(rs.getDate("fechaInicio"));
+                a.setFechaFin(rs.getDate("fechaFin"));
+                a.setEstado(rs.getString("estado"));
+
+                // 🔹 Campos adicionales de la herramienta
+                herramientas h = new herramientas();
+                h.setIdHerramienta(rs.getInt("idHerramienta"));
+                h.setNombre(rs.getString("nombre"));
+                h.setTipo(rs.getString("tipo"));
+                h.setEstado(rs.getString("estadoHerramienta"));
+
+                // Podrías guardar la herramienta dentro del objeto de asignación si quieres:
+                // a.setHerramienta(h);
+
+                lista.add(a);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al listar herramientas del mecánico: " + e.getMessage());
         }
         return lista;
     }
