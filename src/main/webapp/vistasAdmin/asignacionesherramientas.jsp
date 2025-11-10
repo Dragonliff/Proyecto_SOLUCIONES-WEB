@@ -71,27 +71,44 @@
                     <th>Mecánico</th>
                     <th>Herramienta</th>
                     <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
                     <th>Estado</th>
+                    <th>Acciones</th> 
                 </tr>
                 </thead>
                 <tbody>
                 <% if (listaAsignaciones != null && !listaAsignaciones.isEmpty()) {
                        for (Map<String, Object> a : listaAsignaciones) { %>
-                    <tr>
-                        <td><%= a.get("idAsignacion") %></td>
-                        <td><%= a.get("mecanico") %></td>
-                        <td><%= a.get("herramienta") %></td>
-                        <td><%= a.get("fechaInicio") %></td>
-                        <td>
-                            <% if ("Activa".equalsIgnoreCase((String)a.get("estado"))) { %>
-                                <span class="badge bg-success">Activa</span>
-                            <% } else { %>
-                                <span class="badge bg-secondary"><%= a.get("estado") %></span>
-                            <% } %>
-                        </td>
-                    </tr>
+                <tr>
+                    <td><%= a.get("idAsignacion") %></td>
+                    <td><%= a.get("mecanico") %></td>
+                    <td><%= a.get("herramienta") %></td>
+                    <td><%= a.get("fechaInicio") %></td>
+                    <td><%= a.get("fechaFin") != null ? a.get("fechaFin") : "-" %></td>
+                    <td>
+                        <% if ("Activa".equalsIgnoreCase((String)a.get("estado"))) { %>
+                            <span class="badge bg-success">Activa</span>
+                        <% } else { %>
+                            <span class="badge bg-secondary"><%= a.get("estado") %></span>
+                        <% } %>
+                    </td>
+                    <td>
+                        <% if ("Activa".equalsIgnoreCase((String)a.get("estado"))) { %>
+                            <form action="AsignacionHerramientaServlet" method="POST" style="display:inline;">
+                                <input type="hidden" name="accion" value="finalizar">
+                                <input type="hidden" name="idAsignacion" value="<%= a.get("idAsignacion") %>">
+                                <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('¿Deseas finalizar esta asignación?');">
+                                    Finalizar
+                                </button>
+                            </form>
+                        <% } else { %>
+                            <span class="text-muted">-</span>
+                        <% } %>
+                    </td>
+                </tr>
                 <% } } else { %>
-                    <tr><td colspan="5" class="text-center text-muted">No hay asignaciones registradas</td></tr>
+                    <tr><td colspan="7" class="text-center text-muted">No hay asignaciones registradas</td></tr>
                 <% } %>
                 </tbody>
             </table>

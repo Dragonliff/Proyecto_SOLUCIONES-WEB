@@ -20,27 +20,80 @@ public class AsignacionHerramientaServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.setAttribute("listaAsignaciones", dao.listar());
-        request.setAttribute("listaMecanicos", dao.listarMecanicos());
-        request.setAttribute("listaHerramientas", dao.listarHerramientas());
+        String accion = request.getParameter("accion");
 
-        request.getRequestDispatcher("vistasAdmin/asignacionesHerramientas.jsp").forward(request, response);
+        try {
+            if ("finalizar".equalsIgnoreCase(accion)) {
+                String idAsignacionStr = request.getParameter("idAsignacion");
+
+                if (idAsignacionStr != null && !idAsignacionStr.isBlank()) {
+                    int idAsignacion = Integer.parseInt(idAsignacionStr);
+                    dao.finalizarAsignacion(idAsignacion);
+                } else {
+                    System.err.println("⚠ No se recibió idAsignacion válido.");
+                }
+
+                // Redirigir siempre al listar después de finalizar
+                response.sendRedirect("AsignacionHerramientaServlet?accion=listar");
+                return;
+            }
+
+            // Mostrar lista normalmente
+            request.setAttribute("listaAsignaciones", dao.listar());
+            request.setAttribute("listaMecanicos", dao.listarMecanicos());
+            request.setAttribute("listaHerramientas", dao.listarHerramientas());
+            request.getRequestDispatcher("vistasAdmin/asignacionesHerramientas.jsp").forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(500, "Error en el servlet: " + e.getMessage());
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int idMecanico = Integer.parseInt(request.getParameter("idMecanico"));
-        int idHerramienta = Integer.parseInt(request.getParameter("idHerramienta"));
-        Date fechaInicio = new Date();
 
-        asignaciones_mecanico_herramientas a = new asignaciones_mecanico_herramientas();
-        a.setIdMecanico(idMecanico);
-        a.setIdHerramienta(idHerramienta);
-        a.setFechaInicio(fechaInicio);
-        a.setEstado("Activa");
+        try {
+            String accion = request.getParameter("accion");
 
-        dao.agregar(a);
-        response.sendRedirect("AsignacionHerramientaServlet");
+            // 🔹 1. Si la acción es finalizar
+            if ("finalizar".equalsIgnoreCase(accion)) {
+                String idAsignacionStr = request.getParameter("idAsignacion");
+                if (idAsignacionStr != null && !idAsignacionStr.isBlank()) {
+                    int idAsignacion = Integer.parseInt(idAsignacionStr);
+                    dao.finalizarAsignacion(idAsignacion);
+                    response.sendRedirect("AsignacionHerramientaServlet?accion=listar");
+                    return;
+                } else {
+                    throw new IllegalArgumentException("ID de asignación no válido para finalizar.");
+                }
+            }
+
+            // 🔹 2. Si la acción es agregar una nueva asignación
+            String idMecStr = request.getParameter("idMecanico");
+            String idHerStr = request.getParameter("idHerramienta");
+
+            if (idMecStr == null || idHerStr == null || idMecStr.isBlank() || idHerStr.isBlank()) {
+                throw new IllegalArgumentException("ID de mecánico o herramienta no válido");
+            }
+
+            int idMecanico = Integer.parseInt(idMecStr);
+            int idHerramienta = Integer.parseInt(idHerStr);
+            Date fechaInicio = new Date();
+
+            asignaciones_mecanico_herramientas a = new asignaciones_mecanico_herramientas();
+            a.setIdMecanico(idMecanico);
+            a.setIdHerramienta(idHerramienta);
+            a.setFechaInicio(fechaInicio);
+            a.setEstado("Activa");
+
+            dao.agregar(a);
+            response.sendRedirect("AsignacionHerramientaServlet?accion=listar");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendError(500, "Error al guardar o finalizar asignación: " + e.getMessage());
+        }
     }
 }

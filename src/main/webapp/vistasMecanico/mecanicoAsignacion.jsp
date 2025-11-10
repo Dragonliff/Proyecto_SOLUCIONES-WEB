@@ -20,7 +20,12 @@
 
 <body>
     
-           <div class="container mt-5">
+    <div class="container mt-5">
+        
+        <h1 >
+            👋 Bienvenido, <%= session.getAttribute("nombreUsuario") != null ? session.getAttribute("nombreUsuario") : "Mecánico" %>
+        </h1>
+        
         <h2 class="text-center mb-4">🔧 Mis Herramientas Asignadas</h2>
 
         <%

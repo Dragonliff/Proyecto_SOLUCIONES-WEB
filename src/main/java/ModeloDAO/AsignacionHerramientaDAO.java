@@ -175,4 +175,46 @@ public class AsignacionHerramientaDAO {
         }
         return lista;
     }
+    
+    // ✅ Finalizar una asignación (corrigido y seguro)
+    public boolean finalizarAsignacion(int idAsignacion) {
+        String sqlFinalizar = 
+        "UPDATE asignaciones_mecanico_herramienta SET estado = 'Finalizada', fechaFin = NOW() WHERE idAsignacion = ?";
+
+        String sqlLiberarHerramienta = 
+        "UPDATE herramientas SET estado = 'Disponible' WHERE idHerramienta = (SELECT idHerramienta FROM asignaciones_mecanico_herramienta WHERE idAsignacion = ?)";
+
+
+        PreparedStatement ps1 = null;
+        PreparedStatement ps2 = null;
+
+        try {
+            con = cn.getConexion();
+            con.setAutoCommit(false);
+
+            // 🔹 Finalizar asignación
+            ps1 = con.prepareStatement(sqlFinalizar);
+            ps1.setInt(1, idAsignacion);
+            ps1.executeUpdate();
+
+            // 🔹 Liberar herramienta asociada
+            ps2 = con.prepareStatement(sqlLiberarHerramienta);
+            ps2.setInt(1, idAsignacion);
+            ps2.executeUpdate();
+
+            con.commit();
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            try { if (con != null) con.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+        } finally {
+            try {
+                if (ps1 != null) ps1.close();
+                if (ps2 != null) ps2.close();
+                if (con != null) con.close();
+            } catch (Exception ex) { ex.printStackTrace(); }
+        }
+        return false;
+    }
 }
