@@ -4,7 +4,7 @@
  */
 package Modelo;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 
 public class usos_vehiculos {
@@ -14,16 +14,16 @@ public class usos_vehiculos {
     private Timestamp fecha;
     private double horasUso;
     private double kmRecorridos;
-    private String observaciones;
+    private String descripcion;
 
-    public usos_vehiculos(int idUso, int idVehiculo, int idConductor, Timestamp fecha, double horasUso, double kmRecorridos, String observaciones) {
+    public usos_vehiculos(int idUso, int idVehiculo, int idConductor, Timestamp fecha, double horasUso, double kmRecorridos, String descripcion) {
         this.idUso = idUso;
         this.idVehiculo = idVehiculo;
         this.idConductor = idConductor;
         this.fecha = fecha;
         this.horasUso = horasUso;
         this.kmRecorridos = kmRecorridos;
-        this.observaciones = observaciones;
+        this.descripcion = descripcion;
     }
 
     public int getIdUso() {
@@ -74,12 +74,12 @@ public class usos_vehiculos {
         this.kmRecorridos = kmRecorridos;
     }
 
-    public String getObservaciones() {
-        return observaciones;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
 }

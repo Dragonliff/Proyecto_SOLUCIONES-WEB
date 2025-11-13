@@ -20,13 +20,11 @@
                     <a href="${pageContext.request.contextPath}/EmpleadoAsignacionesServlet" class="nav-link sidebar-link text-white">Mis Máquinas</a>
                 </li>
                 <li>
-                    <a href="<%= request.getContextPath() %>/vistasEmpleado/empleadoFallas.jsp" class="nav-link sidebar-link text-white">Fallas</a>
+                    <a href="<%= request.getContextPath() %>/UsoVehiculoServlet?accion=reporte" 
+                       class="nav-link sidebar-link text-white">Reporte</a>
                 </li>
                 <li>
                     <a href="<%= request.getContextPath() %>/vistasEmpleado/empleadoMantenimientos.jsp" class="nav-link sidebar-link text-white">Mantenimientos</a>
-                </li>
-                <li>
-                    <a href="<%= request.getContextPath() %>/vistasEmpleado/empleadoInventario.jsp" class="nav-link sidebar-link text-white">Inventario de Herramientas</a>
                 </li>
                 <li>
                     <a href="<%= request.getContextPath() %>/CerrarSesionServlet" class="nav-link sidebar-link text-white">Cerrar Sesión</a>

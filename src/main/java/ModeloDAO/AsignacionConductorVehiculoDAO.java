@@ -6,6 +6,7 @@ package ModeloDAO;
 
 import Modelo.Conexion;
 import Modelo.asignaciones_conductor_vehiculo;
+import Modelo.vehiculos;
 import java.sql.*;
 import java.util.*;
 
@@ -266,5 +267,32 @@ public class AsignacionConductorVehiculoDAO {
         }
         
         return a;
+    }
+    
+    public List<vehiculos> listarOperativos() {
+        List<vehiculos> lista = new ArrayList<>();
+        String sql = "SELECT * FROM vehiculos WHERE estado = 'Operativo'";
+
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                vehiculos v = new vehiculos();
+                v.setIdVehiculo(rs.getInt("idVehiculo"));
+                v.setPlaca(rs.getString("placa"));
+                v.setMarca(rs.getString("marca"));
+                v.setModelo(rs.getString("modelo"));
+                v.setAnio(rs.getInt("anio"));
+                v.setTipoVehiculo(rs.getString("tipoVehiculo"));
+                v.setEstado(rs.getString("estado"));
+                lista.add(v);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error al listar vehículos operativos: " + e.getMessage());
+        }
+
+        return lista;
     }
 }
