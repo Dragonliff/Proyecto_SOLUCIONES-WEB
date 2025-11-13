@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="col-md-2 d-flex align-items-end">
-                    <button type="submit" class="btn btn-success w-100">➕ Asignar</button>
+                    <button type="submit" class="btn btn-success w-100">➕ Asignar </button>
                 </div>
             </form>
         </div>
