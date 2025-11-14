@@ -4,7 +4,7 @@
  */
 package Modelo;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class usos_herramientas {
    private int idUso;
@@ -14,6 +14,9 @@ public class usos_herramientas {
    private double horasUso;
    private String observaciones;
 
+   public usos_herramientas() {
+    }
+   
     public usos_herramientas(int idUso, int idHerramienta, int idMecanico, Timestamp fecha, double horasUso, String observaciones) {
         this.idUso = idUso;
         this.idHerramienta = idHerramienta;

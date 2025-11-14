@@ -23,7 +23,7 @@
                     <a href="mecanicoMantenimientos.jsp" class="nav-link sidebar-link text-white">Mantenimientos</a>
                 </li>
                 <li>
-                    <a href="mecanicoInventario.jsp" class="nav-link sidebar-link text-white">Inventario de Herramientas</a>
+                    <a href="<%= request.getContextPath() %>/UsosHerramientasServlet?accion=Listar" class="nav-link sidebar-link text-white">Inventario de Herramientas</a>
                 </li>
                 <li>
                     <a href="<%= request.getContextPath() %>/CerrarSesionServlet" class="nav-link sidebar-link text-white">Cerrar Sesión</a>

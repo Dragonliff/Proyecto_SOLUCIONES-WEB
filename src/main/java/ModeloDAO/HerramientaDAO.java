@@ -1,9 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ModeloDAO;
-
 
 import Modelo.Conexion;
 import Modelo.herramientas;
@@ -16,6 +11,48 @@ public class HerramientaDAO {
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
+
+    // *****************************************************************
+    // MÉTODO CORREGIDO: LISTAR HERRAMIENTAS ASIGNADAS AL MECÁNICO
+    // Utiliza la tabla 'asignaciones_mecanico_herramienta'
+    // *****************************************************************
+    public List<herramientas> listarPorMecanico(int idMecanico) {
+        List<herramientas> lista = new ArrayList<>();
+        
+        // La consulta utiliza el nombre de la tabla de asignación de tu esquema de BD
+        // Se asume el estado 'ACTIVO' para filtrar asignaciones vigentes.
+        String sql = "SELECT h.idHerramienta, h.nombre, h.tipo, h.estado " +
+                     "FROM herramientas h INNER JOIN asignaciones_mecanico_herramienta a " +
+                     "ON h.idHerramienta = a.idHerramienta " +
+                     "WHERE a.idMecanico = ? AND a.estado = 'Activa'"; 
+        
+        try {
+            con = Conexion.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idMecanico);
+            rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                herramientas h = new herramientas(
+                    rs.getInt("idHerramienta"),
+                    rs.getString("nombre"),
+                    rs.getString("tipo"),
+                    rs.getString("estado")
+                );
+                lista.add(h);
+            }
+        } catch (Exception e) {
+            System.err.println("Error al listar herramientas por mecánico: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            cerrarConexion();
+        }
+        return lista;
+    }
+    
+    // *****************************************************************
+    // MÉTODOS EXISTENTES 
+    // *****************************************************************
 
     public List<herramientas> listarHerramientas() {
         List<herramientas> lista = new ArrayList<>();
