@@ -15,6 +15,8 @@ public class asignaciones_mecanico_herramientas {
     private Date fechaFin;
     private String estado;
     
+    private herramientas herramienta;
+    
     public asignaciones_mecanico_herramientas() {
     }
 
@@ -73,6 +75,14 @@ public class asignaciones_mecanico_herramientas {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+    
+    public herramientas getHerramienta() {
+        return herramienta;
+    }
+
+    public void setHerramienta(herramientas herramienta) {
+        this.herramienta = herramienta;
     }
 
 }

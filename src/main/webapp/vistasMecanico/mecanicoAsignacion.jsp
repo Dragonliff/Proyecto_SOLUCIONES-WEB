@@ -38,9 +38,7 @@
             <table class="table table-bordered table-hover">
                 <thead class="table-dark text-center">
                     <tr>
-                        <th>ID Asignación</th>
                         <th>Herramienta</th>
-                        <th>Tipo</th>
                         <th>Estado</th>
                         <th>Fecha Inicio</th>
                     </tr>
@@ -48,9 +46,7 @@
                 <tbody>
                 <% for (asignaciones_mecanico_herramientas a : herramientas) { %>
                     <tr class="text-center">
-                        <td><%= a.getIdAsignacion() %></td>
-                        <td><%= a.getIdHerramienta() %></td>
-                        <td><%= "Ver tipo en DAO si lo agregas" %></td>
+                        <td><%= a.getHerramienta().getNombre() %></td>
                         <td><%= a.getEstado() %></td>
                         <td><%= a.getFechaInicio() %></td>
                     </tr>

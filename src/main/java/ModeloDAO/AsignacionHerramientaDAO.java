@@ -157,15 +157,15 @@ public class AsignacionHerramientaDAO {
                 a.setFechaFin(rs.getDate("fechaFin"));
                 a.setEstado(rs.getString("estado"));
 
-                // 🔹 Campos adicionales de la herramienta
+                // Objeto herramienta
                 herramientas h = new herramientas();
                 h.setIdHerramienta(rs.getInt("idHerramienta"));
                 h.setNombre(rs.getString("nombre"));
                 h.setTipo(rs.getString("tipo"));
-                h.setEstado(rs.getString("estadoHerramienta"));
+                h.setEstado(rs.getString("estado"));
 
-                // Podrías guardar la herramienta dentro del objeto de asignación si quieres:
-                // a.setHerramienta(h);
+                // Registrar dentro de la asignación
+                a.setHerramienta(h);
 
                 lista.add(a);
             }
