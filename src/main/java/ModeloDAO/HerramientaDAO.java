@@ -11,16 +11,9 @@ public class HerramientaDAO {
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
-
-    // *****************************************************************
-    // MÉTODO CORREGIDO: LISTAR HERRAMIENTAS ASIGNADAS AL MECÁNICO
-    // Utiliza la tabla 'asignaciones_mecanico_herramienta'
-    // *****************************************************************
+    
     public List<herramientas> listarPorMecanico(int idMecanico) {
         List<herramientas> lista = new ArrayList<>();
-        
-        // La consulta utiliza el nombre de la tabla de asignación de tu esquema de BD
-        // Se asume el estado 'ACTIVO' para filtrar asignaciones vigentes.
         String sql = "SELECT h.idHerramienta, h.nombre, h.tipo, h.estado " +
                      "FROM herramientas h INNER JOIN asignaciones_mecanico_herramienta a " +
                      "ON h.idHerramienta = a.idHerramienta " +
@@ -50,10 +43,6 @@ public class HerramientaDAO {
         return lista;
     }
     
-    // *****************************************************************
-    // MÉTODOS EXISTENTES 
-    // *****************************************************************
-
     public List<herramientas> listarHerramientas() {
         List<herramientas> lista = new ArrayList<>();
         String sql = "SELECT * FROM herramientas";

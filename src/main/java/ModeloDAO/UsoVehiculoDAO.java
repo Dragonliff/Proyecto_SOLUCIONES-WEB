@@ -18,7 +18,6 @@ public class UsoVehiculoDAO {
     PreparedStatement ps;
     ResultSet rs;
 
-    // Registrar inicio de uso
     public boolean registrarInicioUso(int idVehiculo, int idConductor) {
         String sql = "INSERT INTO usos_vehiculos (idVehiculo, idConductor, fecha) VALUES (?, ?, NOW())";
         try {
@@ -33,8 +32,7 @@ public class UsoVehiculoDAO {
             return false;
         }
     }
-
-    // Registrar fin de uso (update)
+    
     public boolean registrarFinUso(int idUso, double kmRecorridos, String descripcion) {
         String sql = "UPDATE usos_vehiculos "
                    + "SET kmRecorridos = ?, descripcion = ?, "
@@ -54,7 +52,6 @@ public class UsoVehiculoDAO {
         }
     }
 
-    // Verificar si hay uso activo (sin km registrados)
     public usos_vehiculos obtenerUsoActivo(int idVehiculo, int idConductor) {
         String sql = "SELECT * FROM usos_vehiculos WHERE idVehiculo = ? AND idConductor = ? AND kmRecorridos IS NULL";
         try {
@@ -81,7 +78,6 @@ public class UsoVehiculoDAO {
         return null;
     }
 
-    // Listar todos los usos de un conductor
     public List<usos_vehiculos> listarUsosPorConductor(int idConductor) {
         List<usos_vehiculos> lista = new ArrayList<>();
         String sql = "SELECT * FROM usos_vehiculos WHERE idConductor = ? ORDER BY fecha DESC";
@@ -108,7 +104,6 @@ public class UsoVehiculoDAO {
         return lista;
     }
 
-    // Listar vehículos por conductor activo
     public List<vehiculos> listarVehiculosPorConductor(int idConductor) {
         List<vehiculos> listaVehiculos = new ArrayList<>();
         String sql = "SELECT v.* "
@@ -140,7 +135,6 @@ public class UsoVehiculoDAO {
         return listaVehiculos;
     }
 
-    // Obtener todos los usos activos por conductor (para mostrar botón rojo)
     public Map<Integer, usos_vehiculos> obtenerUsosActivosPorConductor(int idConductor) {
         Map<Integer, usos_vehiculos> mapa = new HashMap<>();
 

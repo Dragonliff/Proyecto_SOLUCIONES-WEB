@@ -15,7 +15,6 @@ public class EmpleadoDAO {
     PreparedStatement ps;
     ResultSet rs;
 
-    // --- Listar empleados (solo mecánicos y conductores)
     public List<usuarios> listarEmpleados() {
         List<usuarios> lista = new ArrayList<>();
         String sql = "SELECT * FROM usuarios WHERE idRol IN (2, 3)";
@@ -123,7 +122,6 @@ public class EmpleadoDAO {
             return false;
         }
     }
-
 
     public boolean eliminarEmpleado(int idUsuario) {
         String sqlRol = "SELECT idRol FROM usuarios WHERE idUsuario=?";

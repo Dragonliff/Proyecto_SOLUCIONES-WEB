@@ -30,15 +30,11 @@ public class AsignacionConductorVehiculoDAO {
     private static final String SQL_DELETE = 
         "DELETE FROM asignaciones_conductor_vehiculo WHERE idAsignacion=?";
 
-    /**
-     * Consulta que lista las asignaciones ACTIVAS de un conductor y hace JOIN con la tabla vehiculos.
-     */
     private static final String SQL_SELECT_BY_CONDUCTOR_JOIN = 
         "SELECT a.*, v.placa, v.marca, v.modelo, v.anio, v.tipoVehiculo " +
         "FROM asignaciones_conductor_vehiculo a " +
         "JOIN vehiculos v ON a.idVehiculo = v.idVehiculo " +
         "WHERE a.idConductor = ? AND a.estado = 'Activa'";
-
 
     public boolean crear(asignaciones_conductor_vehiculo asignacion) {
         Connection con = null;
@@ -82,7 +78,7 @@ public class AsignacionConductorVehiculoDAO {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                // Usamos el mapeo básico, ya que esta consulta no tiene JOINs
+
                 lista.add(mapResultSetToAsignacion(rs));
             }
 
@@ -197,12 +193,6 @@ public class AsignacionConductorVehiculoDAO {
         return eliminado;
     }
     
-    /**
-     * Obtiene las asignaciones activas de un conductor, incluyendo los datos del vehículo mediante JOIN.
-     * Esto soluciona que la vista del empleado no muestre los detalles del vehículo.
-     * @param idConductor El ID del conductor.
-     * @return Lista de asignaciones_conductor_vehiculo con detalles del vehículo.
-     */
     public List<asignaciones_conductor_vehiculo> listarPorConductor(int idConductor) {
         List<asignaciones_conductor_vehiculo> lista = new ArrayList<>();
         Connection con = null;
@@ -211,13 +201,11 @@ public class AsignacionConductorVehiculoDAO {
 
         try {
             con = Conexion.getConexion();
-            // 📢 Usamos la consulta con JOIN definida arriba
             ps = con.prepareStatement(SQL_SELECT_BY_CONDUCTOR_JOIN); 
             ps.setInt(1, idConductor);
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                // 📢 Ahora el mapeo debe manejar los campos extra
                 lista.add(mapResultSetToAsignacion(rs)); 
             }
 
@@ -231,15 +219,8 @@ public class AsignacionConductorVehiculoDAO {
         return lista;
     }
 
-
-    /**
-     * Mapea un ResultSet a un objeto asignaciones_conductor_vehiculo.
-     * Este método se ha modificado para intentar mapear los campos del vehículo.
-     */
     private asignaciones_conductor_vehiculo mapResultSetToAsignacion(ResultSet rs) throws SQLException {
         asignaciones_conductor_vehiculo a = new asignaciones_conductor_vehiculo();
-        
-        // --- Campos base de la asignación ---
         a.setIdAsignacion(rs.getInt("idAsignacion"));
         a.setIdConductor(rs.getInt("idConductor"));
         a.setIdVehiculo(rs.getInt("idVehiculo"));
@@ -247,23 +228,15 @@ public class AsignacionConductorVehiculoDAO {
         a.setFechaFin(rs.getDate("fechaFin"));
         a.setEstado(rs.getString("estado"));
         
-        // --- Campos del vehículo (Solo si existen en el ResultSet del JOIN) ---
-        // Usamos un try/catch interno o metaData para verificar si las columnas existen. 
-        // Para simplificar, asumimos que si la consulta fue SQL_SELECT_BY_CONDUCTOR_JOIN,
-        // estas columnas estarán disponibles. Si la consulta fue SQL_SELECT_ALL, rs.getString("placa")
-        // lanzará una SQLException, por lo que usamos un try-catch.
-        
         try {
-            // Intentamos obtener los campos de vehículo. 
-            // Si la consulta no los incluye, lanza una excepción (que ignoramos).
+ 
             a.setPlaca(rs.getString("placa"));
             a.setMarca(rs.getString("marca"));
             a.setModelo(rs.getString("modelo"));
             a.setAnio(rs.getInt("anio"));
             a.setTipoVehiculo(rs.getString("tipoVehiculo"));
         } catch (SQLException ignore) {
-            // Esto ocurre en listarTodas() u obtenerPorId() donde no hay JOIN.
-            // Es seguro ignorarlo, ya que la asignación base está completa.
+
         }
         
         return a;

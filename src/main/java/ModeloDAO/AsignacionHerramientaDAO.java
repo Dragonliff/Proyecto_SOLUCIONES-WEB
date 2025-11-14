@@ -15,7 +15,6 @@ public class AsignacionHerramientaDAO {
     ResultSet rs;
     Conexion cn = new Conexion();
 
-    // ✅ Listar asignaciones con nombres de mecánicos y herramientas
     public List<Map<String, Object>> listar() {
         List<Map<String, Object>> lista = new ArrayList<>();
         String sql = 
@@ -50,7 +49,6 @@ public class AsignacionHerramientaDAO {
         return lista;
     }
 
-    // ✅ Agregar nueva asignación
     public boolean agregar(asignaciones_mecanico_herramientas a) {
         String sql = "INSERT INTO asignaciones_mecanico_herramienta (idMecanico, idHerramienta, fechaInicio, estado) VALUES (?, ?, ?, ?)";
         String sqlActualizarHerramienta = "UPDATE herramientas SET estado='En Uso' WHERE idHerramienta=?";
@@ -65,8 +63,6 @@ public class AsignacionHerramientaDAO {
             ps.setDate(3, new java.sql.Date(a.getFechaInicio().getTime()));
             ps.setString(4, a.getEstado());
             ps.executeUpdate();
-
-            // Actualizar estado de la herramienta
             ps = con.prepareStatement(sqlActualizarHerramienta);
             ps.setInt(1, a.getIdHerramienta());
             ps.executeUpdate();
@@ -86,7 +82,6 @@ public class AsignacionHerramientaDAO {
         return false;
     }
 
-    // ✅ Listar mecánicos disponibles
     public List<Map<String, Object>> listarMecanicos() {
         List<Map<String, Object>> lista = new ArrayList<>();
         String sql =
@@ -111,7 +106,6 @@ public class AsignacionHerramientaDAO {
         return lista;
     }
 
-    // ✅ Listar herramientas disponibles
     public List<Map<String, Object>> listarHerramientas() {
         List<Map<String, Object>> lista = new ArrayList<>();
         String sql = "SELECT idHerramienta, nombre, tipo, estado FROM herramientas WHERE estado='Disponible'";
@@ -139,7 +133,6 @@ public class AsignacionHerramientaDAO {
         "INNER JOIN herramientas h ON a.idHerramienta = h.idHerramienta " +
         "WHERE a.idMecanico = ? AND a.estado = 'Activa'";
 
-    // 🔹 Listar herramientas asignadas a un mecánico
     public List<asignaciones_mecanico_herramientas> listarPorMecanico(int idMecanico) {
         List<asignaciones_mecanico_herramientas> lista = new ArrayList<>();
         try (Connection con = Conexion.getConexion();
@@ -156,17 +149,12 @@ public class AsignacionHerramientaDAO {
                 a.setFechaInicio(rs.getDate("fechaInicio"));
                 a.setFechaFin(rs.getDate("fechaFin"));
                 a.setEstado(rs.getString("estado"));
-
-                // Objeto herramienta
                 herramientas h = new herramientas();
                 h.setIdHerramienta(rs.getInt("idHerramienta"));
                 h.setNombre(rs.getString("nombre"));
                 h.setTipo(rs.getString("tipo"));
                 h.setEstado(rs.getString("estado"));
-
-                // Registrar dentro de la asignación
                 a.setHerramienta(h);
-
                 lista.add(a);
             }
 
@@ -176,7 +164,6 @@ public class AsignacionHerramientaDAO {
         return lista;
     }
     
-    // ✅ Finalizar una asignación (corrigido y seguro)
     public boolean finalizarAsignacion(int idAsignacion) {
         String sqlFinalizar = 
         "UPDATE asignaciones_mecanico_herramienta SET estado = 'Finalizada', fechaFin = NOW() WHERE idAsignacion = ?";
@@ -191,13 +178,9 @@ public class AsignacionHerramientaDAO {
         try {
             con = cn.getConexion();
             con.setAutoCommit(false);
-
-            // 🔹 Finalizar asignación
             ps1 = con.prepareStatement(sqlFinalizar);
             ps1.setInt(1, idAsignacion);
             ps1.executeUpdate();
-
-            // 🔹 Liberar herramienta asociada
             ps2 = con.prepareStatement(sqlLiberarHerramienta);
             ps2.setInt(1, idAsignacion);
             ps2.executeUpdate();

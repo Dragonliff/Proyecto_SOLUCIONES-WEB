@@ -13,8 +13,6 @@ public class MecanicoDAO {
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
-
-    // 🔹 Obtiene el idMecanico según el idUsuario
     public int obtenerIdPorUsuario(int idUsuario) {
         int idMecanico = -1;
         String sql = "SELECT idMecanico FROM mecanicos WHERE idUsuario = ?";
