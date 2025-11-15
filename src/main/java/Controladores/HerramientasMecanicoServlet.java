@@ -23,21 +23,15 @@ public class HerramientasMecanicoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession sesion = request.getSession();
-        Integer idMecanico = (Integer) sesion.getAttribute("idMecanico");  // ⚙️ igual que en conductor
+        Integer idMecanico = (Integer) sesion.getAttribute("idMecanico");  
 
         if (idMecanico == null) {
-            // 🚨 redirección correcta al index (login)
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             return;
         }
 
-        // 📋 Obtener las herramientas asignadas al mecánico
         List<asignaciones_mecanico_herramientas> herramientasAsignadas = dao.listarPorMecanico(idMecanico);
-
-        // 📦 Enviar la lista al JSP
         request.setAttribute("herramientasAsignadas", herramientasAsignadas);
-
-        // 📄 Mostrar la vista del mecánico
         request.getRequestDispatcher("vistasMecanico/mecanicoAsignacion.jsp").forward(request, response);
     }
 }

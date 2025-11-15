@@ -37,7 +37,7 @@
                 <td><%= v.getModelo() %></td>
                 <td>
                     <% if (usoActivo == null) { %>
-                        <!-- Botón verde para iniciar -->
+
                         <form action="<%= request.getContextPath() %>/UsoVehiculoServlet" method="post">
                             <input type="hidden" name="accion" value="iniciar">
                             <input type="hidden" name="idVehiculo" value="<%= v.getIdVehiculo() %>">
@@ -45,7 +45,7 @@
                             <button type="submit" class="btn btn-success">Empezar</button>
                         </form>
                     <% } else { %>
-                        <!-- Botón rojo para detener, que muestra el formulario -->
+
                         <button class="btn btn-danger" type="button" 
                                 onclick="mostrarFormulario(<%= usoActivo.getIdUso() %>)">Detener</button>
 

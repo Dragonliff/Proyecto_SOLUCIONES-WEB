@@ -18,7 +18,7 @@ public class MecanicoDAO {
         String sql = "SELECT idMecanico FROM mecanicos WHERE idUsuario = ?";
 
         try {
-            con = Conexion.getConexion(); // Usa tu clase Conexion existente
+            con = Conexion.getConexion(); 
             ps = con.prepareStatement(sql);
             ps.setInt(1, idUsuario);
             rs = ps.executeQuery();
@@ -28,7 +28,7 @@ public class MecanicoDAO {
             }
 
         } catch (Exception e) {
-            System.out.println("❌ Error al obtener idMecanico: " + e.getMessage());
+            System.out.println(" Error al obtener idMecanico: " + e.getMessage());
         }
         return idMecanico;
     }

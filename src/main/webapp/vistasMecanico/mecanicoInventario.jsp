@@ -5,18 +5,14 @@
 <%@ include file="../seguridad.jsp" %>
 <%@ include file="layoutMecanicos.jsp" %>
 <%
-    // *****************************************************************
-    // BLOQUE DE DECLARACIONES: Obtención de datos del Servlet
-    // *****************************************************************
-    // 1. Título de la página para el layout
+
     request.setAttribute("titulo", "Inventario de Herramientas");
 
-    // 2. Listas y mensajes para la vista
+
     List<usos_herramientas> listaUsos = (List<usos_herramientas>) request.getAttribute("registrosUso");
     String mensaje = (String) request.getAttribute("mensaje");
     String error = (String) request.getAttribute("error");
     
-    // 3. Lista de herramientas asignadas para el formulario
     List<herramientas> herramientasAsignadas = (List<herramientas>) request.getAttribute("herramientasAsignadas");
 %>
 

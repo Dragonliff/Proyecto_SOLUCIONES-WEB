@@ -10,8 +10,6 @@ public class herramientas {
     private String tipo;
     private String estado;
     
-    
-
     public herramientas(int idHerramienta, String nombre, String tipo, String estado) {
         this.idHerramienta = idHerramienta;
         this.nombre = nombre;

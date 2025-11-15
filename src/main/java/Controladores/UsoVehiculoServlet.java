@@ -72,7 +72,6 @@ public class UsoVehiculoServlet extends HttpServlet {
             dao.registrarFinUso(idUso, kmRecorridos, observaciones);
         }
 
-        // ✅ Redirige para evitar reenvío de formulario y recargar datos actualizados
         response.sendRedirect(request.getContextPath() + "/UsoVehiculoServlet?accion=reporte");
     }
 }

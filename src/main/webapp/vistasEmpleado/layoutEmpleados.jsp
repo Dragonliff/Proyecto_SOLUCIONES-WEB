@@ -12,14 +12,13 @@
 
         <style>
             :root {
-                --primary-color: #0077B6; /* Azul Oscuro */
-                --accent-color: #48CAE4; /* Azul Claro/Cian */
+                --primary-color: #0077B6; 
+                --accent-color: #48CAE4; 
                 --bg-light: #F8F9FA;
                 --text-dark: #343A40 ;
                 
             }
 
-            /* Estilos del Body: Flexbox con ancho total y fondo claro */
             body {
                 background-color: var(--bg-light);
                 font-family: 'Inter', sans-serif;
@@ -30,12 +29,11 @@
                 overflow-x: hidden;
             }
 
-            /* 1. Estilos del Sidebar/Navegación */
             .sidebar {
                 width: 280px;
                 background-color: #FFFFFF;
                 box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-                position: fixed; /* Sidebar fijo */
+                position: fixed; 
                 top: 0;
                 left: 0;
                 bottom: 0;
@@ -65,7 +63,6 @@
                 background-color: #E0F2F7;
             }
 
-            /* Estilo para enlace activo (deberías aplicarlo con JSP/JSTL según la página actual) */
             .nav-link.active {
                 color: #FFFFFF !important;
                 background-color: var(--primary-color);
@@ -82,21 +79,18 @@
                 font-size: 1.1rem;
             }
             
-            /* Enlace de cerrar sesión separado visualmente */
             .logout-link {
                 color: var(--text-dark) !important;
                 border: 1px solid #ccc;
                 margin-top: 2rem;
             }
             .logout-link:hover {
-                background-color: #F8D7DA; /* Fondo rojo claro */
+                background-color: #F8D7DA; 
                 color: #DC3545 !important;
             }
 
-
-            /* 2. Estilos del Contenido Principal */
             .main-content-wrapper { 
-                margin-left: 100px; /* Separación fija para dejar espacio al sidebar */
+                margin-left: 100px; 
                 flex-grow: 1;
                 display: flex;
                 flex-direction: column;
@@ -105,10 +99,9 @@
 
             .main-content {
                 flex-grow: 1; 
-                padding: 30px; /* Le damos un padding general al contenido */
+                padding: 30px; 
             }
 
-            /* 4. Responsive (para móviles) */
             @media (max-width: 992px) {
                 .sidebar {
                     width: 100%;
@@ -123,7 +116,7 @@
                     padding-top: 20px;
                 }
                 .sidebar-header {
-                    display: block; /* Mantenemos el header visible en móvil */
+                    display: block; 
                 }
                 .sidebar .nav-link {
                     border-left: none;

@@ -63,7 +63,6 @@ public class VehiculoServlet extends HttpServlet {
         request.getRequestDispatcher("/vistasAdmin/maquinas.jsp").forward(request, response);
     }
 
-    // CREATE/UPDATE: Guardar (No se modifica la lógica de guardado/edición)
     private void guardarVehiculo(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -73,7 +72,6 @@ public class VehiculoServlet extends HttpServlet {
         boolean resultado = false;
         
         try {
-            // Conversión de numéricos.
             anio = Integer.parseInt(request.getParameter("anio"));
             String kmStr = request.getParameter("kilometrajeActual");
             kilometrajeActual = Double.parseDouble(kmStr.replace(',', '.')); 
@@ -100,7 +98,7 @@ public class VehiculoServlet extends HttpServlet {
         vehiculo.setEstado(estado);
 
         if (idParam != null && !idParam.isEmpty()) {
-            // ACTUALIZACIÓN
+
             try {
                 int idVehiculo = Integer.parseInt(idParam);
                 vehiculo.setIdVehiculo(idVehiculo);
@@ -150,7 +148,7 @@ public class VehiculoServlet extends HttpServlet {
         try {
             idVehiculo = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException e) {
-            System.err.println("🔴 ERROR al cambiar estado: ID de vehículo no válido.");
+            System.err.println(" ERROR al cambiar estado: ID de vehículo no válido.");
             response.sendRedirect("VehiculoServlet?error=idInvalido");
             return;
         }

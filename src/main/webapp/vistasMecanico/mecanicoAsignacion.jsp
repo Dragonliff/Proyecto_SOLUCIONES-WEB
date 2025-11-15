@@ -7,15 +7,11 @@
 <%@ include file="layoutMecanicos.jsp" %>
 <%@ include file="../seguridad.jsp" %>
 <style>
-    /* * El problema de centrado se corrige aquí: 
-     * El contenedor ocupa el 100% del espacio asignado por el layout, 
-     * y el padding crea los márgenes laterales.
-     */
+
     .mechanic-dashboard {
-        width: 150%; /* Asegura que el contenedor ocupe el 100% del espacio asignado */
+        width: 150%; 
     }
     
-    /* Sección de Bienvenida */
     .header-section {
         background-color: #FFFFFF;
         border-left: 5px solid #0077B6;
@@ -44,7 +40,6 @@
         margin-bottom: 5px !important;
     }
 
-    /* Tarjeta de Asignaciones */
     .tool-assignment-card {
         border: 1px solid #E9ECEF;
         border-radius: 0.5rem;
@@ -68,7 +63,6 @@
         top: -2px; 
     }
 
-    /* Tabla de Asignaciones */
     .assignment-table {
         margin-bottom: 0;
         border-collapse: separate; 
@@ -87,7 +81,6 @@
         cursor: default;
     }
     
-    /* Badges de Estado */
     .badge-style {
         padding: 0.4em 0.8em;
         font-size: 0.8em;

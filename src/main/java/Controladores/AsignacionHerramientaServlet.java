@@ -33,12 +33,10 @@ public class AsignacionHerramientaServlet extends HttpServlet {
                     System.err.println("⚠ No se recibió idAsignacion válido.");
                 }
 
-                // Redirigir siempre al listar después de finalizar
                 response.sendRedirect("AsignacionHerramientaServlet?accion=listar");
                 return;
             }
 
-            // Mostrar lista normalmente
             request.setAttribute("listaAsignaciones", dao.listar());
             request.setAttribute("listaMecanicos", dao.listarMecanicos());
             request.setAttribute("listaHerramientas", dao.listarHerramientas());
@@ -57,7 +55,6 @@ public class AsignacionHerramientaServlet extends HttpServlet {
         try {
             String accion = request.getParameter("accion");
 
-            // 🔹 1. Si la acción es finalizar
             if ("finalizar".equalsIgnoreCase(accion)) {
                 String idAsignacionStr = request.getParameter("idAsignacion");
                 if (idAsignacionStr != null && !idAsignacionStr.isBlank()) {
@@ -70,7 +67,6 @@ public class AsignacionHerramientaServlet extends HttpServlet {
                 }
             }
 
-            // 🔹 2. Si la acción es agregar una nueva asignación
             String idMecStr = request.getParameter("idMecanico");
             String idHerStr = request.getParameter("idHerramienta");
 

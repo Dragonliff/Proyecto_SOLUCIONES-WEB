@@ -24,25 +24,22 @@
             
             <%
                 HttpSession sesion = request.getSession(false);
-                String contextPath = request.getContextPath(); // OBTENER CONTEXT PATH
+                String contextPath = request.getContextPath(); 
                 
                 String volverUrl = contextPath + "/index.jsp";
                 String btnTexto = "Volver al inicio";
 
-                // Obtener el ID de Rol (1=ADMIN, 2=MECANICO, 3=CONDUCTOR)
+                // (1=ADMIN, 2=MECANICO, 3=CONDUCTOR)
                 Integer idRol = (sesion != null) ? (Integer) sesion.getAttribute("idRol") : null;
 
                 if (idRol != null) {
-                    if (idRol == 1) { // ADMINISTRADOR
-                        // RUTA CORREGIDA: Usando contextPath + /vistasAdmin/inicio.jsp
+                    if (idRol == 1) { 
                         volverUrl = contextPath + "/vistasAdmin/inicio.jsp";
                         btnTexto = "Volver al Panel de Administración";
-                    } else if (idRol == 2) { // MECÁNICO
-                        // Ajusta esta ruta cuando crees la carpeta vistasMecanico
+                    } else if (idRol == 2) {
                         volverUrl = contextPath + "/HerramientasMecanicoServlet";
                         btnTexto = "Volver al Panel de Mecánica";
-                    } else if (idRol == 3) { // CONDUCTOR (vistasEmpleado)
-                        // RUTA CORREGIDA: Usando contextPath + /vistasEmpleado/empleadoMaquinas.jsp
+                    } else if (idRol == 3) { 
                         volverUrl = contextPath + "/EmpleadoAsignacionesServlet";
                         btnTexto = "Volver al Panel de Conducción";
                     }

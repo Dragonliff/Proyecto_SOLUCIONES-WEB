@@ -32,7 +32,6 @@
 
             }
 
-            /* 1. Estilos del Sidebar/Navegación */
             .sidebar {
                 width: 280px;
                 background-color: #FFFFFF;
@@ -82,7 +81,6 @@
                 font-size: 1.1rem;
             }
 
-            /* 2. Estilos del Contenido Principal */
             .main-content-wrapper { 
                 margin-left: 280px;
                 flex-grow: 1;
@@ -93,10 +91,9 @@
 
             .main-content {
                 flex-grow: 1; 
-                padding: 0; /* ¡CRUCIAL! Quitamos el padding global para que el contenido lo maneje */
+                padding: 0; 
             }
             
-            /* 3. Estilos del Footer */
             .footer {
                 background-color: #E9ECEF;
                 padding: 15px;
@@ -107,7 +104,6 @@
                 margin-top: auto;
             }
 
-            /* 4. Responsive (para móviles) */
             @media (max-width: 992px) {
                 .sidebar {
                     width: 100%;

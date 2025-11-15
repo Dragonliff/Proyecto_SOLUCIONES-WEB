@@ -37,8 +37,8 @@ public class AsignacionConductorVehiculoDAO {
         "WHERE a.idConductor = ? AND a.estado = 'Activa'";
     
     private static final String SQL_EXISTE_ASIGNACION_ACTIVA =
-    "SELECT COUNT(*) FROM asignaciones_conductor_vehiculo " +
-    "WHERE idConductor = ? AND idVehiculo = ? AND estado = 'Activa'";
+        "SELECT COUNT(*) FROM asignaciones_conductor_vehiculo " +
+        "WHERE idConductor = ? AND idVehiculo = ? AND estado = 'Activa'";
 
     public boolean crear(asignaciones_conductor_vehiculo asignacion) {
         Connection con = null;
@@ -189,7 +189,7 @@ public class AsignacionConductorVehiculoDAO {
             eliminado = ps.executeUpdate() > 0;
 
         } catch (SQLException e) {
-            System.err.println("🔴 Error al eliminar asignación: " + e.getMessage());
+            System.err.println(" Error al eliminar asignación: " + e.getMessage());
         } finally {
             try { if (ps != null) ps.close(); } catch (SQLException ex) {}
             try { if (con != null) con.close(); } catch (SQLException ex) {}
@@ -267,7 +267,7 @@ public class AsignacionConductorVehiculoDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error al listar vehículos operativos: " + e.getMessage());
+            System.err.println(" Error al listar vehículos operativos: " + e.getMessage());
         }
 
         return lista;
@@ -287,7 +287,7 @@ public class AsignacionConductorVehiculoDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error comprobando asignación activa: " + e.getMessage());
+            System.err.println(" Error comprobando asignación activa: " + e.getMessage());
         }
         return false;
     }

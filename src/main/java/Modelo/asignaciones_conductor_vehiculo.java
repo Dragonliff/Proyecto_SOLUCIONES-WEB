@@ -6,10 +6,6 @@ package Modelo;
 
 import java.util.Date;
 
-/**
- *
- * @author Raidth
- */
 public class asignaciones_conductor_vehiculo {
     private int idAsignacion;
     private int idConductor;

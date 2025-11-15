@@ -6,7 +6,6 @@ package Modelo;
 
 import java.sql.Timestamp;
 
-
 public class usos_vehiculos {
     private int idUso;
     private int idVehiculo;

@@ -56,7 +56,7 @@ public class EmpleadoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String accion = request.getParameter("action"); // ← corregido
+        String accion = request.getParameter("action"); 
 
         String idUsuarioStr = request.getParameter("idUsuario");
         int idUsuario = (idUsuarioStr != null && !idUsuarioStr.isEmpty()) ? Integer.parseInt(idUsuarioStr) : 0;

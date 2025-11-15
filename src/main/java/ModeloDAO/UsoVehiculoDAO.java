@@ -28,7 +28,7 @@ public class UsoVehiculoDAO {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println("❌ Error al registrar inicio de uso: " + e.getMessage());
+            System.out.println(" Error al registrar inicio de uso: " + e.getMessage());
             return false;
         }
     }
@@ -47,7 +47,7 @@ public class UsoVehiculoDAO {
             ps.executeUpdate();
             return true;
         } catch (SQLException e) {
-            System.out.println("❌ Error al registrar fin de uso: " + e.getMessage());
+            System.out.println("Error al registrar fin de uso: " + e.getMessage());
             return false;
         }
     }
@@ -73,7 +73,7 @@ public class UsoVehiculoDAO {
                 return u;
             }
         } catch (SQLException e) {
-            System.out.println("❌ Error al obtener uso activo: " + e.getMessage());
+            System.out.println(" Error al obtener uso activo: " + e.getMessage());
         }
         return null;
     }
@@ -99,7 +99,7 @@ public class UsoVehiculoDAO {
                 lista.add(u);
             }
         } catch (SQLException e) {
-            System.out.println("❌ Error al listar usos: " + e.getMessage());
+            System.out.println(" Error al listar usos: " + e.getMessage());
         }
         return lista;
     }
@@ -129,7 +129,7 @@ public class UsoVehiculoDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error al listar vehículos por conductor: " + e.getMessage());
+            System.err.println(" Error al listar vehículos por conductor: " + e.getMessage());
         }
 
         return listaVehiculos;
@@ -161,7 +161,7 @@ public class UsoVehiculoDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("❌ Error al obtener usos activos: " + e.getMessage());
+            System.out.println(" Error al obtener usos activos: " + e.getMessage());
         }
 
         return mapa;

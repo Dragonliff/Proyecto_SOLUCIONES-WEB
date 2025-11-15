@@ -6,10 +6,6 @@ package Modelo;
 
 import java.util.Date;
 
-/**
- *
- * @author Raidth
- */
 public class conductores {
     private int idConductor;
     private int idUsuario;

@@ -54,13 +54,13 @@ public class VehiculoDAO {
             creado = stmt.executeUpdate() > 0;
             
             if (creado) {
-                System.out.println("✅ Inserción exitosa.");
+                System.out.println(" Inserción exitosa.");
             } else {
-                System.err.println("❌ Fallo en la inserción.");
+                System.err.println("Fallo en la inserción.");
             }
             
         } catch (SQLException ex) {
-            System.err.println("🔴 ERROR SQL al crear vehículo: " + ex.getMessage());
+            System.err.println(" ERROR SQL al crear vehículo: " + ex.getMessage());
             ex.printStackTrace(); 
         } finally {
  
@@ -126,7 +126,7 @@ public class VehiculoDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error al listar vehículos operativos: " + e.getMessage());
+            System.err.println(" Error al listar vehículos operativos: " + e.getMessage());
         } finally {
             try { if (rs != null) rs.close(); } catch (SQLException ex) {}
             try { if (ps != null) ps.close(); } catch (SQLException ex) {}

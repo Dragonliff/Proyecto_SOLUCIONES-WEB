@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("idRol", u.getIdRol());
             session.setAttribute("nombreUsuario", u.getNombreCompleto());
             
-            if (u.getIdRol() == 2) { // rol del mecánico
+            if (u.getIdRol() == 2) { 
                 ModeloDAO.MecanicoDAO mdao = new ModeloDAO.MecanicoDAO();
                 int idMecanico = mdao.obtenerIdPorUsuario(u.getIdUsuario());
                 session.setAttribute("idMecanico", idMecanico);

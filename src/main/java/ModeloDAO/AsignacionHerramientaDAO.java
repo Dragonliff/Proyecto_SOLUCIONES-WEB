@@ -159,7 +159,7 @@ public class AsignacionHerramientaDAO {
             }
 
         } catch (SQLException e) {
-            System.err.println("❌ Error al listar herramientas del mecánico: " + e.getMessage());
+            System.err.println(" Error al listar herramientas del mecánico: " + e.getMessage());
         }
         return lista;
     }

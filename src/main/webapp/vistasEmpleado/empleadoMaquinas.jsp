@@ -4,7 +4,6 @@
 <%
     request.setAttribute("titulo", "Mis Máquinas");
     
-    // Obtener nombre desde sesión
     String nombreUsuario = (String) session.getAttribute("nombreCompleto"); 
     if (nombreUsuario == null || nombreUsuario.isEmpty()) {
         nombreUsuario = (String) session.getAttribute("nombreUsuario"); 
@@ -13,7 +12,6 @@
         nombreUsuario = "Conductor";
     }
 
-    // Lista de máquinas asignadas
     List<asignaciones_conductor_vehiculo> listaAsignaciones = 
         (List<asignaciones_conductor_vehiculo>) request.getAttribute("listaAsignaciones");
 %>
