@@ -16,11 +16,10 @@
                 class="d-flex align-items-center justify-content-center mb-2 text-decoration-none"
                 style="padding: 5px 0;">
 
-                 <img src="${pageContext.request.contextPath}/img/Cronix.jpg"
+                 <img src="${pageContext.request.contextPath}/img/cronix.png"
                       alt="Gestión de Activos"
                       style="width: 150px; height: auto; display: block;">
              </a>
-
 
             <hr>
             
@@ -37,34 +36,34 @@
                 </li>
                 <li>
                     <a href="${pageContext.request.contextPath}/VehiculoServlet" class="nav-link sidebar-link text-white">
-                        <i class="bi bi-truck-flatbed me-2"></i> Máquinas / Vehículos
+                        <i class="bi bi-truck-flatbed me-2"></i> Vehículos
                     </a>
                 </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/AsignacionConductorVehiculoServlet?accion=listar" class="nav-link sidebar-link text-white">
-                        <i class="bi bi-box-seam-fill me-2"></i> Asignaciones
-                    </a>
-                </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/AsignacionHerramientaServlet?accion=listar" class="nav-link sidebar-link text-white">
-                        <i class="bi bi-tools me-2"></i> Asignación de Herramientas
-                    </a>
-                </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/vistasAdmin/horas.jsp" class="nav-link sidebar-link text-white">
-                        <i class="bi bi-speedometer2 me-2"></i> Horas / Kilómetros
-                    </a>
-                </li>
+                
                 <li>
                     <a href="<%= request.getContextPath() %>/HerramientaServlet" class="nav-link sidebar-link text-white">
-                        <i class="bi bi-boxes me-2"></i> Inventario
+                        <i class="bi bi-boxes me-2"></i> Herramientas
                     </a>
                 </li>
+                
+                <li>
+                    <a href="${pageContext.request.contextPath}/AsignacionConductorVehiculoServlet?accion=listar" class="nav-link sidebar-link text-white">
+                        <i class="bi bi-box-seam-fill me-2"></i> Asignar Vehiculo
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="${pageContext.request.contextPath}/AsignacionHerramientaServlet?accion=listar" class="nav-link sidebar-link text-white">
+                        <i class="bi bi-tools me-2"></i> Asignar Herramienta
+                    </a>
+                </li>
+
                 <li>
                     <a href="${pageContext.request.contextPath}/vistasAdmin/mantenimientos.jsp" class="nav-link sidebar-link text-white">
                         <i class="bi bi-wrench-adjustable-circle-fill me-2"></i> Mantenimientos
                     </a>
                 </li>
+                
                 <li>
                     <a href="${pageContext.request.contextPath}/vistasAdmin/fallasReportadas.jsp" class="nav-link sidebar-link text-white">
                         <i class="bi bi-exclamation-octagon-fill me-2"></i> Fallas reportadas
