@@ -1,7 +1,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 
-<!-- Primero definimos el título para que layout.jsp lo reciba -->
 <%
     request.setAttribute("titulo", "Inicio");
 %>
@@ -19,10 +18,9 @@
     <link rel="stylesheet" href="css/barraNavegacion.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- 🎨 Fondo gris profesional -->
     <style>
         body {
-            background: #e6e7ea; /* gris claro profesional */
+            background: #e6e7ea; 
         }
     </style>
 </head>
@@ -58,4 +56,10 @@
                     <div class="card-body">
                         <h5 class="card-title">Alertas Activas</h5>
                         <p class="card-text fs-3 fw-bold">4</p>
-                    </d
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

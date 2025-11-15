@@ -3,7 +3,6 @@
 <%@ page import="Modelo.vehiculos" %>
 
 <%
-    /* Para activar el HOVER del menú */
     request.setAttribute("titulo", "Vehículos");
 %>
 
@@ -16,7 +15,6 @@
     <meta charset="UTF-8">
     <title>Gestión de Vehículos</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
@@ -48,7 +46,6 @@
         <i class="bi bi-truck-front me-2"></i>Gestión de Vehículos
     </h2>
 
-    <!-- Botón Agregar -->
     <div class="d-flex justify-content-end mb-3">
         <button class="btn btn-primary shadow-sm"
                 data-bs-toggle="modal"
@@ -58,7 +55,6 @@
         </button>
     </div>
 
-    <!-- Card de Tabla -->
     <div class="card shadow-sm">
         <div class="card-body">
 
@@ -151,7 +147,6 @@
     </div>
 </div>
 
-<!-- Modal Registrar/Editar -->
 <div class="modal fade" id="modalVehiculo" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

@@ -1,20 +1,10 @@
-/*
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
-*/
-/* 
-    Created on : 14 nov. 2025, 5:31:25 p. m.
-    Author     : Raidth
-*/
 
-/* Fondo general para las vistas */
 .vista-contenedor {
     background-color: #f3f4f6;
     min-height: 100vh;
     padding: 30px;
 }
 
-/* Tarjeta central */
 .vista-card {
     background: #ffffff;
     border-radius: 12px;
@@ -22,7 +12,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
-/* Título principal */
 .titulo-vista {
     font-weight: 700;
     font-size: 1.8rem;
@@ -30,7 +19,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     margin-bottom: 25px;
 }
 
-/* Tabla moderna */
 .table-modern {
     border-radius: 10px;
     overflow: hidden;

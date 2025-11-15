@@ -16,7 +16,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
-<!-- FONDO GRIS PROFESIONAL -->
 <body style="background: #e5e6e7;">
 
 <div class="container py-4">
@@ -132,7 +131,6 @@
     </div>
 </div>
 
-<!-- Modal Agregar -->
 <div class="modal fade" id="modalAgregar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

@@ -13,19 +13,15 @@
     <title>Reportes Estadísticos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Charts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* Fondo gris profesional */
         body {
             background-color: #e2e2e2 !important;
         }
 
-        /* Estilo unificado de tarjetas */
         .card {
             background-color: #f5f5f5 !important;
             border-radius: 10px;
@@ -68,7 +64,6 @@
         </div>
     </div>
 
-    <!-- Gráficos -->
     <div class="row g-3">
         <div class="col-md-6">
             <div class="card shadow-sm p-3">

@@ -13,16 +13,13 @@
     <title>Historial de Mantenimientos</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* Fondo gris más notorio */
         body {
             background-color: #e2e2e2 !important;
         }
 
-        /* Card con gris más fuerte para resaltar */
         .card {
             background-color: #f5f5f5 !important;
             border: none;

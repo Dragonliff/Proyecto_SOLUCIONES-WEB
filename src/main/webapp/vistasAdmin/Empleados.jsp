@@ -20,7 +20,7 @@
     <!-- ---- ESTILO PERSONALIZADO DE FONDO Y TARJETAS ---- -->
     <style>
         body {
-            background: #e6e7ea; /* Fondo suave */
+            background: #e6e7ea;
         }
 
         .section-wrapper {
@@ -55,7 +55,6 @@
             background-color: #0d4a90;
         }
 
-        /* MODAL */
         .modal-header {
             background: #155aac;
         }
@@ -67,7 +66,7 @@
     <div class="container py-5">
         <div class="section-wrapper">
 
-            <h2 class="text-center mb-4">Gestión de Empleados (Mecánicos y Conductores)</h2>
+            <h2 class="text-center mb-4">Gestión de Empleados</h2>
 
             <!-- Botón agregar -->
             <div class="text-end mb-3">
@@ -77,7 +76,6 @@
                 </button>
             </div>
 
-            <!-- Tabla -->
             <table class="table table-bordered table-hover align-middle">
                 <thead class="text-center">
                     <tr>

@@ -31,9 +31,8 @@
 
 <body class="bg-light">
 <div class="content-area">
-    <h2 class="text-center mb-4">🔧 Asignación de Herramientas a Mecánicos</h2>
+    <h2 class="text-center mb-4">Asignación de Herramientas</h2>
 
-    <!-- FORMULARIO -->
     <div class="card shadow-sm mb-4">
         <div class="card-header bg-primary text-white fw-bold">Nueva Asignación</div>
         <div class="card-body">
@@ -70,7 +69,6 @@
         </div>
     </div>
 
-    <!-- TABLA -->
     <div class="card shadow-sm">
         <div class="card-header bg-dark text-white fw-bold">Asignaciones Actuales</div>
         <div class="card-body">

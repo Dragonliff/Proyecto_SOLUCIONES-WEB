@@ -12,17 +12,14 @@
     <meta charset="UTF-8">
     <title>Alertas Predictivas</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* Fondo gris profesional */
+        
         body {
             background-color: #e2e2e2 !important;
         }
 
-        /* Cards para alertas */
         .alert-card {
             background-color: #f5f5f5 !important;
             border-left: 6px solid #ffc107;
@@ -57,7 +54,6 @@
         Monitoreo de condiciones críticas y predicciones de fallos en la flota.
     </p>
 
-    <!-- Alerta Próxima -->
     <div class="alert-card d-flex justify-content-between align-items-center">
         <span>
             <span class="alert-title">Camión Volvo A1</span> — requiere mantenimiento en 
@@ -66,7 +62,6 @@
         <span class="badge bg-warning text-dark">Próximo</span>
     </div>
 
-    <!-- Alerta Crítica -->
     <div class="alert-card alert-card-critical d-flex justify-content-between align-items-center">
         <span>
             <span class="alert-title">Excavadora X5</span> — próxima a fallo en 
