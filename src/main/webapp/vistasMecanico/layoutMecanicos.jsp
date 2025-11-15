@@ -133,7 +133,7 @@
             
             <nav id="sidebar" class="sidebar">
                 <div class="sidebar-header">
-                    <span class="fs-4">⚙️ Resiliencia</span>
+                    <span class="fs-4">Panel Mecanico</span>
                 </div>
                 
                 <ul class="nav flex-column mt-1">
@@ -142,16 +142,19 @@
                             <i class="bi bi-list-task"></i> Mis Asignaciones
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="mecanicoMantenimientos.jsp" class="nav-link">
-                            <i class="bi bi-hammer"></i> Mantenimientos
-                        </a>
-                    </li>
+                    
                     <li class="nav-item">
                         <a href="<%= request.getContextPath() %>/UsosHerramientasServlet?accion=Listar" class="nav-link">
-                            <i class="bi bi-box-seam"></i> Inventario
+                            <i class="bi bi-box-seam"></i> Reporte 
                         </a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a href="vistasMecanico/mecanicoMantenimientos.jsp" class="nav-link">
+                            <i class="bi bi-hammer"></i> Alertas
+                        </a>
+                    </li>
+
                     <li class="nav-item mt-4 pt-2 border-top">
                         <a href="<%= request.getContextPath() %>/CerrarSesionServlet" class="nav-link text-danger">
                             <i class="bi bi-box-arrow-right"></i> Cerrar Sesión

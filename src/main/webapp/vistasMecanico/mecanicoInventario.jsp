@@ -26,7 +26,7 @@
     <div> 
         
         <h1 class="display-6 fw-bold mb-0 text-primary text-center">
-            <i class="bi bi-tools me-2"></i>Gestión de Inventario y Uso
+            <i class="bi bi-tools me-2"></i>Registrar Reporte Uso
         </h1>
         <div class="border-bottom pb-4 mb-4"></div>
 
@@ -36,7 +36,6 @@
                 <i class="bi bi-journal-check me-2"></i>Registrar Nuevo Uso de Herramienta
             </h4>
             
-            <%-- Mostrar mensajes de feedback --%>
             <% if (mensaje != null) { %>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="bi bi-check-circle-fill me-2"></i><%= mensaje %>

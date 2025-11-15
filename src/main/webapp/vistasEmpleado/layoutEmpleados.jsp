@@ -137,7 +137,7 @@
         <div class="d-flex w-50">
             <nav class="sidebar">
                 <div class="sidebar-header">
-                    <i class="bi bi-person-workspace me-2"></i> Panel Empleado
+                    <i class="bi bi-person-workspace me-2"></i> Panel Conductor
                 </div>
 
                 <ul class="nav flex-column p-3 flex-grow-0">
@@ -155,7 +155,7 @@
 
                     <li class="nav-item">
                         <a href="<%= request.getContextPath() %>/vistasEmpleado/empleadoMantenimientos.jsp" class="nav-link">
-                            <i class="bi bi-tools"></i> Mantenimientos
+                            <i class="bi bi-tools"></i> Alertas
                         </a>
                     </li>
                 </ul>
