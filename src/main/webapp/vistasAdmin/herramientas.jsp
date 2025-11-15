@@ -16,7 +16,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
-<body class="bg-light">
+<!-- FONDO GRIS PROFESIONAL -->
+<body style="background: #e5e6e7;">
+
 <div class="container py-4">
     <h2 class="text-center mb-4 fw-bold">
         <i class="bi bi-tools me-2"></i>Gestión de Herramientas
@@ -119,12 +121,12 @@
                         </div>
                     </div>
                 <%
-                    } // fin del for
+                    }
                 %>
                 </tbody>
             </table>
             <%
-                } // fin del else
+                }
             %>
         </div>
     </div>
