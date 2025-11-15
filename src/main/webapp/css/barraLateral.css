@@ -1,0 +1,55 @@
+/*
+ * Archivo: barraLateral.css
+ * Estilos profesionales para el sidebar del sistema de gestión.
+ */
+
+/* Estilos para el contenedor principal */
+.sidebar-pro {
+    /* Sombra sutil para darle profundidad */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); 
+}
+
+/* Estilos base para todos los enlaces */
+.sidebar-link {
+    /* Relleno vertical para mejor área de clic */
+    padding-top: 0.6rem !important; 
+    padding-bottom: 0.6rem !important;
+    /* Transición suave para los efectos hover/active */
+    transition: background-color 0.2s, color 0.2s; 
+    /* Bordes sutilmente redondeados */
+    border-radius: 5px;
+    outline: none; /* Elimina el borde de enfoque por defecto */
+}
+
+/* Hover mejorado */
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.15); /* Fondo más notorio */
+    color: #0dcaf0 !important; /* Celeste moderno */
+    padding-left: 18px !important; /* Efecto desplazamiento */
+    transition: all 0.25s ease-in-out;
+}
+
+/* Hover también aplica al ícono */
+.sidebar-link:hover i {
+    color: #0dcaf0 !important;
+}
+
+
+/* Estilo para el enlace ACTIVO (la página que estás viendo) */
+.sidebar-link.active-link {
+    background-color: #0d6efd !important; /* Azul primario de Bootstrap para destacar */
+    color: #ffffff !important;
+    font-weight: bold;
+}
+
+/* Estilo para el enlace de Cerrar Sesión */
+.logout-link {
+    color: #dc3545 !important; /* Rojo para destacar la acción */
+}
+
+/* Efecto hover específico para Cerrar Sesión */
+.logout-link:hover {
+    background-color: #dc3545 !important; 
+    color: #ffffff !important; 
+}
+

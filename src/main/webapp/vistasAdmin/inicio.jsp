@@ -1,17 +1,30 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ include file="layout.jsp" %>
-<%@ include file="../seguridad.jsp" %>
+<%@ page import="java.util.List" %>
+
+<!-- Primero definimos el título para que layout.jsp lo reciba -->
 <%
     request.setAttribute("titulo", "Inicio");
 %>
+
+<%@ include file="layout.jsp" %>
+<%@ include file="../seguridad.jsp" %>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Sistema Web de Resiliencia Operativa</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="css/barraNavegacion.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 🎨 Fondo gris profesional -->
+    <style>
+        body {
+            background: #e6e7ea; /* gris claro profesional */
+        }
+    </style>
 </head>
 
 <body>
@@ -45,12 +58,4 @@
                     <div class="card-body">
                         <h5 class="card-title">Alertas Activas</h5>
                         <p class="card-text fs-3 fw-bold">4</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+                    </d
