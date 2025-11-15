@@ -15,7 +15,8 @@
                 --primary-color: #0077B6; /* Azul Oscuro */
                 --accent-color: #48CAE4; /* Azul Claro/Cian */
                 --bg-light: #F8F9FA;
-                --text-dark: #343A40;
+                --text-dark: #343A40 ;
+                
             }
 
             /* Estilos del Body: Flexbox con ancho total y fondo claro */
@@ -25,7 +26,7 @@
                 color: var(--text-dark);
                 min-height: 100vh;
                 display: flex;
-                width: 100%; /* Cambiado de 90% a 100% para evitar scroll horizontal innecesario */
+                width:85%;
                 overflow-x: hidden;
             }
 
@@ -133,44 +134,43 @@
     
     <body>
         
-        <div class="sidebar d-flex flex-column">
-            
-            <div class="sidebar-header">
-                <i class="bi bi-person-workspace me-2"></i>
-                Panel Empleado
-            </div>
-            
-            <ul class="nav flex-column p-3 flex-grow-0">
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/EmpleadoAsignacionesServlet" 
-                       class="nav-link">
-                       <i class="bi bi-box-seam"></i>Mis Máquinas
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<%= request.getContextPath() %>/UsoVehiculoServlet?accion=reporte" 
-                       class="nav-link">
-                       <i class="bi bi-file-earmark-bar-graph"></i>Reporte
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<%= request.getContextPath() %>/vistasEmpleado/empleadoMantenimientos.jsp" 
-                       class="nav-link">
-                       <i class="bi bi-tools"></i>Mantenimientos
-                    </a>
-                </li>
-            </ul>
-            
-            <hr class="mx-3">
+        <div class="d-flex w-50">
+            <nav class="sidebar">
+                <div class="sidebar-header">
+                    <i class="bi bi-person-workspace me-2"></i> Panel Empleado
+                </div>
 
-            <div class="p-3">
-                <a href="<%= request.getContextPath() %>/CerrarSesionServlet" 
-                   class="nav-link logout-link text-center">
-                   <i class="bi bi-box-arrow-right"></i>Cerrar Sesión
-                </a>
-            </div>
-            
-            <div class="p-3 text-center text-muted small mt-auto">© 2025 Resiliencia</div>
+                <ul class="nav flex-column p-3 flex-grow-0">
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/EmpleadoAsignacionesServlet" class="nav-link">
+                            <i class="bi bi-box-seam"></i> Mis Máquinas
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="<%= request.getContextPath() %>/UsoVehiculoServlet?accion=reporte" class="nav-link">
+                            <i class="bi bi-file-earmark-bar-graph"></i> Reporte
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="<%= request.getContextPath() %>/vistasEmpleado/empleadoMantenimientos.jsp" class="nav-link">
+                            <i class="bi bi-tools"></i> Mantenimientos
+                        </a>
+                    </li>
+                </ul>
+
+                <hr class="mx-3">
+
+                <div class="p-3">
+                    <a href="<%= request.getContextPath() %>/CerrarSesionServlet"
+                       class="nav-link logout-link text-center">
+                        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                    </a>
+                </div>
+
+                <div class="p-3 text-center text-muted small mt-auto">© 2025 Resiliencia</div>
+            </nav>
         </div>
     </body>
 </html>
