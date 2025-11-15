@@ -39,11 +39,11 @@
                         btnTexto = "Volver al Panel de Administración";
                     } else if (idRol == 2) { // MECÁNICO
                         // Ajusta esta ruta cuando crees la carpeta vistasMecanico
-                        volverUrl = contextPath + "/vistasMecanico/mecanico.jsp";
+                        volverUrl = contextPath + "/HerramientasMecanicoServlet";
                         btnTexto = "Volver al Panel de Mecánica";
                     } else if (idRol == 3) { // CONDUCTOR (vistasEmpleado)
                         // RUTA CORREGIDA: Usando contextPath + /vistasEmpleado/empleadoMaquinas.jsp
-                        volverUrl = contextPath + "/vistasEmpleado/empleadoMaquinas.jsp";
+                        volverUrl = contextPath + "/EmpleadoAsignacionesServlet";
                         btnTexto = "Volver al Panel de Conducción";
                     }
                 }

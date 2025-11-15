@@ -85,6 +85,19 @@ public class AsignacionConductorVehiculoServlet extends HttpServlet {
                 int idVehiculo = Integer.parseInt(request.getParameter("idVehiculo"));
                 Date fechaInicio = new Date();
 
+                // 🛑 VALIDACIÓN: evitar duplicar asignación activa
+                if (dao.existeAsignacionActiva(idConductor, idVehiculo)) {
+                    request.setAttribute("errorMensaje", "Este conductor ya tiene asignado este vehículo actualmente.");
+
+                    request.setAttribute("listaAsignaciones", dao.listarTodas());
+                    request.setAttribute("listaConductores", conductorDAO.listarTodos());
+                    request.setAttribute("listaVehiculos", vehiculoDAO.listarOperativos());
+
+                    request.getRequestDispatcher("vistasAdmin/asignaciones.jsp").forward(request, response);
+                    return;
+                }
+
+                // ✔ SI NO EXISTE, crear la asignación
                 asignaciones_conductor_vehiculo asignacion = new asignaciones_conductor_vehiculo();
                 asignacion.setIdConductor(idConductor);
                 asignacion.setIdVehiculo(idVehiculo);

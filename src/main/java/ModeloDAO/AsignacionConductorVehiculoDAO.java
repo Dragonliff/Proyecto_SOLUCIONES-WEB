@@ -35,6 +35,10 @@ public class AsignacionConductorVehiculoDAO {
         "FROM asignaciones_conductor_vehiculo a " +
         "JOIN vehiculos v ON a.idVehiculo = v.idVehiculo " +
         "WHERE a.idConductor = ? AND a.estado = 'Activa'";
+    
+    private static final String SQL_EXISTE_ASIGNACION_ACTIVA =
+    "SELECT COUNT(*) FROM asignaciones_conductor_vehiculo " +
+    "WHERE idConductor = ? AND idVehiculo = ? AND estado = 'Activa'";
 
     public boolean crear(asignaciones_conductor_vehiculo asignacion) {
         Connection con = null;
@@ -267,5 +271,24 @@ public class AsignacionConductorVehiculoDAO {
         }
 
         return lista;
+    }
+    
+    public boolean existeAsignacionActiva(int idConductor, int idVehiculo) {
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(SQL_EXISTE_ASIGNACION_ACTIVA)) {
+
+            ps.setInt(1, idConductor);
+            ps.setInt(2, idVehiculo);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Error comprobando asignación activa: " + e.getMessage());
+        }
+        return false;
     }
 }

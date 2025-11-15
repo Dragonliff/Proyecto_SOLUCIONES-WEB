@@ -28,7 +28,7 @@ public class UsoVehiculoServlet extends HttpServlet {
         Object idConductorObj = session.getAttribute("idConductor");
 
         if (idConductorObj == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
             return;
         }
 
@@ -56,7 +56,7 @@ public class UsoVehiculoServlet extends HttpServlet {
         Object idConductorObj = session.getAttribute("idConductor");
 
         if (idConductorObj == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
             return;
         }
 
