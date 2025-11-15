@@ -2,7 +2,7 @@
 <%@ page import="Modelo.herramientas" %>
 <%@ page import="Modelo.usos_herramientas" %>
 <%@ page import="java.util.List" %>
-<%@ include file="/seguridad.jsp" %>
+<%@ include file="../seguridad.jsp" %>
 <%@ include file="layoutMecanicos.jsp" %>
 <%
     // *****************************************************************

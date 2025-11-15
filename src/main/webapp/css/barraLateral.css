@@ -37,7 +37,6 @@
 
 /* Estilo para el enlace ACTIVO (la página que estás viendo) */
 .sidebar-link.active-link {
-    background-color: #0d6efd !important; /* Azul primario de Bootstrap para destacar */
     color: #ffffff !important;
     font-weight: bold;
 }
