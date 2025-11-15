@@ -28,9 +28,9 @@
                 color: var(--text-dark);
                 min-height: 100vh;
                 display: flex;
-                width: 95%;
+                width: 90%;
                 overflow-x: hidden;
-                margin: 0; /* Asegura que no haya márgenes externos */
+
             }
 
             /* 1. Estilos del Sidebar/Navegación */
@@ -130,7 +130,7 @@
     </head>
     
     <body>
-        <div class="d-flex w-100"> 
+        <div class="d-flex w-50"> 
             
             <nav id="sidebar" class="sidebar">
                 <div class="sidebar-header">

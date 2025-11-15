@@ -12,7 +12,7 @@
      * y el padding crea los márgenes laterales.
      */
     .mechanic-dashboard {
-        width: 275%; /* Asegura que el contenedor ocupe el 100% del espacio asignado */
+        width: 150%; /* Asegura que el contenedor ocupe el 100% del espacio asignado */
     }
     
     /* Sección de Bienvenida */

@@ -20,18 +20,8 @@
     List<herramientas> herramientasAsignadas = (List<herramientas>) request.getAttribute("herramientasAsignadas");
 %>
 
-<style>
-    #contenido-centrado {
-        /* Define un ancho máximo para el contenido (ajusta si es necesario) */
-        max-width: 1200px; 
-        /* Centrado definitivo: establece margen superior/inferior en 0 y horizontal en automático */
-        margin: 0 auto;    
-        /* Asegura que no interfieran float anteriores */
-        float: none;
-    }
-</style>
 
-<div id="contenido-centrado" class="py-4 px-4"> 
+<div id="contenido-centrado" class="py-2 px-4"> 
     
     <div> 
         
