@@ -107,9 +107,9 @@ public class AsignacionConductorVehiculoServlet extends HttpServlet {
 
                 if (creada) {
                     vehiculoDAO.cambiarEstado(idVehiculo, "Ocupado");
-                    System.out.println("✅ Asignación creada correctamente.");
+                    System.out.println(" Asignación creada correctamente.");
                 } else {
-                    System.out.println("⚠️ No se pudo crear la asignación.");
+                    System.out.println(" No se pudo crear la asignación.");
                 }
 
                 response.sendRedirect("AsignacionConductorVehiculoServlet?accion=listar");

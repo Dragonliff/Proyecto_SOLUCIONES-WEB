@@ -276,4 +276,38 @@ public class VehiculoDAO {
         
         return v;
     }
+    
+    public List<vehiculos> listarVehiculosPorConductor(int idConductor) {
+        List<vehiculos> lista = new ArrayList<>();
+
+        String sql = "SELECT v.* FROM vehiculos v " +
+                     "INNER JOIN asignaciones_conductor_vehiculo a ON v.idVehiculo = a.idVehiculo " +
+                     "WHERE a.idConductor = ? AND a.estado = 'Activa'";
+
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idConductor);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    vehiculos v = new vehiculos();
+                    v.setIdVehiculo(rs.getInt("idVehiculo"));
+                    v.setPlaca(rs.getString("placa"));
+                    v.setMarca(rs.getString("marca"));
+                    v.setModelo(rs.getString("modelo"));
+                    v.setAnio(rs.getInt("anio"));
+                    v.setTipoVehiculo(rs.getString("tipoVehiculo"));
+                    v.setKilometrajeActual(rs.getDouble("kilometrajeActual"));
+                    v.setEstado(rs.getString("estado"));
+
+                    lista.add(v);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al listar vehículos del conductor: " + e.getMessage());
+        }
+
+        return lista;
+    }
 }

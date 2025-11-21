@@ -14,6 +14,11 @@ public class usos_vehiculos {
     private double horasUso;
     private double kmRecorridos;
     private String descripcion;
+    
+    private String tipoCombustible;
+    private Double litros;
+    private Double precioLitro;
+    private Double costoTotal;
 
     public usos_vehiculos(int idUso, int idVehiculo, int idConductor, Timestamp fecha, double horasUso, double kmRecorridos, String descripcion) {
         this.idUso = idUso;
@@ -23,6 +28,20 @@ public class usos_vehiculos {
         this.horasUso = horasUso;
         this.kmRecorridos = kmRecorridos;
         this.descripcion = descripcion;
+    }
+
+    public usos_vehiculos(int idUso, int idVehiculo, int idConductor, Timestamp fecha, double horasUso, double kmRecorridos, String descripcion, String tipoCombustible, Double litros, Double precioLitro, Double costoTotal) {
+        this.idUso = idUso;
+        this.idVehiculo = idVehiculo;
+        this.idConductor = idConductor;
+        this.fecha = fecha;
+        this.horasUso = horasUso;
+        this.kmRecorridos = kmRecorridos;
+        this.descripcion = descripcion;
+        this.tipoCombustible = tipoCombustible;
+        this.litros = litros;
+        this.precioLitro = precioLitro;
+        this.costoTotal = costoTotal;
     }
 
     public int getIdUso() {
@@ -81,4 +100,37 @@ public class usos_vehiculos {
         this.descripcion = descripcion;
     }
 
+    public String getTipoCombustible() {
+        return tipoCombustible;
+    }
+
+    public void setTipoCombustible(String tipoCombustible) {
+        this.tipoCombustible = tipoCombustible;
+    }
+
+    public Double getLitros() {
+        return litros;
+    }
+
+    public void setLitros(Double litros) {
+        this.litros = litros;
+    }
+
+    public Double getPrecioLitro() {
+        return precioLitro;
+    }
+
+    public void setPrecioLitro(Double precioLitro) {
+        this.precioLitro = precioLitro;
+    }
+
+    public Double getCostoTotal() {
+        return costoTotal;
+    }
+
+    public void setCostoTotal(Double costoTotal) {
+        this.costoTotal = costoTotal;
+    }
+
+    
 }

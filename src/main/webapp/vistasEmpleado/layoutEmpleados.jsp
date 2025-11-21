@@ -151,6 +151,17 @@
                             <i class="bi bi-tools"></i> Alertas
                         </a>
                     </li>
+                    
+                    <li class="nav-item">
+                        <a href="<%= request.getContextPath() %>/ReemplazoServlet?accion=nuevo" class="nav-link">
+                            <i class="bi bi-arrow-repeat"></i> Solicitar Reemplazo
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">                     
+                       <a href="${pageContext.request.contextPath}/UsoVehiculoServlet?accion=historial" class="nav-link">
+                        <i class="bi bi-arrow-repeat"></i>historial de uso</a>
+                    </li>
                 </ul>
 
                 <hr class="mx-3">
@@ -161,7 +172,7 @@
                         <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
                     </a>
                 </div>
-
+                               
                 <div class="p-3 text-center text-muted small mt-auto">© 2025 Resiliencia</div>
             </nav>
         </div>

@@ -35,17 +35,33 @@ public class UsoVehiculoServlet extends HttpServlet {
         int idConductor = Integer.parseInt(idConductorObj.toString());
 
         if ("reporte".equals(accion)) {
+
             List<vehiculos> vehiculosAsignados = dao.listarVehiculosPorConductor(idConductor);
             Map<Integer, usos_vehiculos> usosActivos = dao.obtenerUsosActivosPorConductor(idConductor);
 
             request.setAttribute("vehiculosAsignados", vehiculosAsignados);
             request.setAttribute("usosActivos", usosActivos);
 
-            request.getRequestDispatcher("vistasEmpleado/empleadoReporte.jsp").forward(request, response);
-        } else {
-                    response.sendRedirect("vistasEmpleado/empleadoReporte.jsp");
-                }
-            }
+            request.getRequestDispatcher("vistasEmpleado/empleadoReporte.jsp")
+                   .forward(request, response);
+            return;
+        }
+
+        else if ("historial".equals(accion)) {
+
+            List<usos_vehiculos> historial = dao.listarUsosPorConductor(idConductor);
+
+            request.setAttribute("historial", historial);
+
+            request.getRequestDispatcher("vistasEmpleado/historialUsoConductor.jsp")
+                   .forward(request, response);
+            return;
+        }
+
+        else {
+            response.sendRedirect("vistasEmpleado/empleadoReporte.jsp");
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -67,9 +83,13 @@ public class UsoVehiculoServlet extends HttpServlet {
             dao.registrarInicioUso(idVehiculo, idConductor);
         } else if ("finalizar".equals(accion)) {
             int idUso = Integer.parseInt(request.getParameter("idUso"));
-            double kmRecorridos = Double.parseDouble(request.getParameter("kmRecorridos"));
-            String observaciones = request.getParameter("observaciones");
-            dao.registrarFinUso(idUso, kmRecorridos, observaciones);
+            double kmRec = Double.parseDouble(request.getParameter("kmRecorridos"));
+            String obs = request.getParameter("observaciones");
+            String tipoComb = request.getParameter("tipoCombustible");
+            double litros = Double.parseDouble(request.getParameter("litros"));
+            double precioLitro = Double.parseDouble(request.getParameter("precioLitro"));
+
+            dao.registrarFinUso(idUso, kmRec, obs, tipoComb, litros, precioLitro);
         }
 
         response.sendRedirect(request.getContextPath() + "/UsoVehiculoServlet?accion=reporte");

@@ -33,21 +33,36 @@ public class UsoVehiculoDAO {
         }
     }
     
-    public boolean registrarFinUso(int idUso, double kmRecorridos, String descripcion) {
+    public boolean registrarFinUso(int idUso, double kmRecorridos, String descripcion,
+                                   String tipoCombustible, double litros, double precioLitro) {
+
         String sql = "UPDATE usos_vehiculos "
-                   + "SET kmRecorridos = ?, descripcion = ?, "
+                   + "SET kmRecorridos = ?, "
+                   + "descripcion = ?, "
+                   + "tipoCombustible = ?, "
+                   + "litros = ?, "
+                   + "precioLitro = ?, "
+                   + "costoTotal = ?, "
                    + "horasUso = ROUND(TIMESTAMPDIFF(MINUTE, fecha, NOW()) / 60, 2) "
                    + "WHERE idUso = ?";
+
         try {
             con = Conexion.getConexion();
             ps = con.prepareStatement(sql);
+
             ps.setDouble(1, kmRecorridos);
             ps.setString(2, descripcion);
-            ps.setInt(3, idUso);
+            ps.setString(3, tipoCombustible);
+            ps.setDouble(4, litros);
+            ps.setDouble(5, precioLitro);
+            ps.setDouble(6, litros * precioLitro); // 👈 AQUÍ se calcula el costo total
+            ps.setInt(7, idUso);
+
             ps.executeUpdate();
             return true;
+
         } catch (SQLException e) {
-            System.out.println("Error al registrar fin de uso: " + e.getMessage());
+            System.out.println("ERROR al registrar fin de uso: " + e.getMessage());
             return false;
         }
     }
@@ -68,7 +83,11 @@ public class UsoVehiculoDAO {
                     rs.getTimestamp("fecha"),
                     rs.getDouble("horasUso"),
                     rs.getDouble("kmRecorridos"),
-                    rs.getString("descripcion")
+                    rs.getString("descripcion"),
+                    rs.getString("tipoCombustible"),
+                    rs.getDouble("litros"),
+                    rs.getDouble("precioLitro"),
+                    rs.getDouble("costoTotal")
                 );
                 return u;
             }
@@ -94,7 +113,11 @@ public class UsoVehiculoDAO {
                     rs.getTimestamp("fecha"),
                     rs.getDouble("horasUso"),
                     rs.getDouble("kmRecorridos"),
-                    rs.getString("descripcion")
+                    rs.getString("descripcion"),
+                    rs.getString("tipoCombustible"),
+                    rs.getDouble("litros"),
+                    rs.getDouble("precioLitro"),
+                    rs.getDouble("costoTotal")
                 );
                 lista.add(u);
             }
@@ -154,7 +177,11 @@ public class UsoVehiculoDAO {
                     rs.getTimestamp("fecha"),
                     rs.getDouble("horasUso"),
                     rs.getDouble("kmRecorridos"),
-                    rs.getString("descripcion")
+                    rs.getString("descripcion"),
+                    rs.getString("tipoCombustible"),
+                    rs.getDouble("litros"),
+                    rs.getDouble("precioLitro"),
+                    rs.getDouble("costoTotal")
                 );
 
                 mapa.put(uso.getIdVehiculo(), uso);

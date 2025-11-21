@@ -60,11 +60,36 @@
                                 <label>Kilómetros recorridos:</label>
                                 <input type="number" step="0.1" name="kmRecorridos" class="form-control" required>
                             </div>
+
                             <div class="form-group mt-2">
                                 <label>Observaciones:</label>
                                 <input type="text" name="observaciones" class="form-control" required>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-2">Guardar</button>
+
+                            <div class="form-group mt-2">
+                                <label>Tipo de combustible:</label>
+                                <select name="tipoCombustible" class="form-control" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="Gasolina 90">Gasolina 90</option>
+                                    <option value="Gasolina 95">Gasolina 95</option>
+                                    <option value="Gasolina 97">Gasolina 97</option>
+                                    <option value="Diésel">Diésel</option>
+                                    <option value="GLP">GLP</option>
+                                    <option value="GNV">GNV</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label>Litros consumidos:</label>
+                                <input type="number" step="0.01" name="litros" class="form-control" required>
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label>Precio por litro (S/):</label>
+                                <input type="number" step="0.01" name="precioLitro" class="form-control" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary mt-3">Guardar</button>
                         </form>
                     <% } %>
                 </td>
@@ -80,6 +105,4 @@ function mostrarFormulario(idUso) {
 }
 </script>
 
-</body>
-</html>
 

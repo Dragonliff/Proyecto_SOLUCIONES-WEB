@@ -40,7 +40,7 @@ public class AsignacionHerramientaServlet extends HttpServlet {
             request.setAttribute("listaAsignaciones", dao.listar());
             request.setAttribute("listaMecanicos", dao.listarMecanicos());
             request.setAttribute("listaHerramientas", dao.listarHerramientas());
-            request.getRequestDispatcher("vistasAdmin/asignacionesHerramientas.jsp").forward(request, response);
+            request.getRequestDispatcher("vistasAdmin/asignacionesherramientas.jsp").forward(request, response);
 
         } catch (Exception e) {
             e.printStackTrace();

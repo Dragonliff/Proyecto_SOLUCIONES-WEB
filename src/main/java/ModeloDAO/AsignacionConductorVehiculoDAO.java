@@ -291,4 +291,33 @@ public class AsignacionConductorVehiculoDAO {
         }
         return false;
     }
+    
+    public List<vehiculos> listarVehiculosPorConductor(int idConductor) {
+        List<vehiculos> lista = new ArrayList<>();
+
+        String sql = "SELECT v.* FROM asignaciones_conductor_vehiculo a "
+                   + "JOIN vehiculos v ON a.idVehiculo = v.idVehiculo "
+                   + "WHERE a.idConductor = ? AND a.estado = 'Activa'";
+
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, idConductor);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                vehiculos v = new vehiculos();
+                v.setIdVehiculo(rs.getInt("idVehiculo"));
+                v.setPlaca(rs.getString("placa"));
+                v.setMarca(rs.getString("marca"));
+                v.setModelo(rs.getString("modelo"));
+                lista.add(v);
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error listar vehículos por conductor: " + e.getMessage());
+        }
+
+        return lista;
+    }
 }
