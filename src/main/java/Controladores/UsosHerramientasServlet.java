@@ -64,37 +64,52 @@ public class UsosHerramientasServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        
-        Integer idMecanico = (Integer) request.getSession().getAttribute("idMecanico"); 
-        
+
+        Integer idMecanico = (Integer) request.getSession().getAttribute("idMecanico");
+
         if (idMecanico == null) {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             return;
         }
-        
+
         String accion = request.getParameter("accion");
-        
-        if (accion == null || "Listar".equals(accion)) {
-            
-            List<usos_herramientas> listaUsos = usosDao.listarUsos(); 
-            request.setAttribute("registrosUso", listaUsos);
-            
-            List<herramientas> herramientasAsignadas = herramientaDao.listarPorMecanico(idMecanico);
-            request.setAttribute("herramientasAsignadas", herramientasAsignadas); 
 
-            if (request.getSession().getAttribute("mensaje") != null) {
-                request.setAttribute("mensaje", request.getSession().getAttribute("mensaje"));
-                request.getSession().removeAttribute("mensaje");
-            }
-            if (request.getSession().getAttribute("error") != null) {
-                request.setAttribute("error", request.getSession().getAttribute("error"));
-                request.getSession().removeAttribute("error");
-            }
+        if (accion == null) {
+            accion = "Listar";
+        }
 
-            request.getRequestDispatcher("/vistasMecanico/mecanicoInventario.jsp").forward(request, response);
-            
-        } else {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Acción no válida.");
+        switch (accion) {
+
+            case "Listar":
+                List<usos_herramientas> listaUsos = usosDao.listarUsosPorMecanico(idMecanico);
+                request.setAttribute("registrosUso", listaUsos);
+
+                List<herramientas> herramientasAsignadas = herramientaDao.listarPorMecanico(idMecanico);
+                request.setAttribute("herramientasAsignadas", herramientasAsignadas);
+
+                // Pasar mensajes
+                if (request.getSession().getAttribute("mensaje") != null) {
+                    request.setAttribute("mensaje", request.getSession().getAttribute("mensaje"));
+                    request.getSession().removeAttribute("mensaje");
+                }
+                if (request.getSession().getAttribute("error") != null) {
+                    request.setAttribute("error", request.getSession().getAttribute("error"));
+                    request.getSession().removeAttribute("error");
+                }
+
+                request.getRequestDispatcher("/vistasMecanico/mecanicoInventario.jsp").forward(request, response);
+                break;
+
+            case "Historial":
+                List<usos_herramientas> historial = usosDao.listarUsosPorMecanico(idMecanico);
+                request.setAttribute("registrosUso", historial);
+
+                request.getRequestDispatcher("vistasMecanico/historialderegistros.jsp").forward(request, response);
+                break;
+
+            default:
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Acción no válida.");
+                break;
         }
     }
 }

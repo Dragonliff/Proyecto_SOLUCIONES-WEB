@@ -82,4 +82,31 @@ public class UsosHerramientasDAO {
         }
         return lista;
     }
+    
+    public List<usos_herramientas> listarUsosPorMecanico(int idMecanico) {
+        List<usos_herramientas> lista = new ArrayList<>();
+        String sql = "SELECT * FROM usos_herramientas WHERE idMecanico=? ORDER BY fecha DESC";
+
+        try {
+            con = Conexion.getConexion();
+
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idMecanico);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                usos_herramientas u = new usos_herramientas();
+                u.setIdUso(rs.getInt("idUso"));
+                u.setIdHerramienta(rs.getInt("idHerramienta"));
+                u.setHorasUso(rs.getDouble("horasUso"));
+                u.setObservaciones(rs.getString("observaciones"));
+                u.setFecha(rs.getTimestamp("fecha"));
+
+                lista.add(u);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
 }

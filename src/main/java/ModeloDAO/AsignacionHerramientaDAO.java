@@ -153,7 +153,7 @@ public class AsignacionHerramientaDAO {
                 h.setIdHerramienta(rs.getInt("idHerramienta"));
                 h.setNombre(rs.getString("nombre"));
                 h.setTipo(rs.getString("tipo"));
-                h.setEstado(rs.getString("estado"));
+                h.setEstado(rs.getString("estadoHerramienta"));
                 a.setHerramienta(h);
                 lista.add(a);
             }

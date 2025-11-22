@@ -146,6 +146,18 @@
                     </li>
                     
                     <li class="nav-item">
+                        <a href="<%= request.getContextPath() %>/UsosHerramientasServlet?accion=Historial" class="nav-link">
+                            <i class="bi bi-clock-history"></i> Historial
+                               </a>
+                     </li>
+                     
+                     <li class="nav-item">
+                        <a href="<%= request.getContextPath() %>/ReemplazoHerramientaServlet?accion=listar" class="nav-link">
+                            <i class="bi bi-arrow-left-right"></i> Solicitar Reemplazo
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
                         <a href="vistasMecanico/mecanicoMantenimientos.jsp" class="nav-link">
                             <i class="bi bi-hammer"></i> Alertas
                         </a>
