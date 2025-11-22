@@ -23,6 +23,90 @@
     .contenedor {
         width: 150%;
     }
+    .vehicle-card {
+        width: 350px;          /* Tamaño ideal como la imagen que mostraste */
+        background: #fff;
+        border-radius: 14px;
+        padding: 26px 30px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .vehicle-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .vehicle-left {
+        display: flex;
+        align-items: center;
+    }
+
+    .vehicle-icon {
+        width: 52px;
+        height: 52px;
+        background: #eef4ff;
+        border-radius: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        color: #4f6df5;
+    }
+
+    .vehicle-title {
+        margin-left: 15px;
+    }
+
+    .vehicle-title h5 {
+        margin: 0;
+        font-weight: 700;
+        font-size: 20px;
+        color: #000;
+    }
+
+    .vehicle-sub {
+        font-size: 14px;
+        color: #6c757d;
+    }
+
+    .vehicle-status {
+        font-size: 14px;
+        padding: 5px 14px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+
+    /* MISMO ESTILO DE LA FOTO PARA LOS CAMPOS */
+    .field-label {
+        font-size: 13px;
+        color: #7a7a7a;
+        margin-bottom: 2px;
+    }
+
+    .field-value {
+        font-weight: 700;
+        font-size: 15px;
+        color: #000;
+        margin-bottom: 14px;
+    }
+
+    .vehicle-info {
+        margin-top: 22px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .vehicle-info-col {
+        width: 48%;
+    }
+    
+    .vehicle-list {
+        display: flex;
+        flex-wrap: wrap;      /* <-- permite que bajen */
+        gap: 20px;            /* <-- separación entre tarjetas */
+        justify-content: center; /* <-- centrado opcional */
+    }
 </style>
 
 <div class="contenedor pt-4 pb-5">
@@ -41,52 +125,96 @@
             </div>
         <%
             } else {
+        %>
+
+        <!-- CONTENEDOR FLEX PARA TARJETAS -->
+        <div class="vehicle-list">
+        <%
                 for (asignaciones_conductor_vehiculo a : listaAsignaciones) {
 
                     String estado = a.getEstado();
                     String estadoClase = (estado != null && estado.equalsIgnoreCase("Activa"))
                                         ? "success" : "secondary";
-        %>
+                        // ICONO SEGÚN TIPO DE VEHÍCULO
+                    String icono = "🚚"; // default
+                if (a.getTipoVehiculo() != null) {
+                    switch (a.getTipoVehiculo().toLowerCase()) {
+                        case "camioneta":
+                            icono = "🚙";
+                            break;
+                        case "camión":
+                        case "camion":
+                            icono = "🚛";
+                            break;
+                        case "auto":
+                            icono = "🚗";
+                            break;
+                        case "moto":
+                            icono = "🏍️";
+                            break;
+                        case "maquinaria":
+                            icono = "🚜";
+                            break;
+                    }
+                }
+            %>
 
-            <div class="card mb-3 shadow-sm">
-                <div class="card-body">
+            <div class="vehicle-card">
 
-                    <h5 class="card-title text-primary">
-                        Placa: <%= a.getPlaca() != null ? a.getPlaca() : "N/D" %>
-                        <span class="text-secondary">
-                            (<%= a.getTipoVehiculo() != null ? a.getTipoVehiculo() : "Tipo N/D" %>)
+                <!-- PARTE SUPERIOR -->
+                <div class="vehicle-top">
+
+                    <!-- IZQUIERDA: icono + placa + tipo -->
+                    <div class="vehicle-left">
+                        <div class="vehicle-icon"><%= icono %></div>
+
+                        <div class="vehicle-title">
+                            <h5><%= a.getPlaca() %></h5>
+                            <div class="vehicle-sub">
+                                <%= a.getTipoVehiculo() %>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DERECHA: Estado (arriba como la foto) -->
+                    <div>
+                        <span class="vehicle-status badge bg-<%= estadoClase %>">
+                            <%= a.getEstado() %>
                         </span>
-                    </h5>
-
-                    <p class="card-text mb-1"><strong>Marca:</strong> 
-                        <%= a.getMarca() != null ? a.getMarca() : "N/D" %>
-                    </p>
-
-                    <p class="card-text mb-1"><strong>Modelo:</strong> 
-                        <%= a.getModelo() != null ? a.getModelo() : "N/D" %>
-                    </p>
-
-                    <p class="card-text mb-1"><strong>Año:</strong> <%= a.getAnio() %></p>
-
-                    <hr>
-
-                    <p class="card-text">
-                        <strong>Fecha Inicio:</strong> 
-                        <%= a.getFechaInicio() != null ? a.getFechaInicio() : "-" %> 
-                        <br>
-
-                        <strong>Fecha Fin:</strong> 
-                        <%= a.getFechaFin() != null ? a.getFechaFin() : "-" %> 
-                        <br>
-
-                        <strong>Estado:</strong> 
-                        <span class="badge bg-<%= estadoClase %>">
-                            <%= estado != null ? estado : "N/D" %>
-                        </span>
-                    </p>
+                    </div>
 
                 </div>
+
+                <!-- INFORMACIÓN CENTRO (dos columnas como la foto) -->
+                <div class="vehicle-info">
+
+                    <!-- Columna izquierda -->
+                    <div class="vehicle-info-col">
+                        <div class="field-label">Marca</div>
+                        <div class="field-value"><%= a.getMarca() %></div>
+
+                        <div class="field-label">Modelo</div>
+                        <div class="field-value"><%= a.getModelo() %></div>
+
+                        <div class="field-label">Año</div>
+                        <div class="field-value"><%= a.getAnio() %></div>
+                    </div>
+
+                    <!-- Columna derecha -->
+                    <div class="vehicle-info-col">
+                        <div class="field-label">Fecha Inicio</div>
+                        <div class="field-value"><%= a.getFechaInicio() %></div>
+
+                        <div class="field-label">Fecha Fin</div>
+                        <div class="field-value">
+                            <%= a.getFechaFin() != null ? a.getFechaFin() : "-" %>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
+
 
         <%
                 }
