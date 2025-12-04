@@ -51,6 +51,14 @@
                        <i class="bi bi-truck me-2"></i> Proveedores
                    </a>
                </li>
+               
+               <li>
+                    <a href="<%= request.getContextPath() %>/AdminSolicitudesReemplazoServlet?accion=listar"
+                       class="nav-link sidebar-link text-white">
+                        <i class="bi bi-file-earmark-text me-2"></i> Solicitudes de Reemplazo
+                    </a>
+                </li>
+
                 
                 <li>
                     <a href="${pageContext.request.contextPath}/AsignacionConductorVehiculoServlet?accion=listar" class="nav-link sidebar-link text-white">
