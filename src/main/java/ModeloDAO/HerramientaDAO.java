@@ -11,10 +11,11 @@ public class HerramientaDAO {
     Connection con;
     PreparedStatement ps;
     ResultSet rs;
+
     
     public List<herramientas> listarPorMecanico(int idMecanico) {
         List<herramientas> lista = new ArrayList<>();
-        String sql = "SELECT h.idHerramienta, h.nombre, h.tipo, h.estado " +
+        String sql = "SELECT h.idHerramienta, h.nombre, h.tipo, h.estado, h.id_proveedor " +
                      "FROM herramientas h INNER JOIN asignaciones_mecanico_herramienta a " +
                      "ON h.idHerramienta = a.idHerramienta " +
                      "WHERE a.idMecanico = ? AND a.estado = 'Activa'"; 
@@ -30,7 +31,8 @@ public class HerramientaDAO {
                     rs.getInt("idHerramienta"),
                     rs.getString("nombre"),
                     rs.getString("tipo"),
-                    rs.getString("estado")
+                    rs.getString("estado"),
+                    rs.getInt("id_proveedor")
                 );
                 lista.add(h);
             }
@@ -42,6 +44,7 @@ public class HerramientaDAO {
         }
         return lista;
     }
+
     
     public List<herramientas> listarHerramientas() {
         List<herramientas> lista = new ArrayList<>();
@@ -57,7 +60,8 @@ public class HerramientaDAO {
                     rs.getInt("idHerramienta"),
                     rs.getString("nombre"),
                     rs.getString("tipo"),
-                    rs.getString("estado")
+                    rs.getString("estado"),
+                    rs.getInt("id_proveedor") 
                 );
                 lista.add(h);
             }
@@ -69,14 +73,16 @@ public class HerramientaDAO {
         return lista;
     }
 
+    // Agregar herramienta con proveedor
     public boolean agregarHerramienta(herramientas h) {
-        String sql = "INSERT INTO herramientas (nombre, tipo, estado) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO herramientas (nombre, tipo, estado, id_proveedor) VALUES (?, ?, ?, ?)";
         try {
             con = Conexion.getConexion();
             ps = con.prepareStatement(sql);
             ps.setString(1, h.getNombre());
             ps.setString(2, h.getTipo());
             ps.setString(3, h.getEstado());
+            ps.setInt(4, h.getIdProveedor()); 
             ps.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -87,15 +93,17 @@ public class HerramientaDAO {
         }
     }
 
+    
     public boolean actualizarHerramienta(herramientas h) {
-        String sql = "UPDATE herramientas SET nombre=?, tipo=?, estado=? WHERE idHerramienta=?";
+        String sql = "UPDATE herramientas SET nombre=?, tipo=?, estado=?, id_proveedor=? WHERE idHerramienta=?";
         try {
             con = Conexion.getConexion();
             ps = con.prepareStatement(sql);
             ps.setString(1, h.getNombre());
             ps.setString(2, h.getTipo());
             ps.setString(3, h.getEstado());
-            ps.setInt(4, h.getIdHerramienta());
+            ps.setInt(4, h.getIdProveedor()); 
+            ps.setInt(5, h.getIdHerramienta());
             ps.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -106,6 +114,7 @@ public class HerramientaDAO {
         }
     }
 
+   
     public boolean eliminarHerramienta(int idHerramienta) {
         String sql = "DELETE FROM herramientas WHERE idHerramienta=?";
         try {
@@ -122,6 +131,7 @@ public class HerramientaDAO {
         }
     }
 
+   
     public herramientas obtenerPorId(int idHerramienta) {
         herramientas h = null;
         String sql = "SELECT * FROM herramientas WHERE idHerramienta=?";
@@ -135,7 +145,8 @@ public class HerramientaDAO {
                     rs.getInt("idHerramienta"),
                     rs.getString("nombre"),
                     rs.getString("tipo"),
-                    rs.getString("estado")
+                    rs.getString("estado"),
+                    rs.getInt("id_proveedor") // proveedor
                 );
             }
         } catch (Exception e) {
@@ -146,6 +157,7 @@ public class HerramientaDAO {
         return h;
     }
 
+ 
     private void cerrarConexion() {
         try {
             if (rs != null) rs.close();

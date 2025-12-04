@@ -47,6 +47,12 @@
                 </li>
                 
                 <li>
+                    <a href="${pageContext.request.contextPath}/ProveedorServlet?accion=listar" class="nav-link sidebar-link text-white">
+                       <i class="bi bi-truck me-2"></i> Proveedores
+                   </a>
+               </li>
+                
+                <li>
                     <a href="${pageContext.request.contextPath}/AsignacionConductorVehiculoServlet?accion=listar" class="nav-link sidebar-link text-white">
                         <i class="bi bi-box-seam-fill me-2"></i> Asignar Vehiculo
                     </a>

@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controladores;
 
 import Modelo.herramientas;
+import Modelo.proveedores;
 import ModeloDAO.HerramientaDAO;
+import ModeloDAO.ProveedorDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -16,6 +14,7 @@ import java.util.List;
 public class HerramientaServlet extends HttpServlet {
 
     HerramientaDAO dao = new HerramientaDAO();
+    ProveedorDAO daoProveedor = new ProveedorDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,9 +30,20 @@ public class HerramientaServlet extends HttpServlet {
                 response.sendRedirect("HerramientaServlet");
                 break;
 
-            default:
+            case "editar":
+                int idEditar = Integer.parseInt(request.getParameter("id"));
+                herramientas h = dao.obtenerPorId(idEditar);
+                List<proveedores> listaProveedoresEditar = daoProveedor.listar();
+                request.setAttribute("herramienta", h);
+                request.setAttribute("proveedores", listaProveedoresEditar);
+                request.getRequestDispatcher("vistasAdmin/herramientas.jsp").forward(request, response);
+                break;
+
+            default: // listar
                 List<herramientas> lista = dao.listarHerramientas();
+                List<proveedores> listaProveedores = daoProveedor.listar(); 
                 request.setAttribute("lista", lista);
+                request.setAttribute("proveedores", listaProveedores);
                 request.getRequestDispatcher("vistasAdmin/herramientas.jsp").forward(request, response);
                 break;
         }
@@ -49,11 +59,14 @@ public class HerramientaServlet extends HttpServlet {
         String idStr = request.getParameter("idHerramienta");
         int idHerramienta = (idStr != null && !idStr.isEmpty()) ? Integer.parseInt(idStr) : 0;
 
+        int idProveedor = Integer.parseInt(request.getParameter("idProveedor"));
+
         herramientas h = new herramientas(
             idHerramienta,
             request.getParameter("nombre"),
             request.getParameter("tipo"),
-            request.getParameter("estado")
+            request.getParameter("estado"),
+            idProveedor
         );
 
         if ("guardar".equals(accion)) {

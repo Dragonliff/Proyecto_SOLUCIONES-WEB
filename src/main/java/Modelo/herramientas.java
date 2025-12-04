@@ -9,17 +9,29 @@ public class herramientas {
     private String nombre;
     private String tipo;
     private String estado;
-    
-    public herramientas(int idHerramienta, String nombre, String tipo, String estado) {
+    private int idProveedor; 
+
+   
+    public herramientas(int idHerramienta, String nombre, String tipo, String estado, int idProveedor) {
         this.idHerramienta = idHerramienta;
         this.nombre = nombre;
         this.tipo = tipo;
         this.estado = estado;
-    }
-    
-    public herramientas() {
+        this.idProveedor = idProveedor;
     }
 
+  
+    public herramientas(String nombre, String tipo, String estado, int idProveedor) {
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.estado = estado;
+        this.idProveedor = idProveedor;
+    }
+
+    
+    public herramientas() {}
+
+    
     public int getIdHerramienta() {
         return idHerramienta;
     }
@@ -52,4 +64,11 @@ public class herramientas {
         this.estado = estado;
     }
 
+    public int getIdProveedor() {
+        return idProveedor;
+    }
+
+    public void setIdProveedor(int idProveedor) {
+        this.idProveedor = idProveedor;
+    }
 }

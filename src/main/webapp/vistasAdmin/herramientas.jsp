@@ -1,8 +1,12 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="java.util.*, Modelo.herramientas" %>
-<%@ page import="ModeloDAO.HerramientaDAO" %>
+<%@ page import="java.util.*, Modelo.herramientas, Modelo.proveedores" %>
+<%@ page import="ModeloDAO.HerramientaDAO, ModeloDAO.ProveedorDAO" %>
 <%
     List<herramientas> lista = (List<herramientas>) request.getAttribute("lista");
+    List<proveedores> listaProveedores = (List<proveedores>) request.getAttribute("proveedores");
+    if (listaProveedores == null) {
+        listaProveedores = new ArrayList<>(); 
+    }
 %>
 <%@ include file="layout.jsp" %>
 <%@ include file="../seguridad.jsp" %>
@@ -47,6 +51,7 @@
                         <th>Nombre</th>
                         <th>Tipo</th>
                         <th>Estado</th>
+                        <th>Proveedor</th> <!-- NUEVO -->
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -64,6 +69,18 @@
                                     (h.getEstado().equals("En Uso") ? "bg-warning text-dark" : "bg-danger") %>">
                                 <%= h.getEstado() %>
                             </span>
+                        </td>
+                        <td>
+                            <%
+                                String nombreProveedor = "";
+                                for (proveedores p : listaProveedores) {
+                                    if (p.getId_proveedor() == h.getIdProveedor()) {
+                                        nombreProveedor = p.getNombre();
+                                        break;
+                                    }
+                                }
+                            %>
+                            <%= nombreProveedor %>
                         </td>
                         <td>
                             <button class="btn btn-warning btn-sm me-1"
@@ -89,7 +106,7 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <input type="hidden" name="action" value="guardar">
+                                        <input type="hidden" name="accion" value="guardar">
                                         <input type="hidden" name="idHerramienta" value="<%= h.getIdHerramienta() %>">
 
                                         <div class="mb-3">
@@ -106,6 +123,20 @@
                                                 <option value="Disponible" <%= h.getEstado().equals("Disponible") ? "selected" : "" %>>Disponible</option>
                                                 <option value="En Uso" <%= h.getEstado().equals("En Uso") ? "selected" : "" %>>En Uso</option>
                                                 <option value="Mantenimiento" <%= h.getEstado().equals("Mantenimiento") ? "selected" : "" %>>Mantenimiento</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Proveedor:</label>
+                                            <select name="idProveedor" class="form-select" required>
+                                                <option value="">Seleccione proveedor</option>
+                                                <%
+                                                    for (proveedores p : listaProveedores) {
+                                                        String selected = (p.getId_proveedor() == h.getIdProveedor()) ? "selected" : "";
+                                                %>
+                                                    <option value="<%= p.getId_proveedor() %>" <%= selected %>><%= p.getNombre() %></option>
+                                                <%
+                                                    }
+                                                %>
                                             </select>
                                         </div>
                                     </div>
@@ -131,6 +162,7 @@
     </div>
 </div>
 
+<!-- Modal Agregar -->
 <div class="modal fade" id="modalAgregar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -140,7 +172,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="action" value="guardar">
+                    <input type="hidden" name="accion" value="guardar">
 
                     <div class="mb-3">
                         <label class="form-label">Nombre:</label>
@@ -156,6 +188,19 @@
                             <option value="Disponible">Disponible</option>
                             <option value="En Uso">En Uso</option>
                             <option value="Mantenimiento">Mantenimiento</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Proveedor:</label>
+                        <select name="idProveedor" class="form-select" required>
+                            <option value="">Seleccione proveedor</option>
+                            <%
+                                for (proveedores p : listaProveedores) {
+                            %>
+                                <option value="<%= p.getId_proveedor() %>"><%= p.getNombre() %></option>
+                            <%
+                                }
+                            %>
                         </select>
                     </div>
                 </div>
