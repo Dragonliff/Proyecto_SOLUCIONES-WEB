@@ -193,4 +193,32 @@ public class UsoVehiculoDAO {
 
         return mapa;
     }
+    
+    // Nuevo método en UsoVehiculoDAO.java
+    public double obtenerKilometrajeAcumulado(int idVehiculo) {
+        double kilometrajeTotal = 0.0;
+
+        // Consulta SQL que suma kmRecorridos. (Ver nota sobre mantenimientos)
+        String sql = "SELECT SUM(kmRecorridos) AS KilometrajeAcumulado "
+                   + "FROM usos_vehiculos "
+                   + "WHERE idVehiculo = ? AND kmRecorridos IS NOT NULL";
+
+        try {
+            con = Conexion.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idVehiculo);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                // El alias "KilometrajeAcumulado" se usa para obtener el resultado
+                kilometrajeTotal = rs.getDouble("KilometrajeAcumulado");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error al obtener kilometraje acumulado: " + e.getMessage());
+        } finally {
+            // Asegúrate de cerrar los recursos (rs, ps, con) aquí si tu clase Conexion no lo hace automáticamente.
+        }
+        return kilometrajeTotal;
+    }
 }

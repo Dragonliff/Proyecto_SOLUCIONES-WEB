@@ -32,9 +32,15 @@
             transition: 0.2s;
         }
 
+        /* Estilos de Estado */
         .estado-operativo { color: #0a7c1f; font-weight: bold; }
         .estado-mantenimiento { color: #ff9800; font-weight: bold; }
         .estado-inactivo { color: #d00000; font-weight: bold; }
+        
+        /* Estilos de Alerta */
+        .alerta-baja { background-color: #d4edda; color: #155724; } /* Verde pálido */
+        .alerta-media { background-color: #fff3cd; color: #856404; } /* Amarillo pálido */
+        .alerta-alta { background-color: #f8d7da; color: #721c24; } /* Rojo pálido */
     </style>
 </head>
 
@@ -59,7 +65,7 @@
         <div class="card-body">
 
             <% List<vehiculos> lista = (List<vehiculos>) request.getAttribute("vehiculos");
-               if (lista == null || lista.isEmpty()) { %>
+                if (lista == null || lista.isEmpty()) { %>
 
                 <div class="alert alert-info text-center">No hay vehículos registrados actualmente.</div>
 
@@ -75,19 +81,34 @@
                         <th>Año</th>
                         <th>Tipo</th>
                         <th>Kilometraje (km)</th>
+                        <th>**Km Desde Mantenimiento**</th>
+                        <th>**Alerta Mantenimiento**</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
 
                 <tbody class="text-center">
-                <% 
+                <%    
                     for (vehiculos v : lista) {
 
                         String estadoClass = "bg-secondary";
                         if ("Operativo".equalsIgnoreCase(v.getEstado())) estadoClass = "bg-success";
                         else if ("En Mantenimiento".equalsIgnoreCase(v.getEstado())) estadoClass = "bg-warning text-dark";
                         else if ("Fuera de Servicio".equalsIgnoreCase(v.getEstado())) estadoClass = "bg-danger";
+                        
+                        // Lógica para asignar la clase de alerta
+                        String alertaClass = "";
+                        // Usamos startsWith para manejar los emojis (🔴, 🟡, 🟢)
+                        if (v.getEstadoAlerta() != null) {
+                            if (v.getEstadoAlerta().startsWith("ALTA") || v.getEstadoAlerta().startsWith("URGENTE")) {
+                                alertaClass = "alerta-alta";
+                            } else if (v.getEstadoAlerta().startsWith("MEDIA")) {
+                                alertaClass = "alerta-media";
+                            } else {
+                                alertaClass = "alerta-baja";
+                            }
+                        }
 
                 %>
                     <tr>
@@ -97,7 +118,15 @@
                         <td><%= v.getModelo() %></td>
                         <td><%= v.getAnio() %></td>
                         <td><%= v.getTipoVehiculo() %></td>
-                        <td><%= String.format("%.2f", v.getKilometrajeActual()) %></td>
+                        <td><%= String.format("%,.2f", v.getKilometrajeActual()) %></td>
+                        
+                        <td>
+                            <strong><%= String.format("%,.0f", v.getKmAcumulado()) %></strong> km
+                        </td>
+                        
+                        <td class="<%= alertaClass %>">
+                            <strong><%= v.getEstadoAlerta() != null ? v.getEstadoAlerta() : "N/D" %></strong>
+                        </td>
 
                         <td>
                             <span class="badge <%= estadoClass %>">
@@ -124,15 +153,15 @@
 
                             <% if ("Operativo".equalsIgnoreCase(v.getEstado())) { %>
                                 <a href="VehiculoServlet?accion=eliminar&id=<%= v.getIdVehiculo() %>"
-                                   class="btn btn-danger btn-sm"
-                                   onclick="return confirm('¿Eliminar vehículo <%= v.getPlaca() %>?')">
-                                    <i class="bi bi-trash3"></i>
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('¿Eliminar vehículo <%= v.getPlaca() %>?')">
+                                     <i class="bi bi-trash3"></i>
                                 </a>
                             <% } else { %>
                                 <a href="VehiculoServlet?accion=activar&id=<%= v.getIdVehiculo() %>"
-                                   class="btn btn-success btn-sm"
-                                   onclick="return confirm('¿Activar vehículo <%= v.getPlaca() %>?')">
-                                    <i class="bi bi-check-circle"></i>
+                                    class="btn btn-success btn-sm"
+                                    onclick="return confirm('¿Activar vehículo <%= v.getPlaca() %>?')">
+                                     <i class="bi bi-check-circle"></i>
                                 </a>
                             <% } %>
                         </td>

@@ -13,6 +13,8 @@ public class vehiculos {
     private String tipoVehiculo;
     private double kilometrajeActual;
     private String estado;
+    private double kmAcumulado;
+    private String estadoAlerta;
    
     public vehiculos(){
         
@@ -92,5 +94,18 @@ public class vehiculos {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+    
+    public double getKmAcumulado() {
+    return kmAcumulado;
+    }
+    public void setKmAcumulado(double kmAcumulado) {
+        this.kmAcumulado = kmAcumulado;
+    }
 
+    public String getEstadoAlerta() {
+        return estadoAlerta;
+    }
+    public void setEstadoAlerta(String estadoAlerta) {
+        this.estadoAlerta = estadoAlerta;
+    }
 }
