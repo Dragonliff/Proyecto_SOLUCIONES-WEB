@@ -7,6 +7,7 @@ package Controladores;
 import Modelo.usos_vehiculos;
 import ModeloDAO.UsoVehiculoDAO;
 import Modelo.vehiculos;
+import Modelo.AlertaService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -18,6 +19,7 @@ import java.util.Map;
 public class UsoVehiculoServlet extends HttpServlet {
 
     UsoVehiculoDAO dao = new UsoVehiculoDAO();
+    private final AlertaService alertaService = new AlertaService(); // ¡Asegúrate de tener esta línea!
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -80,7 +82,18 @@ public class UsoVehiculoServlet extends HttpServlet {
 
         if ("iniciar".equals(accion)) {
             int idVehiculo = Integer.parseInt(request.getParameter("idVehiculo"));
+            // 1. CALCULAR LA ALERTA
+            double kmAcumulado = dao.obtenerKilometrajeAcumulado(idVehiculo);
+            String estadoAlerta = alertaService.calcularEstadoAlerta(kmAcumulado);
             dao.registrarInicioUso(idVehiculo, idConductor);
+            
+            // 3. CREAR EL MENSAJE Y ALMACENAR EN SESIÓN
+            String mensajeAlerta = "";
+            mensajeAlerta += "🚨 Estado de Mantenimiento del Vehículo (Km: " + String.format("%,.0f", kmAcumulado) + " km):\n";
+            mensajeAlerta += estadoAlerta;
+            
+            // Guardamos en la Sesión, ya que haremos una redirección (Post-Redirect-Get pattern)
+            session.setAttribute("alertaMantenimiento", mensajeAlerta);
         } else if ("finalizar".equals(accion)) {
             int idUso = Integer.parseInt(request.getParameter("idUso"));
             double kmRec = Double.parseDouble(request.getParameter("kmRecorridos"));
@@ -90,6 +103,7 @@ public class UsoVehiculoServlet extends HttpServlet {
             double precioLitro = Double.parseDouble(request.getParameter("precioLitro"));
 
             dao.registrarFinUso(idUso, kmRec, obs, tipoComb, litros, precioLitro);
+            session.removeAttribute("alertaMantenimiento");
         }
 
         response.sendRedirect(request.getContextPath() + "/UsoVehiculoServlet?accion=reporte");
