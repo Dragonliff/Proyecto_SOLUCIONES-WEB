@@ -11,7 +11,6 @@
     List<vehiculos> vehiculosAsignados = (List<vehiculos>) request.getAttribute("vehiculosAsignados");
 %>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/estiloFallas.css">
 
 <div class="container mt-4">
     <h2>🚗 Reporte de Uso de Vehículos</h2>
@@ -70,12 +69,10 @@
                                 <label>Tipo de combustible:</label>
                                 <select name="tipoCombustible" class="form-control" required>
                                     <option value="">Seleccione...</option>
-                                    <option value="Gasolina 90">Gasolina 90</option>
-                                    <option value="Gasolina 95">Gasolina 95</option>
-                                    <option value="Gasolina 97">Gasolina 97</option>
-                                    <option value="Diésel">Diésel</option>
-                                    <option value="GLP">GLP</option>
-                                    <option value="GNV">GNV</option>
+                                    <option value="Gasolina">Gasolina</option>
+                                    <option value="Diesel">Diésel</option>
+                                    <option value="Eléctrico">Eléctrico</option>
+                                    <option value="Gas Natural">Gas Natural</option>
                                 </select>
                             </div>
 
