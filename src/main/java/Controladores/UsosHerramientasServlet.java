@@ -4,6 +4,9 @@ import Modelo.herramientas;
 import Modelo.usos_herramientas;
 import ModeloDAO.HerramientaDAO; 
 import ModeloDAO.UsosHerramientasDAO;
+
+import Modelo.AlertaHerramientaService; // Asegúrate de que el paquete sea correcto
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,6 +25,7 @@ public class UsosHerramientasServlet extends HttpServlet {
     
     UsosHerramientasDAO usosDao = new UsosHerramientasDAO(); 
     HerramientaDAO herramientaDao = new HerramientaDAO(); 
+    private final AlertaHerramientaService alertaService = new AlertaHerramientaService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
@@ -84,7 +88,10 @@ public class UsosHerramientasServlet extends HttpServlet {
         }
 
         switch (accion) {
-
+            case "obtenerAlerta": // 👈 NUEVO CASE PARA LA LLAMADA AJAX
+                obtenerAlertaHerramienta(request, response);
+                break;
+                
             case "Listar":
                 List<usos_herramientas> listaUsos = usosDao.listarUsosPorMecanico(idMecanico);
                 request.setAttribute("registrosUso", listaUsos);
@@ -126,6 +133,71 @@ public class UsosHerramientasServlet extends HttpServlet {
         }
     }
     
+    // -------------------------------------------------------------------------
+    // MÉTODOS AUXILIARES PARA LA ALERTA (Mover desde el otro Servlet)
+    // -------------------------------------------------------------------------
+
+    private void obtenerAlertaHerramienta(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String idHerramientaStr = request.getParameter("idHerramienta");
+
+        try {
+            if (idHerramientaStr == null || idHerramientaStr.isEmpty()) {
+                response.getWriter().write(generarHTMLAlerta("N/D - ID no proporcionado", "alert-danger"));
+                return;
+            }
+
+            // Usamos Integer.parseInt para obtener el ID de la herramienta
+            int idHerramienta = Integer.parseInt(idHerramientaStr);
+
+            // 1. Obtener las Horas Acumuladas (Requiere UsosHerramientasDAO.obtenerHorasAcumuladas)
+            double horasAcumuladas = usosDao.obtenerHorasAcumuladas(idHerramienta);
+
+            // 2. Determinar el Estado de Alerta usando la lógica centralizada (AlertaHerramientaService)
+            String estadoAlerta = alertaService.calcularEstadoAlerta(horasAcumuladas); // <-- Asegúrate que el nombre del método sea 'determinarEstado'
+
+            // 3. Generar el HTML de la alerta
+            String htmlAlerta = generarHTMLAlerta(estadoAlerta, null);
+
+            response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().write(htmlAlerta);
+
+        } catch (NumberFormatException e) {
+            // Error si el ID no es un número
+            response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().write(generarHTMLAlerta("Error de formato: ID de herramienta no válido.", "alert-danger"));
+        } catch (Exception e) {
+            // Captura otros errores (ej. de conexión a BD o DAO)
+            e.printStackTrace(); // Imprime la traza en la consola del servidor (CRÍTICO)
+            response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().write(generarHTMLAlerta("Error de procesamiento interno. Consulte logs del servidor.", "alert-danger"));
+        }
+    }
+    
+    private String generarHTMLAlerta(String estadoAlerta, String claseFuerza) {
+        String clase;
+        String icono;
+
+        if (claseFuerza != null) {
+            clase = claseFuerza;
+            icono = "bi-x-octagon-fill";
+        } else if (estadoAlerta.contains("MEDIA")) {
+            clase = "alert-warning";
+            icono = "bi-exclamation-triangle-fill";
+        } else if (estadoAlerta.contains("ALTA") || estadoAlerta.contains("URGENTE")) {
+            clase = "alert-danger";
+            icono = "bi-exclamation-octagon-fill";
+        } else { // BAJA o cualquier otro estado
+            clase = "alert-success";
+            icono = "bi-check-circle-fill";
+        }
+
+        return "<div class=\"alert " + clase + " d-flex align-items-center\" role=\"alert\">"
+             + "<i class=\"bi " + icono + " me-2\"></i>"
+             + "<div><strong>Alerta de Mantenimiento:</strong> " + estadoAlerta + "</div>"
+             + "</div>";
+    }
     
     private void generarExcel(HttpServletResponse response, int idMecanico) throws IOException {
 

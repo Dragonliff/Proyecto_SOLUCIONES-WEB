@@ -49,7 +49,7 @@
                 
                 <div class="col-md-6">
                     <label for="idHerramienta" class="form-label fw-bold fs-5">Herramienta Usada:</label>
-                    <select id="idHerramienta" name="idHerramienta" class="form-select form-select-lg rounded-3" required>
+                    <select id="idHerramienta" name="idHerramienta" class="form-select form-select-lg rounded-3" onchange="mostrarAlerta(this.value)" required> 
                         <option value="">-- Seleccione una herramienta asignada --</option>
                         <% 
                             if (herramientasAsignadas != null && !herramientasAsignadas.isEmpty()) {
@@ -77,6 +77,9 @@
                     <textarea id="observaciones" name="observaciones" class="form-control rounded-3" rows="3" required placeholder="Escriba aquí cualquier observación sobre la condición de la herramienta (desgaste, ruido, funcionamiento óptimo, etc.)"></textarea>
                 </div>
                 
+                <div class="col-12" id="alerta-dinamica">
+                </div>
+                    
                 <div class="col-12 mt-4">
                     <input type="hidden" name="accion" value="RegistrarUso">
                     <button type="submit" class="btn btn-success btn-lg w-100 shadow-lg rounded-pill fw-bold text-white">
@@ -88,3 +91,40 @@
     </div>
     
 </div>
+                    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    // Define el contextPath para que la URL AJAX funcione correctamente
+    var contextPath = "<%= request.getContextPath() %>";
+
+    function mostrarAlerta(idHerramienta) {
+        var alertaDiv = $('#alerta-dinamica');
+        
+        // Limpiar el aviso anterior
+        alertaDiv.empty();
+
+        if (idHerramienta && idHerramienta !== "") { 
+            
+            // Mensaje de carga mientras se espera la respuesta del Servlet
+            alertaDiv.html('<div class="text-info"><i class="bi bi-arrow-clockwise spin"></i> Cargando alerta...</div>');
+
+            // Llamada AJAX al UsosHerramientasServlet
+            $.ajax({
+                url: contextPath + '/UsosHerramientasServlet', 
+                type: 'GET',
+                data: {
+                    accion: 'obtenerAlerta', 
+                    idHerramienta: idHerramienta
+                },
+                success: function(response) {
+                    // response es el HTML de la alerta devuelto por el Servlet
+                    alertaDiv.html(response);
+                },
+                error: function() {
+                    alertaDiv.html('<div class="alert alert-danger"><i class="bi bi-x-octagon-fill me-2"></i> Error: No se pudo cargar la alerta de la herramienta.</div>');
+                }
+            });
+        }
+    }
+</script>
