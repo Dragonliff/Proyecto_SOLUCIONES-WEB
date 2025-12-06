@@ -102,7 +102,7 @@
                     <tr class="text-center">
                         <td><%= s.getIdSolicitud() %></td>
 
-                        <td><%= s.getIdHerramienta() %></td> <!-- Puedes reemplazar por nombre -->
+                        <td><%= s.getIdHerramienta() %></td> 
 
                         <td><%= s.getMotivo() %></td>
 

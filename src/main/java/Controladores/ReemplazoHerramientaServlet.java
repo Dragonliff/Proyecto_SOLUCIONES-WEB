@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controladores;
 
 import Modelo.asignaciones_mecanico_herramientas;
@@ -41,18 +37,15 @@ public class ReemplazoHerramientaServlet extends HttpServlet {
         switch (accion) {
 
             case "listar":
-                // 1. Listar solicitudes existentes
                 List<solicitudes_reemplazo_herramienta> lista = dao.listarPorMecanico(idMecanico);
                 request.setAttribute("listaSolicitudes", lista);
 
-                // 2. Listar herramientas ASIGNADAS
                 ModeloDAO.AsignacionHerramientaDAO daoAsign = new ModeloDAO.AsignacionHerramientaDAO();
                 List<Modelo.asignaciones_mecanico_herramientas> herramientasAsignadas =
                         daoAsign.listarPorMecanico(idMecanico);
 
                 request.setAttribute("herramientasAsignadas", herramientasAsignadas);
 
-                // 3. Enviar al JSP
                 request.getRequestDispatcher("vistasMecanico/reemplazoMecanico.jsp")
                        .forward(request, response);
                 break;

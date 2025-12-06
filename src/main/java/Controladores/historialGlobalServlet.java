@@ -3,7 +3,7 @@ package Controladores;
 import ModeloDAO.VehiculoDAO;
 import Modelo.vehiculos;
 import ModeloDAO.UsoVehiculoDAO;
-import Modelo.AlertaService; // Asumiendo que AlertaService está en el paquete Modelo
+import Modelo.AlertaService; 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,8 +16,8 @@ import java.util.List;
 public class historialGlobalServlet extends HttpServlet {
 
     private final VehiculoDAO vehiculoDAO = new VehiculoDAO();
-    private final UsoVehiculoDAO usoDAO = new UsoVehiculoDAO(); // ¡NUEVO!
-    private final AlertaService alertaService = new AlertaService(); // ¡NUEVO!
+    private final UsoVehiculoDAO usoDAO = new UsoVehiculoDAO(); 
+    private final AlertaService alertaService = new AlertaService(); 
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -61,24 +61,18 @@ public class historialGlobalServlet extends HttpServlet {
     private void listarVehiculos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // 1. Obtener la lista de vehículos
         List<vehiculos> lista = vehiculoDAO.leerTodos();
 
-        // 2. Iterar sobre cada vehículo para calcular su estado de alerta
         for (vehiculos vehiculo : lista) {
             
-            // a. Obtener el kilometraje acumulado usando el DAO
             double kmAcumulado = usoDAO.obtenerKilometrajeAcumulado(vehiculo.getIdVehiculo());
             
-            // b. Determinar el estado de alerta usando el Service
             String estadoAlerta = alertaService.calcularEstadoAlerta(kmAcumulado);
             
-            // c. Asignar los resultados al objeto vehículo (Gracias a la modificación del POJO)
             vehiculo.setKmAcumulado(kmAcumulado);
             vehiculo.setEstadoAlerta(estadoAlerta);
         }
         
-        // 3. Enviar la lista de vehículos (ahora enriquecida con alertas) a la vista
         request.setAttribute("vehiculos", lista);
         
         request.getRequestDispatcher("/vistasAdmin/mantenimientos.jsp").forward(request, response);
@@ -129,7 +123,6 @@ public class historialGlobalServlet extends HttpServlet {
                 resultado = false;
             }
         } else {
-            // CREACIÓN
             resultado = vehiculoDAO.crear(vehiculo);
         }
 

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controladores;
 
 import Modelo.asignaciones_conductor_vehiculo;
@@ -85,7 +81,6 @@ public class AsignacionConductorVehiculoServlet extends HttpServlet {
                 int idVehiculo = Integer.parseInt(request.getParameter("idVehiculo"));
                 Date fechaInicio = new Date();
 
-                //VALIDACIÓN: evitar duplicar asignación activa
                 if (dao.existeAsignacionActiva(idConductor, idVehiculo)) {
                     request.setAttribute("errorMensaje", "Este conductor ya tiene asignado este vehículo actualmente.");
 

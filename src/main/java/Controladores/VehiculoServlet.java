@@ -3,7 +3,7 @@ package Controladores;
 import ModeloDAO.VehiculoDAO;
 import Modelo.vehiculos;
 import ModeloDAO.UsoVehiculoDAO;
-import Modelo.AlertaService; // Asumiendo que AlertaService está en el paquete Modelo
+import Modelo.AlertaService; 
 import Modelo.proveedorvehiculo;
 import ModeloDAO.ProveedorVehiculoDAO;
 import jakarta.servlet.ServletException;
@@ -18,8 +18,8 @@ import java.util.List;
 public class VehiculoServlet extends HttpServlet {
 
     private final VehiculoDAO vehiculoDAO = new VehiculoDAO();
-    private final UsoVehiculoDAO usoDAO = new UsoVehiculoDAO(); // ¡NUEVO!
-    private final AlertaService alertaService = new AlertaService(); // ¡NUEVO!
+    private final UsoVehiculoDAO usoDAO = new UsoVehiculoDAO(); 
+    private final AlertaService alertaService = new AlertaService(); 
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -36,11 +36,11 @@ public class VehiculoServlet extends HttpServlet {
                 listarVehiculos(request, response);
                 break;
                 
-            case "mantenimientos": // <--- NUEVA ACCIÓN CLAVE
+            case "mantenimientos": 
                 listarVehiculosParaMantenimiento(request, response);
                 break;
                 
-            case "realizarMantenimiento": // <--- ACCIÓN DEL BOTÓN
+            case "realizarMantenimiento": 
                 realizarMantenimiento(request, response);
                 break;
                 
@@ -71,22 +71,17 @@ public class VehiculoServlet extends HttpServlet {
     private void listarVehiculos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // 1. Obtener la lista de vehículos
         List<vehiculos> lista = vehiculoDAO.leerTodos();
         
         ProveedorVehiculoDAO proveedorDAO = new ProveedorVehiculoDAO();
 
 
-        // 2. Iterar sobre cada vehículo para calcular su estado de alerta
         for (vehiculos vehiculo : lista) {
             
-            // a. Obtener el kilometraje acumulado usando el DAO
             double kmAcumulado = usoDAO.obtenerKilometrajeAcumulado(vehiculo.getIdVehiculo());
             
-            // b. Determinar el estado de alerta usando el Service
             String estadoAlerta = alertaService.calcularEstadoAlerta(kmAcumulado);
             
-            // c. Asignar los resultados al objeto vehículo (Gracias a la modificación del POJO)
             vehiculo.setKmAcumulado(kmAcumulado);
             vehiculo.setEstadoAlerta(estadoAlerta);
         }
@@ -94,39 +89,28 @@ public class VehiculoServlet extends HttpServlet {
         List<proveedorvehiculo> proveedores = proveedorDAO.listar();
         request.setAttribute("proveedores", proveedores);
         
-        // 3. Enviar la lista de vehículos (ahora enriquecida con alertas) a la vista
         request.setAttribute("vehiculos", lista);
         
         request.getRequestDispatcher("/vistasAdmin/maquinas.jsp").forward(request, response);
     }
     
-    // --------------------------------------------------------------------------
-    // MÉTODO AÑADIDO: Carga la vista de mantenimiento y calcula el acumulado (¡CLAVE!)
-    // --------------------------------------------------------------------------
     private void listarVehiculosParaMantenimiento(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // 1. Obtener la lista de vehículos (misma lógica)
         List<vehiculos> lista = vehiculoDAO.leerTodos();
 
-        // 2. Iterar sobre cada vehículo para calcular su estado de alerta
-        // ESTE BUCLE ES EL QUE CARGA kmAcumulado EN EL OBJETO VEHICULO PARA QUE EL JSP LO RECIBA
         for (vehiculos vehiculo : lista) {
             
-            // a. Obtener el kilometraje acumulado usando el DAO modificado (UsoVehiculoDAO)
             double kmAcumulado = usoDAO.obtenerKilometrajeAcumulado(vehiculo.getIdVehiculo());
             
-            // b. Determinar el estado de alerta (opcional, pero útil para la vista)
             String estadoAlerta = alertaService.calcularEstadoAlerta(kmAcumulado);
             
-            // c. Asignar los resultados al objeto vehículo
-            vehiculo.setKmAcumulado(kmAcumulado); // <--- AHORA EL JSP TIENE EL VALOR CORRECTO
+            vehiculo.setKmAcumulado(kmAcumulado); 
             vehiculo.setEstadoAlerta(estadoAlerta);
         }
         
-        // 3. Enviar la lista a la vista de MANTENIMIENTO
         request.setAttribute("vehiculos", lista);
-        request.getRequestDispatcher("/vistasAdmin/mantenimientos.jsp").forward(request, response); // <--- DIRIGE AL JSP DE MANTENIMIENTO
+        request.getRequestDispatcher("/vistasAdmin/mantenimientos.jsp").forward(request, response); 
     }
     // --------------------------------------------------------------------------
     
@@ -153,7 +137,7 @@ public class VehiculoServlet extends HttpServlet {
         try {
             idProveedor = Integer.parseInt(request.getParameter("idProveedorVehiculo"));
         } catch (Exception e) {
-            idProveedor = 0; // por si viene null
+            idProveedor = 0; 
         }
 
         String placa = request.getParameter("placa");
@@ -184,7 +168,6 @@ public class VehiculoServlet extends HttpServlet {
                 resultado = false;
             }
         } else {
-            // CREACIÓN
             resultado = vehiculoDAO.crear(vehiculo);
         }
 
@@ -249,11 +232,9 @@ public class VehiculoServlet extends HttpServlet {
             kmActual = Double.parseDouble(request.getParameter("kmActual")); 
 
         } catch (NumberFormatException e) {
-            // ... manejo de error ...
             return;
         }
 
-        // Calcular el nuevo kilometraje total que se guardará en la base de datos
         double nuevoKmActual = kmActual + kmAcumulado;
 
         if (vehiculoDAO.registrarMantenimiento(idVehiculo, nuevoKmActual)) {

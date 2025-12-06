@@ -10,7 +10,6 @@
     <h3>Solicitud de Reemplazo</h3>
     <hr>
 
-    <!-- Mensaje desde el servlet -->
     <%
         String mensaje = (String) request.getAttribute("mensaje");
         if (mensaje != null) {
@@ -20,14 +19,12 @@
         }
     %>
 
-    <!-- Formulario para nueva solicitud -->
     <h5>Nuevo reemplazo</h5>
     <form action="${pageContext.request.contextPath}/ReemplazoServlet" 
       method="POST" 
       enctype="multipart/form-data">
         <input type="hidden" name="accion" value="guardar">
 
-        <!-- ID del conductor desde la sesión-->
         <input type="hidden" name="idConductor" value="<%= session.getAttribute("idConductor") %>">
 
         <div class="mb-3">
@@ -78,7 +75,6 @@
 
     <hr>
 
-    <!-- Listado de solicitudes -->
     <h5>Mis solicitudes enviadas</h5>
 
     <table class="table table-bordered table-striped mt-3">

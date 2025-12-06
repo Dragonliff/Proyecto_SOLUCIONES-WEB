@@ -13,7 +13,6 @@ import java.util.List;
 @WebServlet("/AdminSolicitudesReemplazoServlet")
 public class AdminSolicitudesReemplazoServlet extends HttpServlet {
 
-    // Asumimos que tienes estos DAOs para Solicitudes
     private final SolicitudReemplazoDAO daoConductores = new SolicitudReemplazoDAO();
     private final ReemplazoHerramientaDAO daoMecanicos = new ReemplazoHerramientaDAO();
 
@@ -22,21 +21,18 @@ public class AdminSolicitudesReemplazoServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try {
-            // Obtener listas
             List<SolicitudReemplazo> solicitudesConductores = daoConductores.listarTodas();
             req.setAttribute("solicitudesConductores", solicitudesConductores);
 
             List<solicitudes_reemplazo_herramienta> solicitudesMecanicos = daoMecanicos.listarTodas();
             req.setAttribute("solicitudesMecanicos", solicitudesMecanicos);
             
-            // Pasar mensajes temporales (siguiendo la lógica de tu ProveedorServlet)
             HttpSession session = req.getSession();
             req.setAttribute("mensaje", session.getAttribute("mensaje"));
             req.setAttribute("error", session.getAttribute("error"));
             session.removeAttribute("mensaje");
             session.removeAttribute("error");
 
-            // Redirigir al JSP
             req.getRequestDispatcher("vistasAdmin/solicitudes_reemplazo.jsp").forward(req, resp);
 
         } catch (Exception e) {
@@ -54,7 +50,7 @@ public class AdminSolicitudesReemplazoServlet extends HttpServlet {
 
         if ("cambiarEstado".equals(accion)) {
             
-            String tipo = req.getParameter("tipo"); // 'conductor' o 'mecanico'
+            String tipo = req.getParameter("tipo"); 
             String idSolicitudStr = req.getParameter("idSolicitud");
             String nuevoEstado = req.getParameter("nuevoEstado");
             boolean actualizado = false;
@@ -63,12 +59,10 @@ public class AdminSolicitudesReemplazoServlet extends HttpServlet {
                 int idSolicitud = Integer.parseInt(idSolicitudStr);
                 
                 if ("conductor".equals(tipo)) {
-                    // Implementar en SolicitudReemplazoDAO.java
                     actualizado = daoConductores.actualizarEstado(idSolicitud, nuevoEstado); 
                     
                } else if ("mecanico".equals(tipo)) {
-                    // LLama al DAO de ReemplazoHerramienta para actualizar
-                    actualizado = daoMecanicos.cambiarEstado(idSolicitud, nuevoEstado); // <--- DEBE SER cambiarEstado()
+                    actualizado = daoMecanicos.cambiarEstado(idSolicitud, nuevoEstado); 
                 }
 
                 if (actualizado) {
@@ -85,7 +79,6 @@ public class AdminSolicitudesReemplazoServlet extends HttpServlet {
             }
         }
         
-        // Redirigir al doGet (listar), como en tu ProveedorServlet
         resp.sendRedirect("AdminSolicitudesReemplazoServlet");
     }
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controladores;
 
 import Modelo.usos_vehiculos;
@@ -26,7 +22,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class UsoVehiculoServlet extends HttpServlet {
 
     UsoVehiculoDAO dao = new UsoVehiculoDAO();
-    private final AlertaService alertaService = new AlertaService(); // ¡Asegúrate de tener esta línea!
+    private final AlertaService alertaService = new AlertaService(); 
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -49,9 +45,6 @@ public class UsoVehiculoServlet extends HttpServlet {
             return;
         }
 
-        // ==============================
-        // 📌 EXPORTAR EXCEL
-        // ==============================
         if ("exportarExcel".equals(accion)) {
             exportarExcel(idConductor, response);
             return;
@@ -109,12 +102,10 @@ public class UsoVehiculoServlet extends HttpServlet {
             
             dao.registrarInicioUso(idVehiculo, idConductor);
             
-            // 3. CREAR EL MENSAJE Y ALMACENAR EN SESIÓN
             String mensajeAlerta = "";
             mensajeAlerta += "🚨 Estado de Mantenimiento del Vehículo (Km: " + String.format("%,.0f", kmAcumulado) + " km):\n";
             mensajeAlerta += estadoAlerta;
             
-            // Guardamos en la Sesión, ya que haremos una redirección (Post-Redirect-Get pattern)
             session.setAttribute("alertaMantenimiento", mensajeAlerta);
         } else if ("finalizar".equals(accion)) {
             int idUso = Integer.parseInt(request.getParameter("idUso"));

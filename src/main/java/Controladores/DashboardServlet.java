@@ -16,7 +16,6 @@ public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Obtener fechas del filtro
         String fechaInicio = request.getParameter("inicio");
         String fechaFin = request.getParameter("fin");
 
@@ -38,7 +37,6 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("solicitudesAprobadasConductor",dashboardDAO.contarSolicitudesReemplazoPorEstado("Aprobada"));
         request.setAttribute("solicitudesRechazadasConductor",dashboardDAO.contarSolicitudesReemplazoPorEstado("Rechazada"));
         
-        // Tablas
         request.setAttribute("ultimasSolicitudes", dashboardDAO.listarUltimasSolicitudes());
         request.setAttribute("ultimasSolicitudesConductor",dashboardDAO.listarUltimasSolicitudesConductor());
         
@@ -55,13 +53,9 @@ public class DashboardServlet extends HttpServlet {
         request.setAttribute("anio", anio);
         request.setAttribute("gastosMes", gastosMes);
         
-        
-
-        // Fechas en atributos (para que el JSP las mantenga)
         request.setAttribute("fechaInicio", fechaInicio);
         request.setAttribute("fechaFin", fechaFin);
 
-        // Tabla solicitudes
         request.setAttribute("ultimasSolicitudes", dashboardDAO.listarUltimasSolicitudes());
 
         

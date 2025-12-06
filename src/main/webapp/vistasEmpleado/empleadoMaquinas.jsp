@@ -24,7 +24,7 @@
         width: 150%;
     }
     .vehicle-card {
-        width: 350px;          /* Tamaño ideal como la imagen que mostraste */
+        width: 350px;          
         background: #fff;
         border-radius: 14px;
         padding: 26px 30px;
@@ -77,7 +77,6 @@
         font-weight: 600;
     }
 
-    /* MISMO ESTILO DE LA FOTO PARA LOS CAMPOS */
     .field-label {
         font-size: 13px;
         color: #7a7a7a;
@@ -103,9 +102,9 @@
     
     .vehicle-list {
         display: flex;
-        flex-wrap: wrap;      /* <-- permite que bajen */
-        gap: 20px;            /* <-- separación entre tarjetas */
-        justify-content: center; /* <-- centrado opcional */
+        flex-wrap: wrap;    
+        gap: 20px;            
+        justify-content: center; 
     }
 </style>
 
@@ -127,7 +126,6 @@
             } else {
         %>
 
-        <!-- CONTENEDOR FLEX PARA TARJETAS -->
         <div class="vehicle-list">
         <%
                 for (asignaciones_conductor_vehiculo a : listaAsignaciones) {
@@ -135,8 +133,8 @@
                     String estado = a.getEstado();
                     String estadoClase = (estado != null && estado.equalsIgnoreCase("Activa"))
                                         ? "success" : "secondary";
-                        // ICONO SEGÚN TIPO DE VEHÍCULO
-                    String icono = "🚚"; // default
+                        
+                    String icono = "🚚"; 
                 if (a.getTipoVehiculo() != null) {
                     switch (a.getTipoVehiculo().toLowerCase()) {
                         case "camioneta":
@@ -161,10 +159,8 @@
 
             <div class="vehicle-card">
 
-                <!-- PARTE SUPERIOR -->
                 <div class="vehicle-top">
 
-                    <!-- IZQUIERDA: icono + placa + tipo -->
                     <div class="vehicle-left">
                         <div class="vehicle-icon"><%= icono %></div>
 
@@ -176,7 +172,6 @@
                         </div>
                     </div>
 
-                    <!-- DERECHA: Estado (arriba como la foto) -->
                     <div>
                         <span class="vehicle-status badge bg-<%= estadoClase %>">
                             <%= a.getEstado() %>
@@ -185,10 +180,8 @@
 
                 </div>
 
-                <!-- INFORMACIÓN CENTRO (dos columnas como la foto) -->
                 <div class="vehicle-info">
 
-                    <!-- Columna izquierda -->
                     <div class="vehicle-info-col">
                         <div class="field-label">Marca</div>
                         <div class="field-value"><%= a.getMarca() %></div>
@@ -200,7 +193,6 @@
                         <div class="field-value"><%= a.getAnio() %></div>
                     </div>
 
-                    <!-- Columna derecha -->
                     <div class="vehicle-info-col">
                         <div class="field-label">Fecha Inicio</div>
                         <div class="field-value"><%= a.getFechaInicio() %></div>

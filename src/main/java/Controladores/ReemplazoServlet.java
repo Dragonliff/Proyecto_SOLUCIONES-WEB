@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controladores;
 import Modelo.SolicitudReemplazo;
 import ModeloDAO.SolicitudReemplazoDAO;
@@ -76,7 +72,6 @@ public class ReemplazoServlet extends HttpServlet {
             String motivo = request.getParameter("motivo");
             String detalle = request.getParameter("detalle");
 
-            // === 1. Procesar imagen adjunta ===
             Part filePart = request.getPart("imagen"); 
             String fileName = null;
 
@@ -91,14 +86,12 @@ public class ReemplazoServlet extends HttpServlet {
                 filePart.write(uploadPath + File.separator + fileName);
             }
 
-            // === 2. Guardar datos en el modelo ===
             SolicitudReemplazo s = new SolicitudReemplazo();
             s.setIdConductor(idConductor);
             s.setIdVehiculoActual(idVehiculoActual);
             s.setMotivo(motivo);
             s.setDetalle(detalle);
-            s.setImagen(fileName); // puede ser null
-
+            s.setImagen(fileName); 
             boolean registrado = dao.crear(s);
 
             request.setAttribute("mensaje",

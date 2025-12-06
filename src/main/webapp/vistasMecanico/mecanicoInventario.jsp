@@ -95,21 +95,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-    // Define el contextPath para que la URL AJAX funcione correctamente
     var contextPath = "<%= request.getContextPath() %>";
 
     function mostrarAlerta(idHerramienta) {
         var alertaDiv = $('#alerta-dinamica');
         
-        // Limpiar el aviso anterior
         alertaDiv.empty();
 
         if (idHerramienta && idHerramienta !== "") { 
             
-            // Mensaje de carga mientras se espera la respuesta del Servlet
             alertaDiv.html('<div class="text-info"><i class="bi bi-arrow-clockwise spin"></i> Cargando alerta...</div>');
 
-            // Llamada AJAX al UsosHerramientasServlet
             $.ajax({
                 url: contextPath + '/UsosHerramientasServlet', 
                 type: 'GET',
@@ -118,7 +114,6 @@
                     idHerramienta: idHerramienta
                 },
                 success: function(response) {
-                    // response es el HTML de la alerta devuelto por el Servlet
                     alertaDiv.html(response);
                 },
                 error: function() {

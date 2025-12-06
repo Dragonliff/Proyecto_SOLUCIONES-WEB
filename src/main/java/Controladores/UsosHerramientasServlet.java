@@ -5,7 +5,7 @@ import Modelo.usos_herramientas;
 import ModeloDAO.HerramientaDAO; 
 import ModeloDAO.UsosHerramientasDAO;
 
-import Modelo.AlertaHerramientaService; // Asegúrate de que el paquete sea correcto
+import Modelo.AlertaHerramientaService; 
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -88,7 +88,7 @@ public class UsosHerramientasServlet extends HttpServlet {
         }
 
         switch (accion) {
-            case "obtenerAlerta": // 👈 NUEVO CASE PARA LA LLAMADA AJAX
+            case "obtenerAlerta": 
                 obtenerAlertaHerramienta(request, response);
                 break;
                 
@@ -132,10 +132,6 @@ public class UsosHerramientasServlet extends HttpServlet {
                 break;
         }
     }
-    
-    // -------------------------------------------------------------------------
-    // MÉTODOS AUXILIARES PARA LA ALERTA (Mover desde el otro Servlet)
-    // -------------------------------------------------------------------------
 
     private void obtenerAlertaHerramienta(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -148,28 +144,22 @@ public class UsosHerramientasServlet extends HttpServlet {
                 return;
             }
 
-            // Usamos Integer.parseInt para obtener el ID de la herramienta
             int idHerramienta = Integer.parseInt(idHerramientaStr);
 
-            // 1. Obtener las Horas Acumuladas (Requiere UsosHerramientasDAO.obtenerHorasAcumuladas)
             double horasAcumuladas = usosDao.obtenerHorasAcumuladas(idHerramienta);
 
-            // 2. Determinar el Estado de Alerta usando la lógica centralizada (AlertaHerramientaService)
-            String estadoAlerta = alertaService.calcularEstadoAlerta(horasAcumuladas); // <-- Asegúrate que el nombre del método sea 'determinarEstado'
+            String estadoAlerta = alertaService.calcularEstadoAlerta(horasAcumuladas); 
 
-            // 3. Generar el HTML de la alerta
             String htmlAlerta = generarHTMLAlerta(estadoAlerta, null);
 
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().write(htmlAlerta);
 
         } catch (NumberFormatException e) {
-            // Error si el ID no es un número
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().write(generarHTMLAlerta("Error de formato: ID de herramienta no válido.", "alert-danger"));
         } catch (Exception e) {
-            // Captura otros errores (ej. de conexión a BD o DAO)
-            e.printStackTrace(); // Imprime la traza en la consola del servidor (CRÍTICO)
+            e.printStackTrace(); 
             response.setContentType("text/html;charset=UTF-8");
             response.getWriter().write(generarHTMLAlerta("Error de procesamiento interno. Consulte logs del servidor.", "alert-danger"));
         }
@@ -188,7 +178,7 @@ public class UsosHerramientasServlet extends HttpServlet {
         } else if (estadoAlerta.contains("ALTA") || estadoAlerta.contains("URGENTE")) {
             clase = "alert-danger";
             icono = "bi-exclamation-octagon-fill";
-        } else { // BAJA o cualquier otro estado
+        } else { 
             clase = "alert-success";
             icono = "bi-check-circle-fill";
         }
@@ -209,7 +199,6 @@ public class UsosHerramientasServlet extends HttpServlet {
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-Disposition", "attachment; filename=Historial_Usos.xlsx");
 
-        // Encabezado
         Row header = sheet.createRow(0);
         String[] columnas = {"ID Uso", "ID Herramienta", "Horas Uso", "Observaciones", "Fecha Registro"};
 
@@ -217,7 +206,6 @@ public class UsosHerramientasServlet extends HttpServlet {
             header.createCell(i).setCellValue(columnas[i]);
         }
 
-        // Datos
         int fila = 1;
         for (usos_herramientas u : lista) {
             Row row = sheet.createRow(fila++);
@@ -246,13 +234,11 @@ public class UsosHerramientasServlet extends HttpServlet {
             PdfWriter.getInstance(pdf, response.getOutputStream());
             pdf.open();
 
-            // Título
             Paragraph titulo = new Paragraph("HISTORIAL DE USO DE HERRAMIENTAS\n\n",
                     FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16));
             titulo.setAlignment(Element.ALIGN_CENTER);
             pdf.add(titulo);
 
-            // Tabla
             PdfPTable table = new PdfPTable(5);
             table.setWidthPercentage(100);
 

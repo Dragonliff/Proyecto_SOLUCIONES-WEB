@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Controladores;
 
 import ModeloDAO.AsignacionHerramientaDAO;
 import Modelo.asignaciones_mecanico_herramientas;
-import Modelo.AlertaHerramientaService; // 👈 NUEVO IMPORT
+import Modelo.AlertaHerramientaService; 
 import ModeloDAO.UsosHerramientasDAO;
 
 import jakarta.servlet.ServletException;
@@ -20,7 +16,7 @@ public class HerramientasMecanicoServlet extends HttpServlet {
 
     private final AsignacionHerramientaDAO dao = new AsignacionHerramientaDAO();
     private final UsosHerramientasDAO usosDao = new UsosHerramientasDAO(); 
-    private final AlertaHerramientaService alertaService = new AlertaHerramientaService(); // 👈 NUEVA INSTANCIA
+    private final AlertaHerramientaService alertaService = new AlertaHerramientaService(); 
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -56,13 +52,10 @@ public class HerramientasMecanicoServlet extends HttpServlet {
         
         int idHerramienta = Integer.parseInt(idHerramientaStr);
         
-        // 1. Obtener las Horas Acumuladas
         double horasAcumuladas = usosDao.obtenerHorasAcumuladas(idHerramienta); 
         
-        // 2. Determinar el Estado de Alerta usando la lógica centralizada
         String estadoAlerta = alertaService.calcularEstadoAlerta(horasAcumuladas);
         
-        // 3. Generar el HTML de la alerta
         String htmlAlerta = generarHTMLAlerta(estadoAlerta, null); 
         
         response.setContentType("text/html;charset=UTF-8");
@@ -82,7 +75,7 @@ public class HerramientasMecanicoServlet extends HttpServlet {
         } else if (estadoAlerta.contains("ALTA") || estadoAlerta.contains("URGENTE")) {
             clase = "alert-danger";
             icono = "bi-exclamation-octagon-fill";
-        } else { // BAJA o cualquier otro estado
+        } else { 
             clase = "alert-success"; 
             icono = "bi-check-circle-fill";
         }

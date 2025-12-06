@@ -64,20 +64,15 @@ public class HerramientaServlet extends HttpServlet {
         String tipo = request.getParameter("tipo");
         String estado = request.getParameter("estado");
 
-        // --- Lógica de Horas Totales ---
         double horasTotales = 0.0;
 
         if (idHerramienta > 0) {
-            // Al editar, recuperamos las horas acumuladas para no perder el historial
             herramientas hExistente = dao.obtenerPorId(idHerramienta);
             if (hExistente != null) {
                 horasTotales = hExistente.getHorasTotales();
             } 
-            // Si hExistente es null, horasTotales se mantiene en 0.0 (lo cual podría ser un bug lógico,
-            // pero la actualización debería fallar en el DAO si el ID no existe).
         }
 
-        // Usamos el constructor de 6 argumentos para AGREGAR (ID=0, Horas=0.0) o ACTUALIZAR (ID>0, Horas > 0)
         herramientas h = new herramientas(
             idHerramienta, 
             nombre,
@@ -95,11 +90,9 @@ public class HerramientaServlet extends HttpServlet {
                 exito = dao.actualizarHerramienta(h);
             }
 
-            // 🌟 AGREGAR LÓGICA DE MENSAJE PARA SABER SI FALLÓ
             if (exito) {
                 request.getSession().setAttribute("mensaje", "✅ Operación realizada con éxito.");
             } else {
-                // Esto se mostrará si el DAO devuelve 'false'
                 request.getSession().setAttribute("error", "❌ Error al guardar la herramienta. Revise los logs del servidor.");
             }
         }

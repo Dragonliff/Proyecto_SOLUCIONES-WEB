@@ -37,14 +37,11 @@ public class HistorialHerramientasServlet extends HttpServlet {
         }
     }
     
-        
-    // --- MÉTODO AÑADIDO: Listado Específico para la vista de Mantenimiento ---
     private void listarHerramientasParaMantenimiento(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
         List<herramientas> lista = dao.listarHerramientas();
         
-        // ¡CRUCIAL! Este bucle calcula las horas acumuladas y las asigna al POJO
         for (herramientas herramienta : lista) {
             double horasAcumuladas = usoDAO.obtenerHorasAcumuladas(herramienta.getIdHerramienta());
             String estadoAlerta = alertaService.calcularEstadoAlerta(horasAcumuladas);
@@ -53,12 +50,10 @@ public class HistorialHerramientasServlet extends HttpServlet {
             herramienta.setEstadoAlerta(estadoAlerta);
         }
         
-        // Nota: La vista de Mantenimiento solo necesita la lista de herramientas
         request.setAttribute("lista", lista); 
         request.getRequestDispatcher("/vistasAdmin/mantenimientosHerramientas.jsp").forward(request, response);
     }
-    // -------------------------------------------------------------------------
-     // --- MÉTODO AÑADIDO: Realiza la Transacción de Mantenimiento ---
+    
     private void realizarMantenimientoHerramienta(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
 
@@ -68,7 +63,6 @@ public class HistorialHerramientasServlet extends HttpServlet {
 
         try {
             idHerramienta = Integer.parseInt(request.getParameter("id"));
-            // Recibe los valores enviados desde los campos ocultos del JSP
             horasAcumuladas = Double.parseDouble(request.getParameter("horasAcumuladas"));
             horasTotalesActuales = Double.parseDouble(request.getParameter("horasTotales")); 
 

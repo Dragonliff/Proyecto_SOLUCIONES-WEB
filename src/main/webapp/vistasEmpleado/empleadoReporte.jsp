@@ -100,21 +100,13 @@
 function mostrarFormulario(idUso) {
     document.getElementById('form_' + idUso).style.display = 'block';
 }
-// -----------------------------------------------------------
-// LÓGICA DE ALERTA AL INICIAR USO (POP-UP)
-// -----------------------------------------------------------
 
-// Recupera el mensaje de la sesión. Es crucial reemplazar el salto de línea (\n) por \\n 
-// para que se muestre correctamente en el alert de JavaScript.
 var alertaMensaje = '<%= session.getAttribute("alertaMantenimiento") != null ? 
                      ((String) session.getAttribute("alertaMantenimiento")).replace("\n", "\\n") : "" %>';
 
 if (alertaMensaje.trim() !== "") {
-    // Muestra el mensaje de alerta
     alert(alertaMensaje);
     
-    // Elimina el atributo de la sesión inmediatamente.
-    // Esto asegura que la alerta se muestre solo una vez, siguiendo el patrón Post-Redirect-Get.
     <% 
         session.removeAttribute("alertaMantenimiento");
     %>
