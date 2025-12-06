@@ -108,7 +108,7 @@ public class AsignacionHerramientaDAO {
 
     public List<Map<String, Object>> listarHerramientas() {
         List<Map<String, Object>> lista = new ArrayList<>();
-        String sql = "SELECT idHerramienta, nombre, tipo, estado FROM herramientas WHERE estado='Disponible'";
+        String sql = "SELECT idHerramienta, nombre, tipo, estado, horas_totales FROM herramientas WHERE estado='Disponible'";
         try {
             con = cn.getConexion();
             ps = con.prepareStatement(sql);
@@ -119,6 +119,7 @@ public class AsignacionHerramientaDAO {
                 fila.put("nombre", rs.getString("nombre"));
                 fila.put("tipo", rs.getString("tipo"));
                 fila.put("estado", rs.getString("estado"));
+                fila.put("horas_totales", rs.getDouble("horas_totales"));
                 lista.add(fila);
             }
         } catch (Exception e) {

@@ -60,18 +60,47 @@ public class HerramientaServlet extends HttpServlet {
         int idHerramienta = (idStr != null && !idStr.isEmpty()) ? Integer.parseInt(idStr) : 0;
 
         int idProveedor = Integer.parseInt(request.getParameter("idProveedor"));
+        String nombre = request.getParameter("nombre");
+        String tipo = request.getParameter("tipo");
+        String estado = request.getParameter("estado");
 
+        // --- Lógica de Horas Totales ---
+        double horasTotales = 0.0;
+
+        if (idHerramienta > 0) {
+            // Al editar, recuperamos las horas acumuladas para no perder el historial
+            herramientas hExistente = dao.obtenerPorId(idHerramienta);
+            if (hExistente != null) {
+                horasTotales = hExistente.getHorasTotales();
+            } 
+            // Si hExistente es null, horasTotales se mantiene en 0.0 (lo cual podría ser un bug lógico,
+            // pero la actualización debería fallar en el DAO si el ID no existe).
+        }
+
+        // Usamos el constructor de 6 argumentos para AGREGAR (ID=0, Horas=0.0) o ACTUALIZAR (ID>0, Horas > 0)
         herramientas h = new herramientas(
-                request.getParameter("nombre"),
-                request.getParameter("tipo"),
-                request.getParameter("estado"),
-                idProveedor
-            );
+            idHerramienta, 
+            nombre,
+            tipo,
+            estado,
+            idProveedor,
+            horasTotales 
+        );
+
         if ("guardar".equals(accion)) {
+            boolean exito;
             if (idHerramienta == 0) {
-                dao.agregarHerramienta(h);
+                exito = dao.agregarHerramienta(h);
             } else {
-                dao.actualizarHerramienta(h);
+                exito = dao.actualizarHerramienta(h);
+            }
+
+            // 🌟 AGREGAR LÓGICA DE MENSAJE PARA SABER SI FALLÓ
+            if (exito) {
+                request.getSession().setAttribute("mensaje", "✅ Operación realizada con éxito.");
+            } else {
+                // Esto se mostrará si el DAO devuelve 'false'
+                request.getSession().setAttribute("error", "❌ Error al guardar la herramienta. Revise los logs del servidor.");
             }
         }
 

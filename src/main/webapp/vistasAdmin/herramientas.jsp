@@ -88,7 +88,7 @@
                                     data-bs-target="#modalEditar<%= h.getIdHerramienta() %>">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
-                            <a href="HerramientaServlet?action=eliminar&id=<%= h.getIdHerramienta() %>"
+                            <a href="HerramientaServlet?accion=eliminar&id=<%= h.getIdHerramienta() %>"
                                class="btn btn-danger btn-sm"
                                onclick="return confirm('¿Seguro que deseas eliminar esta herramienta?')">
                                 <i class="bi bi-trash3"></i>

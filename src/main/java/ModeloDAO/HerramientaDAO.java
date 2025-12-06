@@ -77,7 +77,7 @@ public class HerramientaDAO {
 
     // Agregar herramienta con proveedor
     public boolean agregarHerramienta(herramientas h) {
-        String sql = "INSERT INTO herramientas (nombre, tipo, estado, id_proveedor) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO herramientas (nombre, tipo, estado, id_proveedor, horas_totales) VALUES (?, ?, ?, ?, ?)";
         try {
             con = Conexion.getConexion();
             ps = con.prepareStatement(sql);
@@ -85,6 +85,7 @@ public class HerramientaDAO {
             ps.setString(2, h.getTipo());
             ps.setString(3, h.getEstado());
             ps.setInt(4, h.getIdProveedor()); 
+            ps.setDouble(5, h.getHorasTotales()); 
             ps.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -97,7 +98,7 @@ public class HerramientaDAO {
 
     
     public boolean actualizarHerramienta(herramientas h) {
-        String sql = "UPDATE herramientas SET nombre=?, tipo=?, estado=?, id_proveedor=? WHERE idHerramienta=?";
+        String sql = "UPDATE herramientas SET nombre=?, tipo=?, estado=?, id_proveedor=?, horas_totales=? WHERE idHerramienta=?";
         try {
             con = Conexion.getConexion();
             ps = con.prepareStatement(sql);
@@ -105,9 +106,11 @@ public class HerramientaDAO {
             ps.setString(2, h.getTipo());
             ps.setString(3, h.getEstado());
             ps.setInt(4, h.getIdProveedor()); 
-            ps.setInt(5, h.getIdHerramienta());
-            ps.executeUpdate();
-            return true;
+            ps.setDouble(5, h.getHorasTotales());
+            ps.setInt(6, h.getIdHerramienta());
+            
+            int filasAfectadas = ps.executeUpdate(); // 👈 Debe ser 1
+            return filasAfectadas > 0; // Devolvemos true si se actualizó una fila
         } catch (Exception e) {
             e.printStackTrace();
             return false;
