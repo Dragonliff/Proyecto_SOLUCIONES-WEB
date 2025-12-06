@@ -18,29 +18,61 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #212529; /* Color de respaldo */
-            /* Imagen de fondo relacionada a autos/taller */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), 
-                              url('https://images.unsplash.com/photo-1487754180451-c456f719a1fc?q=80&w=2070&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+            overflow: hidden; /* Importante para que el video no genere scroll */
+            background-color: #000; /* Fondo negro por si el video tarda en cargar */
         }
 
+        /* --- CONFIGURACIÓN DEL VIDEO DE FONDO --- */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Se asegura que esté detrás de todo */
+        }
+
+        .video-background video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover; /* Hace que el video cubra toda la pantalla sin deformarse */
+        }
+
+        /* Capa oscura para que las letras blancas se lean bien */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.65); /* 65% de oscuridad */
+            z-index: 1;
+        }
+
+        /* --- ESTILOS DE LA TARJETA DE LOGIN --- */
         .login-card {
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             border: none;
-            border-radius: 15px;
-            backdrop-filter: blur(10px); /* Efecto cristal */
-            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            /* Efecto cristal (Glassmorphism) */
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            z-index: 2; /* Debe estar por encima del video */
             overflow: hidden;
         }
 
         .card-header-custom {
-            background: #0d6efd; /* Azul Bootstrap, puedes cambiarlo por el color de tu marca */
+            background: #0d6efd; /* Azul principal */
             color: white;
-            padding: 20px;
+            padding: 25px 20px;
             text-align: center;
         }
 
@@ -55,74 +87,80 @@
         .btn-custom:hover {
             background-color: #0b5ed7;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
         }
         
+        /* Ajustes para inputs modernos */
         .input-group-text {
-            background-color: #f8f9fa;
+            background-color: #fff;
             border-right: none;
         }
-        
         .form-floating .form-control {
             border-left: none;
+            background-color: #fff;
         }
-
-        .brand-logo {
-            font-size: 3rem;
-            margin-bottom: 10px;
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #ced4da;
         }
     </style>
 </head>
 <body>
 
-    <div class="card login-card fade-in">
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="video/fondo_login.mp4" type="video/mp4">
+            Tu navegador no soporta videos HTML5.
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <div class="card login-card animate__animated animate__fadeIn">
         <div class="card-header-custom">
-            <i class="bi bi-car-front-fill brand-logo"></i>
-            <h4 class="m-0 fw-bold">CRONIX</h4>
+            <i class="bi bi-car-front-fill" style="font-size: 3rem;"></i>
+            <h4 class="mt-2 fw-bold">CRONIX</h4>
             <small>Sistema de Mantenimiento</small>
         </div>
 
-        <div class="card-body p-4 pt-5">
+        <div class="card-body p-4 pt-4">
             
             <% 
                 String error = (String) request.getAttribute("mensajeError");
                 if (error != null && !error.trim().isEmpty()) { 
             %>
-                <div class="alert alert-danger d-flex align-items-center mb-4" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <div><%= error %></div>
+                <div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+                    <i class="bi bi-exclamation-circle-fill me-2"></i>
+                    <small><%= error %></small>
                 </div>
             <% } %>
 
             <form action="${pageContext.request.contextPath}/LoginServlet" method="post">
                 
-                <div class="input-group mb-4">
+                <div class="input-group mb-3">
                     <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="correo" name="correo" placeholder="name@example.com" required>
+                        <input type="text" class="form-control" id="correo" name="correo" placeholder="correo" required>
                         <label for="correo">Correo Electrónico</label>
                     </div>
                 </div>
 
                 <div class="input-group mb-4">
-                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                    <span class="input-group-text"><i class="bi bi-key"></i></span>
                     <div class="form-floating">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña" required>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="pass" required>
                         <label for="password">Contraseña</label>
                     </div>
                 </div>
 
-                <div class="d-grid gap-2 mb-3">
+                <div class="d-grid gap-2">
                     <button type="submit" class="btn btn-primary btn-custom btn-lg">
-                        Iniciar Sesión <i class="bi bi-arrow-right-short"></i>
+                        INGRESAR
                     </button>
                 </div>
 
+                <div class="text-center mt-3">
+                    <small class="text-muted">© 2025 Mantenimiento Predictivo v1.0</small>
+                </div>
             </form>
-        </div>
-        
-        <div class="card-footer text-center py-3 bg-light">
-            <small class="text-muted">&copy; 2025 Mantenimiento Predictivo v1.0</small>
         </div>
     </div>
 
