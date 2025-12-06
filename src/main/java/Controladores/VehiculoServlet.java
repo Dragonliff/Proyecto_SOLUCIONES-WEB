@@ -33,7 +33,15 @@ public class VehiculoServlet extends HttpServlet {
             default:
                 listarVehiculos(request, response);
                 break;
-
+                
+            case "mantenimientos": // <--- NUEVA ACCIÓN CLAVE
+                listarVehiculosParaMantenimiento(request, response);
+                break;
+                
+            case "realizarMantenimiento": // <--- ACCIÓN DEL BOTÓN
+                realizarMantenimiento(request, response);
+                break;
+                
             case "eliminar":
                 eliminarFisicamente(request, response); 
                 break;
@@ -83,7 +91,37 @@ public class VehiculoServlet extends HttpServlet {
         
         request.getRequestDispatcher("/vistasAdmin/maquinas.jsp").forward(request, response);
     }
+    
+    // --------------------------------------------------------------------------
+    // MÉTODO AÑADIDO: Carga la vista de mantenimiento y calcula el acumulado (¡CLAVE!)
+    // --------------------------------------------------------------------------
+    private void listarVehiculosParaMantenimiento(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        // 1. Obtener la lista de vehículos (misma lógica)
+        List<vehiculos> lista = vehiculoDAO.leerTodos();
 
+        // 2. Iterar sobre cada vehículo para calcular su estado de alerta
+        // ESTE BUCLE ES EL QUE CARGA kmAcumulado EN EL OBJETO VEHICULO PARA QUE EL JSP LO RECIBA
+        for (vehiculos vehiculo : lista) {
+            
+            // a. Obtener el kilometraje acumulado usando el DAO modificado (UsoVehiculoDAO)
+            double kmAcumulado = usoDAO.obtenerKilometrajeAcumulado(vehiculo.getIdVehiculo());
+            
+            // b. Determinar el estado de alerta (opcional, pero útil para la vista)
+            String estadoAlerta = alertaService.calcularEstadoAlerta(kmAcumulado);
+            
+            // c. Asignar los resultados al objeto vehículo
+            vehiculo.setKmAcumulado(kmAcumulado); // <--- AHORA EL JSP TIENE EL VALOR CORRECTO
+            vehiculo.setEstadoAlerta(estadoAlerta);
+        }
+        
+        // 3. Enviar la lista a la vista de MANTENIMIENTO
+        request.setAttribute("vehiculos", lista);
+        request.getRequestDispatcher("/vistasAdmin/mantenimientos.jsp").forward(request, response); // <--- DIRIGE AL JSP DE MANTENIMIENTO
+    }
+    // --------------------------------------------------------------------------
+    
     private void guardarVehiculo(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
@@ -178,6 +216,33 @@ public class VehiculoServlet extends HttpServlet {
             response.sendRedirect("VehiculoServlet?exito=estadoCambiado");
         } else {
             response.sendRedirect("VehiculoServlet?error=cambiarEstado");
+        }
+    }
+    
+    private void realizarMantenimiento(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+
+        int idVehiculo = 0;
+        double kmAcumulado = 0.0;
+        double kmActual = 0.0;
+
+        try {
+            idVehiculo = Integer.parseInt(request.getParameter("id"));
+            kmAcumulado = Double.parseDouble(request.getParameter("kmAcumulado"));
+            kmActual = Double.parseDouble(request.getParameter("kmActual")); 
+
+        } catch (NumberFormatException e) {
+            // ... manejo de error ...
+            return;
+        }
+
+        // Calcular el nuevo kilometraje total que se guardará en la base de datos
+        double nuevoKmActual = kmActual + kmAcumulado;
+
+        if (vehiculoDAO.registrarMantenimiento(idVehiculo, nuevoKmActual)) {
+            response.sendRedirect("VehiculoServlet?accion=mantenimientos&exito=mantenimientoRealizado");
+        } else {
+            response.sendRedirect("VehiculoServlet?accion=mantenimientos&error=falloMantenimiento");
         }
     }
 }

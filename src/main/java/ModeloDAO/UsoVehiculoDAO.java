@@ -196,29 +196,45 @@ public class UsoVehiculoDAO {
     
     // Nuevo método en UsoVehiculoDAO.java
     public double obtenerKilometrajeAcumulado(int idVehiculo) {
-        double kilometrajeTotal = 0.0;
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        double kmAcumulado = 0.0;
 
-        // Consulta SQL que suma kmRecorridos. (Ver nota sobre mantenimientos)
-        String sql = "SELECT SUM(kmRecorridos) AS KilometrajeAcumulado "
-                   + "FROM usos_vehiculos "
-                   + "WHERE idVehiculo = ? AND kmRecorridos IS NOT NULL";
+        // Consulta SQL que suma kmRecorridos. La clave del reinicio es la subconsulta
+        String sql = "SELECT COALESCE(SUM(uv.kmRecorridos), 0) AS KilometrajeAcumulado " +
+                     "FROM usos_vehiculos uv " +
+                     "WHERE uv.idVehiculo = ? " +
+                     "AND uv.fecha > COALESCE(( " + // Filtra usos posteriores a la fecha del último mantenimiento
+                     "    SELECT MAX(m.fecha_mantenimiento) " + 
+                     "    FROM mantenimientos m " +
+                     "    WHERE m.idVehiculo = ? " +
+                     "), '1900-01-01')"; // Si no hay registros de mantenimiento, usa una fecha antigua
 
         try {
-            con = Conexion.getConexion();
+            con = Conexion.getConexion(); // Asume que tienes una clase Conexion.java
             ps = con.prepareStatement(sql);
+
+            // El idVehiculo se usa dos veces en la consulta
             ps.setInt(1, idVehiculo);
+            ps.setInt(2, idVehiculo);
+
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                // El alias "KilometrajeAcumulado" se usa para obtener el resultado
-                kilometrajeTotal = rs.getDouble("KilometrajeAcumulado");
+                kmAcumulado = rs.getDouble("KilometrajeAcumulado");
             }
 
         } catch (SQLException e) {
-            System.err.println("Error al obtener kilometraje acumulado: " + e.getMessage());
+            System.err.println("Error al obtener kilometraje acumulado desde el último mantenimiento: " + e.getMessage());
+            e.printStackTrace();
         } finally {
-            // Asegúrate de cerrar los recursos (rs, ps, con) aquí si tu clase Conexion no lo hace automáticamente.
+            // Cierre seguro de recursos
+            try { if (rs != null) rs.close(); } catch (SQLException e) {}
+            try { if (ps != null) ps.close(); } catch (SQLException e) {}
+            try { if (con != null) con.close(); } catch (SQLException e) {}
         }
-        return kilometrajeTotal;
+
+        return kmAcumulado;
     }
 }

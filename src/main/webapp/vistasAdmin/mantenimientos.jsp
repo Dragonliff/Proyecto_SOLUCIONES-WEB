@@ -76,6 +76,7 @@
                         <th>Km Desde Mantenimiento</th>
                         <th>Alerta Mantenimiento</th>
                         <th>Estado</th>
+                        <th>Accion</th>
                     </tr>
                 </thead>
 
@@ -124,7 +125,27 @@
                                 <%= v.getEstado() %>
                             </span>
                         </td>
+                        <td>
+                            <form action="VehiculoServlet" method="GET" style="display:inline;">
+                                <input type="hidden" name="accion" value="realizarMantenimiento">
+                                <input type="hidden" name="id" value="<%= v.getIdVehiculo() %>">
+                                
+                                <input type="hidden" name="kmAcumulado" value="<%= v.getKmAcumulado() %>">
+                                <input type="hidden" name="kmActual" value="<%= v.getKilometrajeActual() %>">
 
+                                <button type="submit" 
+                                        class="btn btn-primary btn-sm"
+                                        <% 
+                                            // Deshabilitar si está Fuera de Servicio
+                                            if (!"Operativo".equalsIgnoreCase(v.getEstado())) { 
+                                                out.print("disabled");
+                                            }
+                                        %>
+                                        onclick="return confirm('¿Confirmar Mantenimiento para <%= v.getPlaca() %>? Esto sumará <%= String.format("%,.0f", v.getKmAcumulado()) %> km al total y reiniciará el contador.')">
+                                    <i class="bi bi-wrench"></i> Realizar Mantenimiento
+                                </button>
+                            </form>
+                        </td>
 
                     </tr>
                 <% } %>

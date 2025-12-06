@@ -31,7 +31,16 @@ public class VehiculoDAO {
     
     private static final String SQL_DELETE = "DELETE FROM vehiculos WHERE idVehiculo = ?";
 
-
+    // --- NUEVAS CONSTANTES PARA MANTENIMIENTO ---
+    // 1. Actualiza el kilometraje total
+    private static final String SQL_UPDATE_KM_TOTAL = 
+            "UPDATE vehiculos SET kilometrajeActual = ? WHERE idVehiculo = ?";
+    // 2. Registra el log de mantenimiento (el reset lógico)
+    // Se asume la existencia de la tabla 'mantenimientos' con 'km_al_mantenimiento'
+    private static final String SQL_INSERT_MANTENIMIENTO_LOG = 
+            "INSERT INTO mantenimientos (idVehiculo, km_al_mantenimiento) VALUES (?, ?)";
+    // ----------------------------------------------
+    
     public boolean crear(vehiculos vehiculo) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -254,7 +263,77 @@ public class VehiculoDAO {
         }
         return eliminado;
     }
+    
+    /**
+     * Realiza una transacción para actualizar el kilometraje total y registrar
+     * el evento de mantenimiento, lo que reinicia el contador de alerta.
+     * @param idVehiculo ID del vehículo
+     * @param nuevoKmActual El kilometraje total final (kmActual + kmAcumulado)
+     * @return true si la transacción fue exitosa.
+     */
+    public boolean registrarMantenimiento(int idVehiculo, double nuevoKmActual) {
+        Connection conn = null;
+        PreparedStatement psKm = null;
+        PreparedStatement psLog = null;
+        boolean resultado = false;
 
+        try {
+            conn = Conexion.getConexion();
+            if (conn == null) return false;
+
+            // Iniciar la transacción: si una falla, ambas se revierten.
+            conn.setAutoCommit(false); 
+
+            // 1. Actualizar el kilometraje total en la tabla 'vehiculos'
+            psKm = conn.prepareStatement(SQL_UPDATE_KM_TOTAL);
+            psKm.setDouble(1, nuevoKmActual);
+            psKm.setInt(2, idVehiculo);
+            
+            if (psKm.executeUpdate() == 0) {
+                // Si no se actualizó el vehículo (no existe o error), hacemos rollback.
+                conn.rollback();
+                return false;
+            }
+
+            // 2. Insertar el registro de mantenimiento (el punto de reinicio)
+            psLog = conn.prepareStatement(SQL_INSERT_MANTENIMIENTO_LOG);
+            psLog.setInt(1, idVehiculo);
+            psLog.setDouble(2, nuevoKmActual); 
+            
+            if (psLog.executeUpdate() == 0) {
+                // Si no se pudo insertar el log, hacemos rollback.
+                conn.rollback();
+                return false;
+            }
+
+            // Si ambos son exitosos, confirmar la transacción
+            conn.commit(); 
+            resultado = true;
+
+        } catch (SQLException e) {
+            System.err.println("ERROR SQL en transacción de mantenimiento: " + e.getMessage());
+            e.printStackTrace();
+            if (conn != null) {
+                try {
+                    System.err.println("Realizando Rollback...");
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    System.err.println("Error en rollback: " + ex.getMessage());
+                }
+            }
+        } finally {
+            try { if (psKm != null) psKm.close(); } catch (SQLException e) {}
+            try { if (psLog != null) psLog.close(); } catch (SQLException e) {}
+            try { 
+                if (conn != null) {
+                    conn.setAutoCommit(true); // Restaurar el comportamiento por defecto
+                    conn.close();
+                } 
+            } catch (SQLException e) {}
+        }
+        return resultado;
+    }
+    
     private vehiculos mapResultSetToVehiculo(ResultSet rs) throws SQLException {
         vehiculos v = new vehiculos();
         
