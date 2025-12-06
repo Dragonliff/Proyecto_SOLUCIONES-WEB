@@ -55,15 +55,15 @@ public class UsosHerramientasServlet extends HttpServlet {
                 boolean registrado = usosDao.registrarUso(nuevoUso);
                 
                 if (registrado) {
-                    request.getSession().setAttribute("mensaje", "✅ Registro de uso exitoso.");
+                    request.getSession().setAttribute("mensaje", " Registro de uso exitoso.");
                 } else {
-                    request.getSession().setAttribute("error", "❌ Error al guardar el uso de la herramienta. Revise la conexión.");
+                    request.getSession().setAttribute("error", " Error al guardar el uso de la herramienta. Revise la conexión.");
                 }
                 
             } catch (NumberFormatException e) {
-                request.getSession().setAttribute("error", "❌ Error de formato: Asegúrese que ID y Horas de Uso sean números válidos.");
+                request.getSession().setAttribute("error", "Error de formato: Asegúrese que ID y Horas de Uso sean números válidos.");
             } catch (Exception e) {
-                request.getSession().setAttribute("error", "❌ Ocurrió un error inesperado al procesar el formulario.");
+                request.getSession().setAttribute("error", " Ocurrió un error inesperado al procesar el formulario.");
             }
             
             response.sendRedirect(request.getContextPath() + "/UsosHerramientasServlet?accion=Listar");
