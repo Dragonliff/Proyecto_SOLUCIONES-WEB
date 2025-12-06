@@ -83,7 +83,6 @@
                         <th>ID</th>
                         <th>Herramienta</th>
                         <th>Motivo</th>
-                        <th>Imagen</th>
                         <th>Estado</th>
                         <th>Fecha</th>
                     </tr>
@@ -106,14 +105,6 @@
 
                         <td><%= s.getMotivo() %></td>
 
-                        <td>
-                            <% if (s.getImagen() != null) { %>
-                                <img src="<%=request.getContextPath() + "/" + s.getImagen()%>" 
-                                     width="70" class="img-thumbnail">
-                            <% } else { %>
-                                <span class="text-muted">Sin imagen</span>
-                            <% } %>
-                        </td>
 
                         <td>
                             <% String est = s.getEstado(); %>

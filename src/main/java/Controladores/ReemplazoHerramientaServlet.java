@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Controladores;
 
 import Modelo.asignaciones_mecanico_herramientas;
@@ -37,15 +41,18 @@ public class ReemplazoHerramientaServlet extends HttpServlet {
         switch (accion) {
 
             case "listar":
+                // 1. Listar solicitudes existentes
                 List<solicitudes_reemplazo_herramienta> lista = dao.listarPorMecanico(idMecanico);
                 request.setAttribute("listaSolicitudes", lista);
 
+                // 2. Listar herramientas ASIGNADAS
                 ModeloDAO.AsignacionHerramientaDAO daoAsign = new ModeloDAO.AsignacionHerramientaDAO();
                 List<Modelo.asignaciones_mecanico_herramientas> herramientasAsignadas =
                         daoAsign.listarPorMecanico(idMecanico);
 
                 request.setAttribute("herramientasAsignadas", herramientasAsignadas);
 
+                // 3. Enviar al JSP
                 request.getRequestDispatcher("vistasMecanico/reemplazoMecanico.jsp")
                        .forward(request, response);
                 break;
@@ -79,22 +86,23 @@ public class ReemplazoHerramientaServlet extends HttpServlet {
             s.setMotivo(request.getParameter("motivo"));
             s.setDetalle(request.getParameter("detalle"));
 
-            Part archivo = request.getPart("imagen");
-            String nombreArchivo = archivo.getSubmittedFileName();
+         Part archivo = request.getPart("imagen");
+String nombreArchivo = archivo.getSubmittedFileName();
 
-            if (nombreArchivo != null && !nombreArchivo.isEmpty()) {
+if (nombreArchivo != null && !nombreArchivo.isEmpty()) {
 
-                String ruta = request.getServletContext().getRealPath("/imagenes/reemplazos/");
-                File carpeta = new File(ruta);
-                if (!carpeta.exists()) carpeta.mkdirs();
+    // Carpeta ÚNICA para todas las imágenes
+    String ruta = request.getServletContext().getRealPath("/uploads/");
+    File carpeta = new File(ruta);
+    if (!carpeta.exists()) carpeta.mkdirs();
 
-                archivo.write(ruta + File.separator + nombreArchivo);
+    archivo.write(ruta + File.separator + nombreArchivo);
 
-                s.setImagen("imagenes/reemplazos/" + nombreArchivo);
-            } else {
-                s.setImagen(null);
-            }
-
+    // SOLO guardar el nombre
+    s.setImagen(nombreArchivo);
+} else {
+    s.setImagen(null);
+}
             dao.registrarSolicitud(s);
 
             response.sendRedirect("ReemplazoHerramientaServlet?accion=listar");
