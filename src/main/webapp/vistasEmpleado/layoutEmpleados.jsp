@@ -145,12 +145,6 @@
                             <i class="bi bi-file-earmark-bar-graph"></i> Reporte
                         </a>
                     </li>
-
-                    <li class="nav-item">
-                        <a href="<%= request.getContextPath() %>/vistasEmpleado/empleadoMantenimientos.jsp" class="nav-link">
-                            <i class="bi bi-tools"></i> Alertas
-                        </a>
-                    </li>
                     
                     <li class="nav-item">
                         <a href="<%= request.getContextPath() %>/ReemplazoServlet?accion=nuevo" class="nav-link">

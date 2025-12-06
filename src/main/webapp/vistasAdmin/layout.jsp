@@ -151,11 +151,6 @@
                     </a>
                 </li>
                 
-                <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/vistasAdmin/reportes.jsp" class="nav-link sidebar-link">
-                        <i class="bi bi-file-earmark-bar-graph-fill me-2"></i> Reportes
-                    </a>
-                </li>
             </ul>
             
             <hr class="text-secondary">

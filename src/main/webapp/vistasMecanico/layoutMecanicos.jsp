@@ -156,12 +156,6 @@
                             <i class="bi bi-arrow-left-right"></i> Solicitar Reemplazo
                         </a>
                     </li>
-                    
-                    <li class="nav-item">
-                        <a href="vistasMecanico/mecanicoMantenimientos.jsp" class="nav-link">
-                            <i class="bi bi-hammer"></i> Alertas
-                        </a>
-                    </li>
 
                     <li class="nav-item mt-4 pt-2 border-top">
                         <a href="<%= request.getContextPath() %>/CerrarSesionServlet" class="nav-link text-danger">
