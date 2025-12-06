@@ -10,14 +10,20 @@ public class herramientas {
     private String tipo;
     private String estado;
     private int idProveedor; 
+    // --- NUEVAS PROPIEDADES PERMANENTES ---
+    private double horasTotales; 
 
+    // --- NUEVAS PROPIEDADES TRANSIENTES (solo para la vista) ---
+    private double horasAcumuladas; 
+    private String estadoAlerta;
    
-    public herramientas(int idHerramienta, String nombre, String tipo, String estado, int idProveedor) {
+    public herramientas(int idHerramienta, String nombre, String tipo, String estado, int idProveedor, double horasTotales) {
         this.idHerramienta = idHerramienta;
         this.nombre = nombre;
         this.tipo = tipo;
         this.estado = estado;
         this.idProveedor = idProveedor;
+        this.horasTotales = horasTotales; // ¡AÑADIDO!
     }
 
   
@@ -26,6 +32,7 @@ public class herramientas {
         this.tipo = tipo;
         this.estado = estado;
         this.idProveedor = idProveedor;
+        this.horasTotales = 0.0; // Se inicializa en 0.0 al crear
     }
 
     
@@ -70,5 +77,31 @@ public class herramientas {
 
     public void setIdProveedor(int idProveedor) {
         this.idProveedor = idProveedor;
+    }
+    
+    // --- Nuevos Getters y Setters ---
+
+    public double getHorasTotales() {
+        return horasTotales;
+    }
+
+    public void setHorasTotales(double horasTotales) {
+        this.horasTotales = horasTotales;
+    }
+
+    public double getHorasAcumuladas() {
+        return horasAcumuladas;
+    }
+
+    public void setHorasAcumuladas(double horasAcumuladas) {
+        this.horasAcumuladas = horasAcumuladas;
+    }
+
+    public String getEstadoAlerta() {
+        return estadoAlerta;
+    }
+
+    public void setEstadoAlerta(String estadoAlerta) {
+        this.estadoAlerta = estadoAlerta;
     }
 }

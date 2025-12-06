@@ -85,8 +85,8 @@
                 </li>
 
                 <li>
-                    <a href="${pageContext.request.contextPath}/vistasAdmin/alertasPredictivas.jsp" class="nav-link sidebar-link text-white">
-                        <i class="bi bi-bell-fill me-2"></i> Alertas predictivas
+                    <a href="${pageContext.request.contextPath}/HistorialHerramientasServlet" class="nav-link sidebar-link text-white">
+                        <i class="bi bi-tools me-2"></i> Mantenimiento Herramientas
                     </a>
                 </li>
                 

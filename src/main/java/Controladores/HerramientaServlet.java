@@ -38,7 +38,7 @@ public class HerramientaServlet extends HttpServlet {
                 request.setAttribute("proveedores", listaProveedoresEditar);
                 request.getRequestDispatcher("vistasAdmin/herramientas.jsp").forward(request, response);
                 break;
-
+                
             default: // listar
                 List<herramientas> lista = dao.listarHerramientas();
                 List<proveedores> listaProveedores = daoProveedor.listar(); 
@@ -62,13 +62,11 @@ public class HerramientaServlet extends HttpServlet {
         int idProveedor = Integer.parseInt(request.getParameter("idProveedor"));
 
         herramientas h = new herramientas(
-            idHerramienta,
-            request.getParameter("nombre"),
-            request.getParameter("tipo"),
-            request.getParameter("estado"),
-            idProveedor
-        );
-
+                request.getParameter("nombre"),
+                request.getParameter("tipo"),
+                request.getParameter("estado"),
+                idProveedor
+            );
         if ("guardar".equals(accion)) {
             if (idHerramienta == 0) {
                 dao.agregarHerramienta(h);

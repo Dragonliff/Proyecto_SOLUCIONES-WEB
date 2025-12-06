@@ -109,4 +109,40 @@ public class UsosHerramientasDAO {
         }
         return lista;
     }
+    
+    public double obtenerHorasAcumuladas(int idHerramienta) {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        double horasAcumuladas = 0.0;
+
+        String sql = "SELECT COALESCE(SUM(uh.horasUso), 0) AS HorasAcumuladas " +
+                     "FROM usos_herramientas uh " +
+                     "WHERE uh.idHerramienta = ? " +
+                     // Filtra por usos posteriores a la última entrada en mantenimientos_herramientas
+                     "AND uh.fecha > COALESCE(( " +
+                     "    SELECT MAX(mh.fecha_mantenimiento) " + 
+                     "    FROM mantenimientos_herramientas mh " +
+                     "    WHERE mh.idHerramienta = ? " +
+                     "), '1900-01-01')";
+
+        try {
+            con = Conexion.getConexion();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idHerramienta);
+            ps.setInt(2, idHerramienta);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                horasAcumuladas = rs.getDouble("HorasAcumuladas");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener horas acumuladas de herramienta: " + e.getMessage());
+        } finally {
+            // Asegura el cierre de recursos
+        }
+
+        return horasAcumuladas;
+    }
 }

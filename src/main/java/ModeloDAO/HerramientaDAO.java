@@ -15,7 +15,7 @@ public class HerramientaDAO {
     
     public List<herramientas> listarPorMecanico(int idMecanico) {
         List<herramientas> lista = new ArrayList<>();
-        String sql = "SELECT h.idHerramienta, h.nombre, h.tipo, h.estado, h.id_proveedor " +
+        String sql = "SELECT h.idHerramienta, h.nombre, h.tipo, h.estado, h.id_proveedor, h.horas_totales " +
                      "FROM herramientas h INNER JOIN asignaciones_mecanico_herramienta a " +
                      "ON h.idHerramienta = a.idHerramienta " +
                      "WHERE a.idMecanico = ? AND a.estado = 'Activa'"; 
@@ -32,7 +32,8 @@ public class HerramientaDAO {
                     rs.getString("nombre"),
                     rs.getString("tipo"),
                     rs.getString("estado"),
-                    rs.getInt("id_proveedor")
+                    rs.getInt("id_proveedor"),
+                    rs.getDouble("horas_totales") // <-- ¡AÑADIDO!
                 );
                 lista.add(h);
             }
@@ -61,7 +62,8 @@ public class HerramientaDAO {
                     rs.getString("nombre"),
                     rs.getString("tipo"),
                     rs.getString("estado"),
-                    rs.getInt("id_proveedor") 
+                    rs.getInt("id_proveedor"),
+                    rs.getDouble("horas_totales") // <-- ¡AÑADIDO!
                 );
                 lista.add(h);
             }
@@ -146,7 +148,8 @@ public class HerramientaDAO {
                     rs.getString("nombre"),
                     rs.getString("tipo"),
                     rs.getString("estado"),
-                    rs.getInt("id_proveedor") // proveedor
+                    rs.getInt("id_proveedor"), // proveedor
+                    rs.getDouble("horas_totales") // <-- ¡AÑADIDO!
                 );
             }
         } catch (Exception e) {
@@ -166,5 +169,66 @@ public class HerramientaDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    private static final String SQL_UPDATE_HORAS_TOTALES = 
+        "UPDATE herramientas SET horas_totales = ? WHERE idHerramienta = ?";
+
+    private static final String SQL_INSERT_MANTENIMIENTO_HERRAMIENTA = 
+        "INSERT INTO mantenimientos_herramientas (idHerramienta, horas_al_mantenimiento) VALUES (?, ?)";
+    
+    public boolean registrarMantenimiento(int idHerramienta, double nuevasHorasTotales) {
+        Connection conn = null;
+        PreparedStatement psHoras = null;
+        PreparedStatement psLog = null;
+        boolean resultado = false;
+
+        try {
+            conn = Conexion.getConexion();
+            if (conn == null) return false;
+
+            // Iniciar Transacción
+            conn.setAutoCommit(false); 
+
+            // 1. Actualizar las horas totales en la tabla 'herramientas'
+            psHoras = conn.prepareStatement(SQL_UPDATE_HORAS_TOTALES);
+            psHoras.setDouble(1, nuevasHorasTotales);
+            psHoras.setInt(2, idHerramienta);
+
+            if (psHoras.executeUpdate() == 0) {
+                conn.rollback();
+                return false;
+            }
+
+            // 2. Insertar el registro de mantenimiento (el punto de reinicio)
+            psLog = conn.prepareStatement(SQL_INSERT_MANTENIMIENTO_HERRAMIENTA);
+            psLog.setInt(1, idHerramienta);
+            psLog.setDouble(2, nuevasHorasTotales); 
+
+            if (psLog.executeUpdate() == 0) {
+                conn.rollback();
+                return false;
+            }
+
+            // Si ambos son exitosos, confirmar
+            conn.commit(); 
+            resultado = true;
+
+        } catch (SQLException e) {
+            System.err.println("ERROR SQL en transacción de mantenimiento de herramienta: " + e.getMessage());
+            if (conn != null) {
+                try { conn.rollback(); } catch (SQLException ex) { }
+            }
+        } finally {
+            try { if (psHoras != null) psHoras.close(); } catch (SQLException e) {}
+            try { if (psLog != null) psLog.close(); } catch (SQLException e) {}
+            try { 
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                } 
+            } catch (SQLException e) {}
+        }
+        return resultado;
     }
 }
