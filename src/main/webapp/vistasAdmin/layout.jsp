@@ -25,7 +25,7 @@
             
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="${pageContext.request.contextPath}/vistasAdmin/inicio.jsp" class="nav-link sidebar-link text-white active-link" aria-current="page">
+                    <a href="${pageContext.request.contextPath}/DashboardServlet" class="nav-link sidebar-link text-white active-link" aria-current="page">
                         <i class="bi bi-house-door-fill me-2"></i> Inicio
                     </a>
                 </li>

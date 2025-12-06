@@ -1,6 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="../seguridad.jsp" %> 
+<%@ include file="layout.jsp" %>
+<%@page import="Modelo.solicitudes_reemplazo_herramienta"%>
+<%@page import="Modelo.SolicitudReemplazo" %>
+
 <%@page import="java.util.List"%>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -28,20 +33,7 @@
 
 <body>
 
-    <!-- NAVBAR SUPERIOR -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <span class="navbar-brand">Panel de Administración</span>
 
-            <div class="d-flex">
-                <span class="text-white me-3">
-                    Usuario: <b><%= session.getAttribute("nombreCompleto") %></b>
-                </span>
-
-                <a href="../ControladorLogout" class="btn btn-danger btn-sm">Salir</a>
-            </div>
-        </div>
-    </nav>
 
     <!-- CONTENIDO -->
     <div class="container mt-4">
@@ -86,18 +78,20 @@
                     </h2>
                 </div>
             </div>
-
-            <!-- ALERTAS ACTIVAS -->
+                    
+                    <!-- NUEVO KPI: TOTAL SOLICITUDES DEL CONDUCTOR -->
             <div class="col-md-3">
                 <div class="card shadow-sm p-3">
-                    <h5>Alertas Activas</h5>
-                    <h2 class="text-danger">
-                        <%= request.getAttribute("alertasActivas") != null 
-                            ? request.getAttribute("alertasActivas") 
+                    <h5>Solicitudes Conductores</h5>
+                    <h2 class="text-info">
+                        <%= request.getAttribute("totalSolicitudesConductor") != null 
+                            ? request.getAttribute("totalSolicitudesConductor")
                             : "0" %>
                     </h2>
                 </div>
             </div>
+
+
         </div>
 
         <!-- SECCIÓN DE TABLAS -->
@@ -122,18 +116,18 @@
                             List<?> ultSolicitudes = (List<?>) request.getAttribute("ultimasSolicitudes");
                             if (ultSolicitudes != null) {
                                 for (Object s : ultSolicitudes) {
-                                    // Cambia por tu clase "solicitudes_reemplazo"
-                                    Modelo.solicitudes_reemplazo sol = (Modelo.solicitudes_reemplazo) s;
+
+                                    solicitudes_reemplazo_herramienta sol = (solicitudes_reemplazo_herramienta) s;
                         %>
                             <tr>
                                 <td><%= sol.getIdSolicitud() %></td>
-                                <td><%= sol.getIdConductor() %></td>
+                                <td><%= sol.getIdMecanico() %></td>
                                 <td><%= sol.getMotivo() %></td>
                                 <td><%= sol.getEstado() %></td>
                             </tr>
-                        <% 
+                        <%
                                 }
-                            } else { 
+                            } else {
                         %>
                             <tr>
                                 <td colspan="4" class="text-center">Sin registros</td>
@@ -143,43 +137,45 @@
                     </table>
                 </div>
             </div>
+        </div>
+                        
+                <!-- TABLA CONDUCTORES -->
+        <div class="col-md-6">
+            <div class="card p-3 shadow-sm">
+                <h5 class="title">Últimas Solicitudes (Conductores)</h5>
 
-            <!-- ALERTAS RECIENTES -->
-            <div class="col-md-6">
-                <div class="card p-3 shadow-sm">
-                    <h5 class="title">Alertas Recientes</h5>
+                <table class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Conductor</th>
+                            <th>Motivo</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <%
+                        List<SolicitudReemplazo> ultCon = 
+                            (List<SolicitudReemplazo>) request.getAttribute("ultimasSolicitudesConductor");
 
-                    <table class="table table-hover mt-3">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Herramienta</th>
-                                <th>Mensaje</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <%
-                            List<?> ultAlertas = (List<?>) request.getAttribute("ultimasAlertas");
-                            if (ultAlertas != null) {
-                                for (Object a : ultAlertas) {
-                                    Modelo.alertas al = (Modelo.alertas) a;
-                        %>
-                            <tr>
-                                <td><%= al.getIdAlerta() %></td>
-                                <td><%= al.getIdHerramienta() %></td>
-                                <td><%= al.getMensaje() %></td>
-                            </tr>
-                        <%       }
-                            } else { %>
-                            <tr>
-                                <td colspan="3" class="text-center">No hay alertas</td>
-                            </tr>
-                        <% } %>
-                        </tbody>
-                    </table>
-                </div>
+                        if (ultCon != null) {
+                            for (SolicitudReemplazo sc : ultCon) {
+                    %>
+                        <tr>
+                            <td><%= sc.getIdSolicitud() %></td>
+                            <td><%= sc.getIdConductor() %></td>
+                            <td><%= sc.getMotivo() %></td>
+                            <td><%= sc.getEstado() %></td>
+                        </tr>
+                    <%
+                            }
+                        } else {
+                    %>
+                        <tr><td colspan="4" class="text-center">Sin registros</td></tr>
+                    <% } %>
+                    </tbody>
+                </table>
             </div>
-
         </div>
 
     </div>

@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
 
             switch (rol) {
                 case 1:
-                    response.sendRedirect("vistasAdmin/inicio.jsp");
+                    response.sendRedirect("DashboardServlet");
                     break;
                 case 2:
                     response.sendRedirect("HerramientasMecanicoServlet");
