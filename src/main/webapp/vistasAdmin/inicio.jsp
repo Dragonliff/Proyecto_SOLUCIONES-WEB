@@ -1,65 +1,191 @@
-<%@ page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="java.util.List" %>
-
-<%
-    request.setAttribute("titulo", "Inicio");
-%>
-
-<%@ include file="layout.jsp" %>
-<%@ include file="../seguridad.jsp" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@include file="../seguridad.jsp" %> 
+<%@page import="java.util.List"%>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Sistema Web de Resiliencia Operativa</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Administración</title>
 
-    <link rel="stylesheet" href="css/barraNavegacion.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" 
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
     <style>
         body {
-            background: #e6e7ea; 
+            background: #f5f7fa;
+        }
+        .card {
+            border-radius: 12px;
+        }
+        .title {
+            font-weight: bold;
+            color: #333;
         }
     </style>
 </head>
 
 <body>
-    <div class="container my-4">
-        <header class="mb-4">
-            <h1 class="h3">Panel de Control</h1>
-            <p class="text-muted">Bienvenido al sistema de resiliencia operativa. Aquí podrás visualizar el estado general de tu flota.</p>
-        </header>
 
+    <!-- NAVBAR SUPERIOR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand">Panel de Administración</span>
+
+            <div class="d-flex">
+                <span class="text-white me-3">
+                    Usuario: <b><%= session.getAttribute("nombreCompleto") %></b>
+                </span>
+
+                <a href="../ControladorLogout" class="btn btn-danger btn-sm">Salir</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO -->
+    <div class="container mt-4">
+
+        <h2 class="title mb-4">Dashboard General</h2>
+
+        <!-- TARJETAS DE INDICADORES -->
         <div class="row g-3">
-            <div class="col-12 col-md-4">
-                <div class="card text-bg-primary shadow-sm h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Flota Registrada</h5>
-                        <p class="card-text fs-3 fw-bold">25 Máquinas</p>
-                    </div>
+
+            <!-- TOTAL VEHÍCULOS -->
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3">
+                    <h5>Total Vehículos</h5>
+                    <h2 class="text-primary">
+                        <%= request.getAttribute("totalVehiculos") != null 
+                            ? request.getAttribute("totalVehiculos") 
+                            : "0" %>
+                    </h2>
                 </div>
             </div>
 
-            <div class="col-12 col-md-4">
-                <div class="card text-bg-success shadow-sm h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Disponibilidad</h5>
-                        <p class="card-text fs-3 fw-bold">92%</p>
-                    </div>
+            <!-- SOLICITUDES PENDIENTES -->
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3">
+                    <h5>Solicitudes Pendientes</h5>
+                    <h2 class="text-warning">
+                        <%= request.getAttribute("solicitudesPendientes") != null 
+                            ? request.getAttribute("solicitudesPendientes") 
+                            : "0" %>
+                    </h2>
                 </div>
             </div>
 
-            <div class="col-12 col-md-4">
-                <div class="card text-bg-warning shadow-sm h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Alertas Activas</h5>
-                        <p class="card-text fs-3 fw-bold">4</p>
-                    </div>
+            <!-- HERRAMIENTAS DISPONIBLES -->
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3">
+                    <h5>Herramientas Disponibles</h5>
+                    <h2 class="text-success">
+                        <%= request.getAttribute("herramientasDisponibles") != null 
+                            ? request.getAttribute("herramientasDisponibles") 
+                            : "0" %>
+                    </h2>
+                </div>
+            </div>
+
+            <!-- ALERTAS ACTIVAS -->
+            <div class="col-md-3">
+                <div class="card shadow-sm p-3">
+                    <h5>Alertas Activas</h5>
+                    <h2 class="text-danger">
+                        <%= request.getAttribute("alertasActivas") != null 
+                            ? request.getAttribute("alertasActivas") 
+                            : "0" %>
+                    </h2>
                 </div>
             </div>
         </div>
+
+        <!-- SECCIÓN DE TABLAS -->
+        <div class="row mt-5">
+
+            <!-- ÚLTIMAS SOLICITUDES -->
+            <div class="col-md-6">
+                <div class="card p-3 shadow-sm">
+                    <h5 class="title">Últimas Solicitudes</h5>
+
+                    <table class="table table-striped mt-3">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Conductor</th>
+                                <th>Motivo</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <%
+                            List<?> ultSolicitudes = (List<?>) request.getAttribute("ultimasSolicitudes");
+                            if (ultSolicitudes != null) {
+                                for (Object s : ultSolicitudes) {
+                                    // Cambia por tu clase "solicitudes_reemplazo"
+                                    Modelo.solicitudes_reemplazo sol = (Modelo.solicitudes_reemplazo) s;
+                        %>
+                            <tr>
+                                <td><%= sol.getIdSolicitud() %></td>
+                                <td><%= sol.getIdConductor() %></td>
+                                <td><%= sol.getMotivo() %></td>
+                                <td><%= sol.getEstado() %></td>
+                            </tr>
+                        <% 
+                                }
+                            } else { 
+                        %>
+                            <tr>
+                                <td colspan="4" class="text-center">Sin registros</td>
+                            </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ALERTAS RECIENTES -->
+            <div class="col-md-6">
+                <div class="card p-3 shadow-sm">
+                    <h5 class="title">Alertas Recientes</h5>
+
+                    <table class="table table-hover mt-3">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Herramienta</th>
+                                <th>Mensaje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <%
+                            List<?> ultAlertas = (List<?>) request.getAttribute("ultimasAlertas");
+                            if (ultAlertas != null) {
+                                for (Object a : ultAlertas) {
+                                    Modelo.alertas al = (Modelo.alertas) a;
+                        %>
+                            <tr>
+                                <td><%= al.getIdAlerta() %></td>
+                                <td><%= al.getIdHerramienta() %></td>
+                                <td><%= al.getMensaje() %></td>
+                            </tr>
+                        <%       }
+                            } else { %>
+                            <tr>
+                                <td colspan="3" class="text-center">No hay alertas</td>
+                            </tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
     </div>
+
+    <!-- JS Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

@@ -79,21 +79,17 @@
                 </li>
 
                 <li>
-                    <a href="${pageContext.request.contextPath}/vistasAdmin/mantenimientos.jsp" class="nav-link sidebar-link text-white">
+                    <a href="${pageContext.request.contextPath}/historialGlobalServlet" class="nav-link sidebar-link text-white">
                         <i class="bi bi-wrench-adjustable-circle-fill me-2"></i> Mantenimientos
                     </a>
                 </li>
-                
-                <li>
-                    <a href="${pageContext.request.contextPath}/vistasAdmin/fallasReportadas.jsp" class="nav-link sidebar-link text-white">
-                        <i class="bi bi-exclamation-octagon-fill me-2"></i> Fallas reportadas
-                    </a>
-                </li>
+
                 <li>
                     <a href="${pageContext.request.contextPath}/vistasAdmin/alertasPredictivas.jsp" class="nav-link sidebar-link text-white">
                         <i class="bi bi-bell-fill me-2"></i> Alertas predictivas
                     </a>
                 </li>
+                
                 <li>
                     <a href="${pageContext.request.contextPath}/vistasAdmin/reportes.jsp" class="nav-link sidebar-link text-white">
                         <i class="bi bi-file-earmark-bar-graph-fill me-2"></i> Reportes

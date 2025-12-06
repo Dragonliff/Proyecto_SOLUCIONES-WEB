@@ -1,33 +1,46 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="Modelo.vehiculos" %>
+
+<%
+    request.setAttribute("titulo", "Vehículos");
+%>
+
 <%@ include file="layout.jsp" %>
 <%@ include file="../seguridad.jsp" %>
 
-<%
-    request.setAttribute("titulo", "Mantenimiento");
-%>
-
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Historial de Mantenimientos</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Vehículos</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         body {
-            background-color: #e2e2e2 !important;
+            background: #e5e6e7 !important;
         }
 
         .card {
-            background-color: #f5f5f5 !important;
-            border: none;
+            border-radius: 12px;
         }
 
-        .list-group-item {
-            background-color: #f8f8f8 !important;
+        table tbody tr:hover {
+            background: #eef2f7 !important;
+            transition: 0.2s;
         }
+
+        /* Estilos de Estado */
+        .estado-operativo { color: #0a7c1f; font-weight: bold; }
+        .estado-mantenimiento { color: #ff9800; font-weight: bold; }
+        .estado-inactivo { color: #d00000; font-weight: bold; }
+        
+        /* Estilos de Alerta */
+        .alerta-baja { background-color: #d4edda; color: #155724; } /* Verde pálido */
+        .alerta-media { background-color: #fff3cd; color: #856404; } /* Amarillo pálido */
+        .alerta-alta { background-color: #f8d7da; color: #721c24; } /* Rojo pálido */
     </style>
 </head>
 
@@ -36,40 +49,115 @@
 <div class="container py-4">
 
     <h2 class="text-center mb-4 fw-bold">
-        <i class="bi bi-wrench-adjustable-circle me-2"></i>
-        Historial de Mantenimientos
+        <i class="bi bi-truck-front me-2"></i>Gestión de Vehículos
     </h2>
 
-    <p class="text-center text-muted mb-4">
-        Consulta los mantenimientos realizados a la maquinaria y vehículos.
-    </p>
 
-    <div class="card shadow-sm border-0">
-        <div class="card-body px-0">
+    <div class="card shadow-sm">
+        <div class="card-body">
 
-            <ul class="list-group list-group-flush">
+            <% List<vehiculos> lista = (List<vehiculos>) request.getAttribute("vehiculos");
+                if (lista == null || lista.isEmpty()) { %>
 
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>
-                        <strong>Camión Volvo A1</strong> — Cambio de aceite
-                    </span>
-                    <span class="text-muted">01/09/2025</span>
-                </li>
+                <div class="alert alert-info text-center">No hay vehículos registrados actualmente.</div>
 
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>
-                        <strong>Excavadora X5</strong> — Revisión hidráulica
-                    </span>
-                    <span class="text-muted">25/08/2025</span>
-                </li>
+            <% } else { %>
 
-            </ul>
+            <table class="table table-striped table-bordered align-middle">
+                <thead class="table-dark text-center">
+                    <tr>
+                        <th>ID</th>
+                        <th>Placa</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Año</th>
+                        <th>Tipo</th>
+                        <th>Kilometraje (km)</th>
+                        <th>Km Desde Mantenimiento</th>
+                        <th>Alerta Mantenimiento</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+
+                <tbody class="text-center">
+                <%    
+                    for (vehiculos v : lista) {
+
+                        String estadoClass = "bg-secondary";
+                        if ("Operativo".equalsIgnoreCase(v.getEstado())) estadoClass = "bg-success";
+                        else if ("En Mantenimiento".equalsIgnoreCase(v.getEstado())) estadoClass = "bg-warning text-dark";
+                        else if ("Fuera de Servicio".equalsIgnoreCase(v.getEstado())) estadoClass = "bg-danger";
+                        
+                        // Lógica para asignar la clase de alerta
+                        String alertaClass = "";
+                        // Usamos startsWith para manejar los emojis (🔴, 🟡, 🟢)
+                        if (v.getEstadoAlerta() != null) {
+                            if (v.getEstadoAlerta().startsWith("ALTA") || v.getEstadoAlerta().startsWith("URGENTE")) {
+                                alertaClass = "alerta-alta";
+                            } else if (v.getEstadoAlerta().startsWith("MEDIA")) {
+                                alertaClass = "alerta-media";
+                            } else {
+                                alertaClass = "alerta-baja";
+                            }
+                        }
+
+                %>
+                    <tr>
+                        <td><%= v.getIdVehiculo() %></td>
+                        <td><%= v.getPlaca() %></td>
+                        <td><%= v.getMarca() %></td>
+                        <td><%= v.getModelo() %></td>
+                        <td><%= v.getAnio() %></td>
+                        <td><%= v.getTipoVehiculo() %></td>
+                        <td><%= String.format("%,.2f", v.getKilometrajeActual()) %></td>
+                        
+                        <td>
+                            <strong><%= String.format("%,.0f", v.getKmAcumulado()) %></strong> km
+                        </td>
+                        
+                        <td class="<%= alertaClass %>">
+                            <strong><%= v.getEstadoAlerta() != null ? v.getEstadoAlerta() : "N/D" %></strong>
+                        </td>
+
+                        <td>
+                            <span class="badge <%= estadoClass %>">
+                                <%= v.getEstado() %>
+                            </span>
+                        </td>
+
+
+                    </tr>
+                <% } %>
+                </tbody>
+
+            </table>
+            <% } %>
 
         </div>
     </div>
-
 </div>
 
+
+<script>
+function prepararFormulario(id, placa, marca, modelo, anio, tipo, km, estado) {
+
+    document.getElementById("modalTitle").innerText = id ? "Editar Vehículo" : "Registrar Vehículo";
+
+    document.getElementById("idVehiculo").value = id || "";
+    document.getElementById("placaModal").value = placa || "";
+    document.getElementById("marcaModal").value = marca || "";
+    document.getElementById("modeloModal").value = modelo || "";
+    document.getElementById("anioModal").value = anio || "";
+    document.getElementById("kilometrajeActualModal").value = km || "";
+
+    document.getElementById("tipoVehiculoModal").value = tipo || "Auto";
+    document.getElementById("estadoModal").value = estado || "Operativo";
+
+    document.getElementById("placaModal").readOnly = !!id;
+}
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

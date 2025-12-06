@@ -37,10 +37,6 @@
         .estado-mantenimiento { color: #ff9800; font-weight: bold; }
         .estado-inactivo { color: #d00000; font-weight: bold; }
         
-        /* Estilos de Alerta */
-        .alerta-baja { background-color: #d4edda; color: #155724; } /* Verde pálido */
-        .alerta-media { background-color: #fff3cd; color: #856404; } /* Amarillo pálido */
-        .alerta-alta { background-color: #f8d7da; color: #721c24; } /* Rojo pálido */
     </style>
 </head>
 
@@ -81,8 +77,6 @@
                         <th>Año</th>
                         <th>Tipo</th>
                         <th>Kilometraje (km)</th>
-                        <th>**Km Desde Mantenimiento**</th>
-                        <th>**Alerta Mantenimiento**</th>
                         <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
@@ -119,14 +113,6 @@
                         <td><%= v.getAnio() %></td>
                         <td><%= v.getTipoVehiculo() %></td>
                         <td><%= String.format("%,.2f", v.getKilometrajeActual()) %></td>
-                        
-                        <td>
-                            <strong><%= String.format("%,.0f", v.getKmAcumulado()) %></strong> km
-                        </td>
-                        
-                        <td class="<%= alertaClass %>">
-                            <strong><%= v.getEstadoAlerta() != null ? v.getEstadoAlerta() : "N/D" %></strong>
-                        </td>
 
                         <td>
                             <span class="badge <%= estadoClass %>">
