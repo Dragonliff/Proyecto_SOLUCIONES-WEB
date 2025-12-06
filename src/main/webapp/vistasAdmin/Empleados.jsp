@@ -17,7 +17,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/barraNavegacion.css">
 
-    <!-- ---- ESTILO PERSONALIZADO DE FONDO Y TARJETAS ---- -->
     <style>
         body {
             background: #e6e7ea;
@@ -68,7 +67,6 @@
 
             <h2 class="text-center mb-4">Gestión de Empleados</h2>
 
-            <!-- Botón agregar -->
             <div class="text-end mb-3">
                 <button class="btn btn-primary" data-bs-toggle="modal"
                         data-bs-target="#empleadoModal" onclick="abrirModalAgregar()">
@@ -132,7 +130,6 @@
         </div>
     </div>
 
-    <!-- ================= MODAL ================= -->
     <div class="modal fade" id="empleadoModal" data-bs-backdrop="static"
          data-bs-keyboard="false" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">

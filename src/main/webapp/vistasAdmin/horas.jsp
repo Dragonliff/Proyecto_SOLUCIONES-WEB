@@ -7,7 +7,6 @@
 <%
     request.setAttribute("titulo", "Registro de Uso de Máquinas");
 
-    // La lista debe venir enviada desde el servlet
     List<Maquina> maquinas = (List<Maquina>) request.getAttribute("maquinas");
 
     if (maquinas == null) {
@@ -25,7 +24,7 @@
 
     <style>
         body {
-            background-color: #f0f0f0 !important; /* gris suave */
+            background-color: #f0f0f0 !important; 
         }
         .card-table {
             background: white;

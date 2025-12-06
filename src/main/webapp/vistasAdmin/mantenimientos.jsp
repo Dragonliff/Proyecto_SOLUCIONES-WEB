@@ -32,12 +32,10 @@
             transition: 0.2s;
         }
 
-        /* Estilos de Estado */
         .estado-operativo { color: #0a7c1f; font-weight: bold; }
         .estado-mantenimiento { color: #ff9800; font-weight: bold; }
         .estado-inactivo { color: #d00000; font-weight: bold; }
         
-        /* Estilos de Alerta */
         .alerta-baja { background-color: #d4edda; color: #155724; } /* Verde pálido */
         .alerta-media { background-color: #fff3cd; color: #856404; } /* Amarillo pálido */
         .alerta-alta { background-color: #f8d7da; color: #721c24; } /* Rojo pálido */
@@ -89,9 +87,7 @@
                         else if ("En Mantenimiento".equalsIgnoreCase(v.getEstado())) estadoClass = "bg-warning text-dark";
                         else if ("Fuera de Servicio".equalsIgnoreCase(v.getEstado())) estadoClass = "bg-danger";
                         
-                        // Lógica para asignar la clase de alerta
                         String alertaClass = "";
-                        // Usamos startsWith para manejar los emojis (🔴, 🟡, 🟢)
                         if (v.getEstadoAlerta() != null) {
                             if (v.getEstadoAlerta().startsWith("ALTA") || v.getEstadoAlerta().startsWith("URGENTE")) {
                                 alertaClass = "alerta-alta";
@@ -136,7 +132,6 @@
                                 <button type="submit" 
                                         class="btn btn-primary btn-sm"
                                         <% 
-                                            // Deshabilitar si está Fuera de Servicio
                                             if (!"Operativo".equalsIgnoreCase(v.getEstado())) { 
                                                 out.print("disabled");
                                             }

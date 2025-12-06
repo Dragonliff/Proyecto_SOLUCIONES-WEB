@@ -12,28 +12,26 @@
         <link rel="stylesheet" href="css/barraLateral.css"> 
 
         <style>
-            /* --- ESTILOS CRÍTICOS PARA EL SIDEBAR FIJO --- */
             
             body {
                 min-height: 100vh;
-                background-color: #eef1f6; /* Fondo gris claro general para la app */
-                overflow-x: hidden; /* Evita scroll horizontal */
+                background-color: #eef1f6; 
+                overflow-x: hidden; 
             }
 
             .sidebar-pro {
-                width: 260px;             /* Ancho fijo */
-                min-width: 260px;         /* Evita que se encoja */
-                height: 100vh;            /* Altura completa de la ventana */
-                position: sticky;         /* CLAVE: Se queda pegado */
-                top: 0;                   /* Pegado al techo */
+                width: 260px;             
+                min-width: 260px;         
+                height: 100vh;            
+                position: sticky;         
+                top: 0;                   
                 left: 0;
-                background-color: #212529; /* Color oscuro (text-bg-dark) */
-                overflow-y: auto;         /* Scroll interno si el menú es muy largo */
-                z-index: 1000;            /* Siempre encima */
-                box-shadow: 4px 0 10px rgba(0,0,0,0.1); /* Sombra sutil a la derecha */
+                background-color: #212529; 
+                overflow-y: auto;         
+                z-index: 1000;            
+                box-shadow: 4px 0 10px rgba(0,0,0,0.1); 
             }
 
-            /* Estilo para los enlaces del sidebar */
             .sidebar-link {
                 color: rgba(255, 255, 255, 0.8) !important;
                 margin-bottom: 5px;
@@ -45,18 +43,16 @@
             .sidebar-link:hover {
                 background-color: rgba(255, 255, 255, 0.1);
                 color: #fff !important;
-                transform: translateX(5px); /* Pequeña animación a la derecha */
+                transform: translateX(5px); 
             }
 
-            /* Clase para indicar el link activo (puedes usarla con lógica java si quieres) */
             .nav-link.active, .active-link {
-                background-color: #0d6efd !important; /* Azul Bootstrap */
+                background-color: #0d6efd !important; 
                 color: #fff !important;
                 font-weight: 600;
                 box-shadow: 0 4px 6px rgba(13, 110, 253, 0.4);
             }
 
-            /* Scrollbar personalizado fino y elegante para el menú */
             .sidebar-pro::-webkit-scrollbar {
                 width: 5px;
             }

@@ -43,7 +43,6 @@
 
         <h2 class="text-center mb-4">Gestión de Proveedores</h2>
 
-        <!-- Botón agregar -->
         <div class="text-end mb-3">
             <button class="btn btn-primary" data-bs-toggle="modal"
                     data-bs-target="#proveedorModal" onclick="nuevoProveedor()">
@@ -119,7 +118,6 @@
 </div>
 
 
-<!-- ================= MODAL ================= -->
 <div class="modal fade" id="proveedorModal" data-bs-backdrop="static" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <form action="ProveedorServlet" method="post" class="modal-content">

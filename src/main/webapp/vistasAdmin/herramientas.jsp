@@ -27,14 +27,12 @@
         <i class="bi bi-tools me-2"></i>Gestión de Herramientas
     </h2>
 
-    <!-- Botón Agregar -->
     <div class="d-flex justify-content-end mb-3">
         <button class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#modalAgregar">
             <i class="bi bi-plus-circle"></i> Nueva Herramienta
         </button>
     </div>
 
-    <!-- Tabla -->
     <div class="card shadow-sm">
         <div class="card-body">
             <%
@@ -51,7 +49,7 @@
                         <th>Nombre</th>
                         <th>Tipo</th>
                         <th>Estado</th>
-                        <th>Proveedor</th> <!-- NUEVO -->
+                        <th>Proveedor</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -96,7 +94,6 @@
                         </td>
                     </tr>
 
-                    <!-- Modal Editar -->
                     <div class="modal fade" id="modalEditar<%= h.getIdHerramienta() %>" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -162,7 +159,6 @@
     </div>
 </div>
 
-<!-- Modal Agregar -->
 <div class="modal fade" id="modalAgregar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

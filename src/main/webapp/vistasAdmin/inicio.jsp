@@ -272,7 +272,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // Validación de datos para evitar errores de JS si es null
         const gastosMes = <%= request.getAttribute("gastosMes") != null ? request.getAttribute("gastosMes") : "[0,0,0,0,0,0,0,0,0,0,0,0]" %>;
 
         const ctx = document.getElementById('graficoMeses').getContext('2d');

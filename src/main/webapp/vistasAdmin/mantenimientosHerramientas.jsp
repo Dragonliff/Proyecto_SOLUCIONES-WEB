@@ -32,10 +32,9 @@
         transition: 0.2s;
     }
     
-    /* Estilos de Alerta */
-    .alerta-baja { background-color: #d4edda; color: #155724; } /* Verde pálido */
-    .alerta-media { background-color: #fff3cd; color: #856404; } /* Amarillo pálido */
-    .alerta-alta { background-color: #f8d7da; color: #721c24; } /* Rojo pálido */
+    .alerta-baja { background-color: #d4edda; color: #155724; } 
+    .alerta-media { background-color: #fff3cd; color: #856404; } 
+    .alerta-alta { background-color: #f8d7da; color: #721c24; }
 </style>
 
 <div class="container py-4">
@@ -85,7 +84,6 @@
                             }
                         }
 
-                        // Lógica para determinar si se puede dar mantenimiento
                         boolean puedeDarMantenimiento = h.getEstado().equals("Operativa") || h.getEstado().equals("En Uso");
                 %>
                     <tr>

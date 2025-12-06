@@ -33,7 +33,6 @@
             transition: 0.2s;
         }
 
-        /* Estilos de Estado */
         .estado-operativo { color: #0a7c1f; font-weight: bold; }
         .estado-mantenimiento { color: #ff9800; font-weight: bold; }
         .estado-inactivo { color: #d00000; font-weight: bold; }
@@ -93,9 +92,7 @@
                         else if ("En Mantenimiento".equalsIgnoreCase(v.getEstado())) estadoClass = "bg-warning text-dark";
                         else if ("Fuera de Servicio".equalsIgnoreCase(v.getEstado())) estadoClass = "bg-danger";
                         
-                        // Lógica para asignar la clase de alerta
                         String alertaClass = "";
-                        // Usamos startsWith para manejar los emojis (🔴, 🟡, 🟢)
                         if (v.getEstadoAlerta() != null) {
                             if (v.getEstadoAlerta().startsWith("ALTA") || v.getEstadoAlerta().startsWith("URGENTE")) {
                                 alertaClass = "alerta-alta";

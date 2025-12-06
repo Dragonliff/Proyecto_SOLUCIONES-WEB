@@ -7,11 +7,9 @@
 <%@ include file="../seguridad.jsp" %>
 
 <%
-    // Obtener listas y mensajes
     List<SolicitudReemplazo> listaC = (List<SolicitudReemplazo>) request.getAttribute("solicitudesConductores");
     List<solicitudes_reemplazo_herramienta> listaM = (List<solicitudes_reemplazo_herramienta>) request.getAttribute("solicitudesMecanicos");
     
-    // Recuperar mensajes (se manejan en el Servlet y se ponen en el request)
     String mensaje = (String) request.getAttribute("mensaje");
     String error = (String) request.getAttribute("error");
 %>
@@ -26,7 +24,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* Replicando el estilo de Proveedores */
         body { background: #e6e7ea; }
         .section-wrapper {
             background: #ffffff;
@@ -50,20 +47,17 @@
             border-radius: 0.2rem;
             margin-right: 3px; 
         }
-        /* ESTILO PARA IMAGENES DE TABLA SOLAMENTE */
         .img-solicitud {
             max-width: 80px; 
             height: auto; 
             
-            /* Dimensiones fijas */
             width: 80px;      
             height: 80px;     
             
-            /* Asegura que la imagen llene el espacio sin estirarse */
             object-fit: cover; 
             
             border-radius: 5px;
-            cursor: pointer; /* Indica que se puede hacer click */
+            cursor: pointer; 
         }
     </style>
 </head>
@@ -274,14 +268,10 @@
 </div>
 <script>
     function mostrarImagenGrande(rutaImagen) {
-        // 1. Obtener el elemento <img> dentro del modal
         const imgElement = document.getElementById('imagenAmpliada');
         
-        // 2. Establecer la ruta de la imagen en el modal
         imgElement.src = rutaImagen;
         
-        // 3. Mostrar el modal usando la API de Bootstrap 5
-        // Asegúrate de que tienes cargado el JS de Bootstrap antes de este script
         const myModal = new bootstrap.Modal(document.getElementById('imagenModal'));
         myModal.show();
     }
