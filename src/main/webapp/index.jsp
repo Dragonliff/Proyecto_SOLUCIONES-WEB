@@ -158,7 +158,7 @@
                 </div>
 
                 <div class="text-center mt-3">
-                    <small class="text-muted">© 2025 Mantenimiento Predictivo v1.0</small>
+                    <small class="text-muted">© 2025 Mantenimiento </small>
                 </div>
             </form>
         </div>
