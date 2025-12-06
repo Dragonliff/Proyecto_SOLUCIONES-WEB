@@ -146,6 +146,51 @@ public class DashboardDAO {
 
         return lista;
     }
-    
 
+    public double calcularGastoCombustible(String fechaInicio, String fechaFin) {
+        double total = 0;
+        String sql = "SELECT SUM(litros * precioLitro) AS total FROM usos_vehiculos WHERE fecha BETWEEN ? AND ?";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, fechaInicio);
+            ps.setString(2, fechaFin);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                total = rs.getDouble("total");
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return total;
+    }
+    
+    public List<Double> gastoCombustiblePorMes(int anio) {
+        List<Double> gastos = new ArrayList<>();
+        String sql = "SELECT MONTH(fecha) AS mes, SUM(litros * precioLitro) AS total " +
+                     "FROM usos_vehiculos " +
+                     "WHERE YEAR(fecha) = ? " +
+                     "GROUP BY MONTH(fecha) ORDER BY mes";
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, anio);
+            ResultSet rs = ps.executeQuery();
+
+            // Inicializamos 12 meses con 0.0
+            for (int i = 0; i < 12; i++) gastos.add(0.0);
+
+            while (rs.next()) {
+                int mes = rs.getInt("mes");
+                double total = rs.getDouble("total");
+                gastos.set(mes - 1, total);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return gastos;
+    }
+    
 }

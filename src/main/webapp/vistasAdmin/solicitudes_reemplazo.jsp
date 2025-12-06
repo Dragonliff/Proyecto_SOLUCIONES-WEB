@@ -33,7 +33,7 @@
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin-bottom: 40px; /* Para separar las secciones si hay varias */
+            margin-bottom: 40px; 
         }
         h2, h1 {
             font-weight: 700;
@@ -44,16 +44,26 @@
             color: white;
         }
         .btn-action-custom {
-            padding: 0.2rem 0.5rem; /* Pequeño para que se parezca al btn-sm */
+            padding: 0.2rem 0.5rem; 
             font-size: 0.8rem;
             line-height: 1.5;
             border-radius: 0.2rem;
-            margin-right: 3px; /* Separación entre botones */
+            margin-right: 3px; 
         }
-        img {
-            max-width: 80px;
-            height: auto;
+        /* ESTILO PARA IMAGENES DE TABLA SOLAMENTE */
+        .img-solicitud {
+            max-width: 80px; 
+            height: auto; 
+            
+            /* Dimensiones fijas */
+            width: 80px;      
+            height: 80px;     
+            
+            /* Asegura que la imagen llene el espacio sin estirarse */
+            object-fit: cover; 
+            
             border-radius: 5px;
+            cursor: pointer; /* Indica que se puede hacer click */
         }
     </style>
 </head>
@@ -113,12 +123,15 @@
                     </td>
                     <td><%= s.getFechaSolicitud() %></td>
                     <td class="text-center">
-                        <% if (s.getImagen() != null && !s.getImagen().isEmpty()) { %>
-                            <img src="uploads/<%= s.getImagen() %>" alt="Imagen" class="img-fluid">
-                        <% } else { %>
-                            <span class="text-muted small">Sin imagen</span>
-                        <% } %>
-                    </td>
+    <% if (s.getImagen() != null && !s.getImagen().isEmpty()) { %>
+        <img src="uploads/<%= s.getImagen() %>" 
+             alt="Imagen" 
+             class="img-solicitud"
+             onclick="mostrarImagenGrande('uploads/<%= s.getImagen() %>')"> 
+    <% } else { %>
+        <span class="text-muted small">Sin imagen</span>
+    <% } %>
+</td>
                     
                     <td class="text-center">
                         <% if (s.getEstado().equals("Pendiente")) { %>
@@ -197,7 +210,10 @@
                     <td><%= s.getFechaSolicitud() %></td>
                     <td class="text-center">
                         <% if (s.getImagen() != null && !s.getImagen().isEmpty()) { %>
-                            <img src="uploads/<%= s.getImagen() %>" alt="Imagen" class="img-fluid">
+                            <img src="uploads/<%= s.getImagen() %>" 
+                                 alt="Imagen" 
+                                 class="img-solicitud"
+                                 onclick="mostrarImagenGrande('uploads/<%= s.getImagen() %>')">
                         <% } else { %>
                             <span class="text-muted small">Sin imagen</span>
                         <% } %>
@@ -242,6 +258,34 @@
     </div>
 
 </div>
+
+<div class="modal fade" id="imagenModal" tabindex="-1" aria-labelledby="imagenModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="imagenModalLabel">Evidencia de Reemplazo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="imagenAmpliada" src="" alt="Imagen Ampliada" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function mostrarImagenGrande(rutaImagen) {
+        // 1. Obtener el elemento <img> dentro del modal
+        const imgElement = document.getElementById('imagenAmpliada');
+        
+        // 2. Establecer la ruta de la imagen en el modal
+        imgElement.src = rutaImagen;
+        
+        // 3. Mostrar el modal usando la API de Bootstrap 5
+        // Asegúrate de que tienes cargado el JS de Bootstrap antes de este script
+        const myModal = new bootstrap.Modal(document.getElementById('imagenModal'));
+        myModal.show();
+    }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
