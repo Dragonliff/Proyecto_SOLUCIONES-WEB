@@ -54,6 +54,15 @@
                 <% } %>
 
             </tbody>
+            
+            <div class="mt-3">
+                <a href="<%= request.getContextPath() %>/UsoVehiculoServlet?accion=exportarPDF" 
+                   class="btn btn-danger">📄 Exportar PDF</a>
+
+                <a href="<%= request.getContextPath() %>/UsoVehiculoServlet?accion=exportarExcel" 
+                   class="btn btn-success">📊 Exportar Excel</a>
+            </div>
+                   
         </table>
 
     <% } %>

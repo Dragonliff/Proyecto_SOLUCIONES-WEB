@@ -70,5 +70,17 @@
             </tbody>
         </table>
     </div>
+            
+    <div class="mb-3 text-end">
+        <a href="<%= request.getContextPath() %>/UsosHerramientasServlet?accion=Excel" 
+           class="btn btn-success me-2">
+            <i class="bi bi-file-earmark-excel"></i> Exportar Excel
+        </a>
+
+        <a href="<%= request.getContextPath() %>/UsosHerramientasServlet?accion=PDF" 
+           class="btn btn-danger">
+            <i class="bi bi-file-earmark-pdf"></i> Exportar PDF
+        </a>
+    </div>
 
 </div>

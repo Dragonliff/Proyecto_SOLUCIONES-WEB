@@ -15,6 +15,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 @WebServlet(name = "UsoVehiculoServlet", urlPatterns = {"/UsoVehiculoServlet"})
 public class UsoVehiculoServlet extends HttpServlet {
 
@@ -35,6 +42,20 @@ public class UsoVehiculoServlet extends HttpServlet {
         }
 
         int idConductor = Integer.parseInt(idConductorObj.toString());
+        
+        
+        if ("exportarPDF".equals(accion)) {
+            exportarPDF(idConductor, response);
+            return;
+        }
+
+        // ==============================
+        // 📌 EXPORTAR EXCEL
+        // ==============================
+        if ("exportarExcel".equals(accion)) {
+            exportarExcel(idConductor, response);
+            return;
+        }
 
         if ("reporte".equals(accion)) {
 
@@ -82,9 +103,10 @@ public class UsoVehiculoServlet extends HttpServlet {
 
         if ("iniciar".equals(accion)) {
             int idVehiculo = Integer.parseInt(request.getParameter("idVehiculo"));
-            // 1. CALCULAR LA ALERTA
+            
             double kmAcumulado = dao.obtenerKilometrajeAcumulado(idVehiculo);
             String estadoAlerta = alertaService.calcularEstadoAlerta(kmAcumulado);
+            
             dao.registrarInicioUso(idVehiculo, idConductor);
             
             // 3. CREAR EL MENSAJE Y ALMACENAR EN SESIÓN
@@ -108,4 +130,91 @@ public class UsoVehiculoServlet extends HttpServlet {
 
         response.sendRedirect(request.getContextPath() + "/UsoVehiculoServlet?accion=reporte");
     }
+    
+        private void exportarPDF(int idConductor, HttpServletResponse response) throws IOException {
+
+        List<usos_vehiculos> historial = dao.listarUsosPorConductor(idConductor);
+
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=HistorialUsoVehiculos.pdf");
+
+        try {
+            Document pdf = new Document();
+            PdfWriter.getInstance(pdf, response.getOutputStream());
+
+            pdf.open();
+            pdf.add(new Paragraph("HISTORIAL DE USO DE VEHÍCULOS\n\n"));
+
+            PdfPTable table = new PdfPTable(10);
+            table.addCell("ID Uso");
+            table.addCell("ID Vehículo");
+            table.addCell("Fecha");
+            table.addCell("Horas");
+            table.addCell("KM");
+            table.addCell("Combustible");
+            table.addCell("Litros");
+            table.addCell("Precio");
+            table.addCell("Costo Total");
+            table.addCell("Descripción");
+
+            for (usos_vehiculos u : historial) {
+                table.addCell(String.valueOf(u.getIdUso()));
+                table.addCell(String.valueOf(u.getIdVehiculo()));
+                table.addCell(String.valueOf(u.getFecha()));
+                table.addCell(String.valueOf(u.getHorasUso()));
+                table.addCell(String.valueOf(u.getKmRecorridos()));
+                table.addCell(u.getTipoCombustible());
+                table.addCell(String.valueOf(u.getLitros()));
+                table.addCell(String.valueOf(u.getPrecioLitro()));
+                table.addCell(String.valueOf(u.getCostoTotal()));
+                table.addCell(u.getDescripcion());
+            }
+
+            pdf.add(table);
+            pdf.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+        
+        private void exportarExcel(int idConductor, HttpServletResponse response) throws IOException {
+
+        List<usos_vehiculos> historial = dao.listarUsosPorConductor(idConductor);
+
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=HistorialUsoVehiculos.xlsx");
+
+        Workbook wb = new XSSFWorkbook();
+        Sheet sheet = wb.createSheet("Historial");
+
+        Row header = sheet.createRow(0);
+        String[] columnas = {
+            "ID Uso", "ID Vehículo", "Fecha", "Horas", "KM", "Combustible",
+            "Litros", "Precio/Litro", "Costo Total", "Descripción"
+        };
+
+        for (int i = 0; i < columnas.length; i++) {
+            header.createCell(i).setCellValue(columnas[i]);
+        }
+
+        int rowNum = 1;
+        for (usos_vehiculos u : historial) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(u.getIdUso());
+            row.createCell(1).setCellValue(u.getIdVehiculo());
+            row.createCell(2).setCellValue(String.valueOf(u.getFecha()));
+            row.createCell(3).setCellValue(u.getHorasUso());
+            row.createCell(4).setCellValue(u.getKmRecorridos());
+            row.createCell(5).setCellValue(u.getTipoCombustible());
+            row.createCell(6).setCellValue(u.getLitros());
+            row.createCell(7).setCellValue(u.getPrecioLitro());
+            row.createCell(8).setCellValue(u.getCostoTotal());
+            row.createCell(9).setCellValue(u.getDescripcion());
+        }
+
+        wb.write(response.getOutputStream());
+        wb.close();
+    }
+    
 }

@@ -12,6 +12,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 @WebServlet(name = "UsosHerramientasServlet", urlPatterns = {"/UsosHerramientasServlet"})
 public class UsosHerramientasServlet extends HttpServlet {
     
@@ -106,10 +111,98 @@ public class UsosHerramientasServlet extends HttpServlet {
 
                 request.getRequestDispatcher("vistasMecanico/historialderegistros.jsp").forward(request, response);
                 break;
+                
+            case "Excel":
+                generarExcel(response, idMecanico);
+                break;
+
+            case "PDF":
+                generarPDF(response, idMecanico);
+                break;
 
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Acción no válida.");
                 break;
+        }
+    }
+    
+    
+    private void generarExcel(HttpServletResponse response, int idMecanico) throws IOException {
+
+        List<usos_herramientas> lista = usosDao.listarUsosPorMecanico(idMecanico);
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Historial");
+
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=Historial_Usos.xlsx");
+
+        // Encabezado
+        Row header = sheet.createRow(0);
+        String[] columnas = {"ID Uso", "ID Herramienta", "Horas Uso", "Observaciones", "Fecha Registro"};
+
+        for (int i = 0; i < columnas.length; i++) {
+            header.createCell(i).setCellValue(columnas[i]);
+        }
+
+        // Datos
+        int fila = 1;
+        for (usos_herramientas u : lista) {
+            Row row = sheet.createRow(fila++);
+
+            row.createCell(0).setCellValue(u.getIdUso());
+            row.createCell(1).setCellValue(u.getIdHerramienta());
+            row.createCell(2).setCellValue(u.getHorasUso());
+            row.createCell(3).setCellValue(u.getObservaciones());
+            row.createCell(4).setCellValue(u.getFecha().toString());
+        }
+
+        workbook.write(response.getOutputStream());
+        workbook.close();
+    }
+
+    
+    private void generarPDF(HttpServletResponse response, int idMecanico) throws IOException {
+
+        List<usos_herramientas> lista = usosDao.listarUsosPorMecanico(idMecanico);
+
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=Historial_Usos.pdf");
+
+        try {
+            Document pdf = new Document();
+            PdfWriter.getInstance(pdf, response.getOutputStream());
+            pdf.open();
+
+            // Título
+            Paragraph titulo = new Paragraph("HISTORIAL DE USO DE HERRAMIENTAS\n\n",
+                    FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16));
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            pdf.add(titulo);
+
+            // Tabla
+            PdfPTable table = new PdfPTable(5);
+            table.setWidthPercentage(100);
+
+            table.addCell("ID Uso");
+            table.addCell("ID Herramienta");
+            table.addCell("Horas Uso");
+            table.addCell("Observaciones");
+            table.addCell("Fecha");
+
+            for (usos_herramientas u : lista) {
+                table.addCell(String.valueOf(u.getIdUso()));
+                table.addCell(String.valueOf(u.getIdHerramienta()));
+                table.addCell(String.valueOf(u.getHorasUso()));
+                table.addCell(u.getObservaciones());
+                table.addCell(u.getFecha().toString());
+            }
+
+            pdf.add(table);
+            pdf.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
