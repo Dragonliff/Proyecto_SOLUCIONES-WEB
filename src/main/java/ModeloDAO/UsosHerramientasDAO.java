@@ -140,7 +140,6 @@ public class UsosHerramientasDAO {
         } catch (SQLException e) {
             System.err.println("Error al obtener horas acumuladas de herramienta: " + e.getMessage());
         } finally {
-            // Asegura el cierre de recursos
         }
 
         return horasAcumuladas;

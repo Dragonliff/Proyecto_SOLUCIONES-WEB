@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelo;
 
 public class proveedores {
@@ -17,7 +13,6 @@ public class proveedores {
 
     public proveedores() {}
 
-    // Getters y setters
     public int getId_proveedor() { return id_proveedor; }
     public void setId_proveedor(int id_proveedor) { this.id_proveedor = id_proveedor; }
 
@@ -46,6 +41,6 @@ public class proveedores {
     public void setFechaRegistro(String fechaRegistro) { this.fechaRegistro = fechaRegistro; }
 
     public void setId(int parseInt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 }

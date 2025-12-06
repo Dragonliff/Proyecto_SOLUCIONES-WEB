@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ModeloDAO;
 import Modelo.usos_vehiculos;
 import Modelo.Conexion;
@@ -55,7 +51,7 @@ public class UsoVehiculoDAO {
             ps.setString(3, tipoCombustible);
             ps.setDouble(4, litros);
             ps.setDouble(5, precioLitro);
-            ps.setDouble(6, litros * precioLitro); // 👈 AQUÍ se calcula el costo total
+            ps.setDouble(6, litros * precioLitro); 
             ps.setInt(7, idUso);
 
             ps.executeUpdate();

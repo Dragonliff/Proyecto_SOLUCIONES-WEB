@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ModeloDAO;
 
 import Modelo.proveedores;
@@ -38,7 +34,6 @@ public class ProveedorDAO {
         } catch (Exception e) {
             System.out.println("Error listar proveedores: " + e.getMessage());
         } finally {
-            // si tu Conexion.getConnection() no maneja el cierre, ciérralo aquí
         }
         return lista;
     }
@@ -125,10 +120,10 @@ public class ProveedorDAO {
     }
 
     public void guardar(proveedores p) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     public Object obtener(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 }

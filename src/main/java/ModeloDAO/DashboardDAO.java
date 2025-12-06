@@ -14,7 +14,7 @@ public class DashboardDAO {
     ResultSet rs;
 
     // =============================================
-    // MÉTODOS DE CONTEO
+    //              MÉTODOS DE CONTEO
     // =============================================
 
     public int contarVehiculos() {
@@ -32,7 +32,7 @@ public class DashboardDAO {
 
     private int obtenerEntero(String sql) {
         try {
-            con = Conexion.getConexion();  // ← CORREGIDO
+            con = Conexion.getConexion();  
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
             if (rs.next()) return rs.getInt(1);
@@ -44,7 +44,7 @@ public class DashboardDAO {
     }
 
     // =============================================
-    // LISTAR ÚLTIMAS SOLICITUDES
+    //          LISTAR ÚLTIMAS SOLICITUDES
     // =============================================
 
     public List<solicitudes_reemplazo_herramienta> listarUltimasSolicitudes() {
@@ -58,7 +58,7 @@ public class DashboardDAO {
             "LIMIT 5";
 
         try {
-            con = Conexion.getConexion();  // ← CORREGIDO
+            con = Conexion.getConexion();  
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
 
@@ -83,11 +83,10 @@ public class DashboardDAO {
         return lista;
     }
     
-        // =============================================
-    // NUEVO: MÉTODOS PARA SOLICITUDES DEL CONDUCTOR
+    // =============================================
+    //      SOLICITUDES DEL CONDUCTOR
     // =============================================
 
-    // Total de solicitudes de reemplazo de conductor
     public int contarSolicitudesReemplazoConductor() {
         return obtenerEntero("SELECT COUNT(*) FROM solicitudes_reemplazo");
     }
@@ -109,7 +108,6 @@ public class DashboardDAO {
         return 0;
     }
 
-    // Últimas 5 solicitudes del conductor
     public List<SolicitudReemplazo> listarUltimasSolicitudesConductor() {
 
         List<SolicitudReemplazo> lista = new ArrayList<>();
@@ -178,7 +176,6 @@ public class DashboardDAO {
             ps.setInt(1, anio);
             ResultSet rs = ps.executeQuery();
 
-            // Inicializamos 12 meses con 0.0
             for (int i = 0; i < 12; i++) gastos.add(0.0);
 
             while (rs.next()) {

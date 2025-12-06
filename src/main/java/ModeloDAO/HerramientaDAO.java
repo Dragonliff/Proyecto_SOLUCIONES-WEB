@@ -33,7 +33,7 @@ public class HerramientaDAO {
                     rs.getString("tipo"),
                     rs.getString("estado"),
                     rs.getInt("id_proveedor"),
-                    rs.getDouble("horas_totales") // <-- ¡AÑADIDO!
+                    rs.getDouble("horas_totales")
                 );
                 lista.add(h);
             }
@@ -63,7 +63,7 @@ public class HerramientaDAO {
                     rs.getString("tipo"),
                     rs.getString("estado"),
                     rs.getInt("id_proveedor"),
-                    rs.getDouble("horas_totales") // <-- ¡AÑADIDO!
+                    rs.getDouble("horas_totales") 
                 );
                 lista.add(h);
             }
@@ -109,8 +109,8 @@ public class HerramientaDAO {
             ps.setDouble(5, h.getHorasTotales());
             ps.setInt(6, h.getIdHerramienta());
             
-            int filasAfectadas = ps.executeUpdate(); // 👈 Debe ser 1
-            return filasAfectadas > 0; // Devolvemos true si se actualizó una fila
+            int filasAfectadas = ps.executeUpdate(); 
+            return filasAfectadas > 0; 
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -151,8 +151,8 @@ public class HerramientaDAO {
                     rs.getString("nombre"),
                     rs.getString("tipo"),
                     rs.getString("estado"),
-                    rs.getInt("id_proveedor"), // proveedor
-                    rs.getDouble("horas_totales") // <-- ¡AÑADIDO!
+                    rs.getInt("id_proveedor"), 
+                    rs.getDouble("horas_totales") 
                 );
             }
         } catch (Exception e) {
@@ -190,10 +190,8 @@ public class HerramientaDAO {
             conn = Conexion.getConexion();
             if (conn == null) return false;
 
-            // Iniciar Transacción
             conn.setAutoCommit(false); 
 
-            // 1. Actualizar las horas totales en la tabla 'herramientas'
             psHoras = conn.prepareStatement(SQL_UPDATE_HORAS_TOTALES);
             psHoras.setDouble(1, nuevasHorasTotales);
             psHoras.setInt(2, idHerramienta);
@@ -203,7 +201,6 @@ public class HerramientaDAO {
                 return false;
             }
 
-            // 2. Insertar el registro de mantenimiento (el punto de reinicio)
             psLog = conn.prepareStatement(SQL_INSERT_MANTENIMIENTO_HERRAMIENTA);
             psLog.setInt(1, idHerramienta);
             psLog.setDouble(2, nuevasHorasTotales); 
@@ -213,7 +210,6 @@ public class HerramientaDAO {
                 return false;
             }
 
-            // Si ambos son exitosos, confirmar
             conn.commit(); 
             resultado = true;
 

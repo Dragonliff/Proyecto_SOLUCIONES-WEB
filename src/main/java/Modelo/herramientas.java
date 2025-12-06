@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Modelo;
 
 public class herramientas {
@@ -10,10 +6,7 @@ public class herramientas {
     private String tipo;
     private String estado;
     private int idProveedor; 
-    // --- NUEVAS PROPIEDADES PERMANENTES ---
     private double horasTotales; 
-
-    // --- NUEVAS PROPIEDADES TRANSIENTES (solo para la vista) ---
     private double horasAcumuladas; 
     private String estadoAlerta;
    
@@ -23,7 +16,7 @@ public class herramientas {
         this.tipo = tipo;
         this.estado = estado;
         this.idProveedor = idProveedor;
-        this.horasTotales = horasTotales; // ¡AÑADIDO!
+        this.horasTotales = horasTotales; 
     }
 
   
@@ -32,7 +25,7 @@ public class herramientas {
         this.tipo = tipo;
         this.estado = estado;
         this.idProveedor = idProveedor;
-        this.horasTotales = 0.0; // Se inicializa en 0.0 al crear
+        this.horasTotales = 0.0; 
     }
 
     
@@ -79,7 +72,6 @@ public class herramientas {
         this.idProveedor = idProveedor;
     }
     
-    // --- Nuevos Getters y Setters ---
 
     public double getHorasTotales() {
         return horasTotales;
