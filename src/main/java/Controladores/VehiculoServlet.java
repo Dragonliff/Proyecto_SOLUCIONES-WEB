@@ -4,6 +4,8 @@ import ModeloDAO.VehiculoDAO;
 import Modelo.vehiculos;
 import ModeloDAO.UsoVehiculoDAO;
 import Modelo.AlertaService; // Asumiendo que AlertaService está en el paquete Modelo
+import Modelo.proveedorvehiculo;
+import ModeloDAO.ProveedorVehiculoDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -71,6 +73,9 @@ public class VehiculoServlet extends HttpServlet {
         
         // 1. Obtener la lista de vehículos
         List<vehiculos> lista = vehiculoDAO.leerTodos();
+        
+        ProveedorVehiculoDAO proveedorDAO = new ProveedorVehiculoDAO();
+
 
         // 2. Iterar sobre cada vehículo para calcular su estado de alerta
         for (vehiculos vehiculo : lista) {
@@ -85,6 +90,9 @@ public class VehiculoServlet extends HttpServlet {
             vehiculo.setKmAcumulado(kmAcumulado);
             vehiculo.setEstadoAlerta(estadoAlerta);
         }
+        
+        List<proveedorvehiculo> proveedores = proveedorDAO.listar();
+        request.setAttribute("proveedores", proveedores);
         
         // 3. Enviar la lista de vehículos (ahora enriquecida con alertas) a la vista
         request.setAttribute("vehiculos", lista);
@@ -141,6 +149,13 @@ public class VehiculoServlet extends HttpServlet {
             return; 
         }
 
+        int idProveedor = 0;
+        try {
+            idProveedor = Integer.parseInt(request.getParameter("idProveedorVehiculo"));
+        } catch (Exception e) {
+            idProveedor = 0; // por si viene null
+        }
+
         String placa = request.getParameter("placa");
         String marca = request.getParameter("marca");
         String modelo = request.getParameter("modelo");
@@ -155,6 +170,8 @@ public class VehiculoServlet extends HttpServlet {
         vehiculo.setTipoVehiculo(tipoVehiculo);
         vehiculo.setKilometrajeActual(kilometrajeActual);
         vehiculo.setEstado(estado);
+
+        vehiculo.setIdProveedorVehiculo(idProveedor);
 
         if (idParam != null && !idParam.isEmpty()) {
 

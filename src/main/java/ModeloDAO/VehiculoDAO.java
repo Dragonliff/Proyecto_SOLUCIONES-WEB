@@ -15,20 +15,30 @@ public class VehiculoDAO {
     }
 
     private static final String SQL_INSERT = 
-            "INSERT INTO vehiculos (placa, marca, modelo, anio, tipoVehiculo, kilometrajeActual, estado) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                "INSERT INTO vehiculos (placa, marca, modelo, anio, tipoVehiculo, kilometrajeActual, estado, id_proveedorVehiculo) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     
     private static final String SQL_SELECT_ALL = 
-            "SELECT idVehiculo, placa, marca, modelo, anio, tipoVehiculo, kilometrajeActual, estado FROM vehiculos ORDER BY idVehiculo DESC";
+                "SELECT v.idVehiculo, v.placa, v.marca, v.modelo, v.anio, v.tipoVehiculo, v.kilometrajeActual, v.estado, " +
+                "v.id_proveedorVehiculo, p.nombre AS proveedorNombre " +
+                "FROM vehiculos v " +
+                "LEFT JOIN proveedorvehiculos p ON v.id_proveedorVehiculo = p.id_proveedorVehiculo " +
+                "ORDER BY v.idVehiculo DESC";
     
     private static final String SQL_UPDATE = 
-            "UPDATE vehiculos SET placa = ?, marca = ?, modelo = ?, anio = ?, tipoVehiculo = ?, kilometrajeActual = ?, estado = ? WHERE idVehiculo = ?";
+                "UPDATE vehiculos SET placa = ?, marca = ?, modelo = ?, anio = ?, tipoVehiculo = ?, kilometrajeActual = ?, estado = ?, id_proveedorVehiculo = ? " +
+                "WHERE idVehiculo = ?";
     
     private static final String SQL_UPDATE_ESTADO = 
             "UPDATE vehiculos SET estado = ? WHERE idVehiculo = ?";
     
     private static final String SQL_SELECT_BY_ID = 
-        "SELECT idVehiculo, placa, marca, modelo, anio, tipoVehiculo, kilometrajeActual, estado FROM vehiculos WHERE idVehiculo = ?";
-    
+            "SELECT v.idVehiculo, v.placa, v.marca, v.modelo, v.anio, v.tipoVehiculo, v.kilometrajeActual, v.estado, " +
+            "v.id_proveedorVehiculo, p.nombre AS proveedorNombre " +
+            "FROM vehiculos v " +
+            "LEFT JOIN proveedorvehiculos p ON v.id_proveedorVehiculo = p.id_proveedorVehiculo " +
+            "WHERE v.idVehiculo = ?";
+
     private static final String SQL_DELETE = "DELETE FROM vehiculos WHERE idVehiculo = ?";
 
     // --- NUEVAS CONSTANTES PARA MANTENIMIENTO ---
@@ -59,6 +69,7 @@ public class VehiculoDAO {
             stmt.setString(5, vehiculo.getTipoVehiculo());
             stmt.setDouble(6, vehiculo.getKilometrajeActual());
             stmt.setString(7, vehiculo.getEstado());
+            stmt.setInt(8, vehiculo.getIdProveedorVehiculo());
             
             creado = stmt.executeUpdate() > 0;
             
@@ -194,7 +205,8 @@ public class VehiculoDAO {
             stmt.setString(5, vehiculo.getTipoVehiculo());
             stmt.setDouble(6, vehiculo.getKilometrajeActual());
             stmt.setString(7, vehiculo.getEstado());
-            stmt.setInt(8, vehiculo.getIdVehiculo()); 
+            stmt.setInt(8, vehiculo.getIdProveedorVehiculo());
+            stmt.setInt(9, vehiculo.getIdVehiculo());
             
             actualizado = stmt.executeUpdate() > 0;
             
@@ -345,6 +357,10 @@ public class VehiculoDAO {
         v.setAnio(rs.getInt("anio"));
         v.setTipoVehiculo(rs.getString("tipoVehiculo"));
         v.setEstado(rs.getString("estado"));
+        v.setKilometrajeActual(rs.getDouble("kilometrajeActual"));
+        
+        v.setIdProveedorVehiculo(rs.getInt("id_proveedorVehiculo"));
+        v.setProveedorNombre(rs.getString("proveedorNombre"));
 
         try {
             v.setKilometrajeActual(rs.getDouble("kilometrajeActual"));

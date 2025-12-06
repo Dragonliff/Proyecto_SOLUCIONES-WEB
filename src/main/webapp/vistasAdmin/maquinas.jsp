@@ -1,6 +1,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="Modelo.vehiculos" %>
+<%@ page import="Modelo.proveedorvehiculo" %>
 
 <%
     request.setAttribute("titulo", "Vehículos");
@@ -78,6 +79,7 @@
                         <th>Tipo</th>
                         <th>Kilometraje (km)</th>
                         <th>Estado</th>
+                        <th>Proveedor</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -119,6 +121,8 @@
                                 <%= v.getEstado() %>
                             </span>
                         </td>
+                        
+                        <td><%= v.getProveedorNombre()%></td>
 
                         <td>
                             <button class="btn btn-warning btn-sm me-1"
@@ -132,7 +136,8 @@
                                     '<%= v.getAnio() %>',
                                     '<%= v.getTipoVehiculo() %>',
                                     '<%= v.getKilometrajeActual() %>',
-                                    '<%= v.getEstado() %>'
+                                    '<%= v.getEstado() %>',
+                                    '<%= v.getIdProveedorVehiculo() %>'
                                 )">
                                 <i class="bi bi-pencil-square"></i>
                             </button>
@@ -224,6 +229,27 @@
                             <option value="Fuera de Servicio">Fuera de Servicio</option>
                         </select>
                     </div>
+                    
+                    <div class="col-md-6">
+                        <select class="form-select" id="proveedorModal" name="idProveedorVehiculo" required>
+                            <option value="">Seleccione un proveedor</option>
+
+                            <% 
+                                List<proveedorvehiculo> proveedores =
+                                    (List<proveedorvehiculo>) request.getAttribute("proveedores");
+
+                                if (proveedores != null) {
+                                    for (proveedorvehiculo p : proveedores) {
+                            %>
+                                        <option value="<%= p.getId_proveedorVehiculo() %>">
+                                            <%= p.getNombre() %>
+                                        </option>
+                            <% 
+                                    }
+                                }
+                            %>
+                        </select>
+                    </div>
 
                 </div>
 
@@ -243,7 +269,7 @@
 </div>
 
 <script>
-function prepararFormulario(id, placa, marca, modelo, anio, tipo, km, estado) {
+function prepararFormulario(id, placa, marca, modelo, anio, tipo, km, estado, proveedor) {
 
     document.getElementById("modalTitle").innerText = id ? "Editar Vehículo" : "Registrar Vehículo";
 
@@ -256,6 +282,7 @@ function prepararFormulario(id, placa, marca, modelo, anio, tipo, km, estado) {
 
     document.getElementById("tipoVehiculoModal").value = tipo || "Auto";
     document.getElementById("estadoModal").value = estado || "Operativo";
+    document.getElementById("proveedorModal").value = proveedor || "";
 
     document.getElementById("placaModal").readOnly = !!id;
 }

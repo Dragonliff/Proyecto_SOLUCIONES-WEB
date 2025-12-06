@@ -16,6 +16,9 @@ public class vehiculos {
     private double kmAcumulado;
     private String estadoAlerta;
    
+    private int idProveedorVehiculo;
+    private String proveedorNombre;
+    
     public vehiculos(){
         
     }
@@ -108,4 +111,21 @@ public class vehiculos {
     public void setEstadoAlerta(String estadoAlerta) {
         this.estadoAlerta = estadoAlerta;
     }
+
+    public int getIdProveedorVehiculo() {
+        return idProveedorVehiculo;
+    }
+
+    public void setIdProveedorVehiculo(int idProveedorVehiculo) {
+        this.idProveedorVehiculo = idProveedorVehiculo;
+    }
+
+    public String getProveedorNombre() {
+        return proveedorNombre;
+    }
+
+    public void setProveedorNombre(String proveedorNombre) {
+        this.proveedorNombre = proveedorNombre;
+    }
+
 }
