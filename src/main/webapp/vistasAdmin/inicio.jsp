@@ -3,9 +3,7 @@
 <%@ include file="layout.jsp" %>
 <%@page import="Modelo.solicitudes_reemplazo_herramienta"%>
 <%@page import="Modelo.SolicitudReemplazo" %>
-
 <%@page import="java.util.List"%>
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -13,9 +11,7 @@
     <meta charset="UTF-8">
     <title>Dashboard - Administración</title>
 
-    <!-- BOOTSTRAP -->
-    <link rel="stylesheet" 
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 
     <style>
         body {
@@ -62,22 +58,6 @@
             background: #f1f5fb;
         }
 
-        /* Contenedor general */
-        .dashboard-section {
-            margin-top: 40px;
-            margin-bottom: 40px;
-        }
-
-        /* Selector Año */
-        select, input[type="date"] {
-            border-radius: 10px !important;
-        }
-
-        button.btn-primary {
-            border-radius: 10px;
-        }
-
-        /* Área del gráfico */
         .chart-container {
             padding: 20px;
             background: white;
@@ -94,13 +74,9 @@
 
 <body>
 
-
-
-    <!-- CONTENIDO -->
     <div class="container mt-4">
 
         <h2 class="title mb-4">Dashboard General</h2>
-        
         
         <form action="DashboardServlet" method="GET" class="row g-2 mb-4">
             <div class="col-md-3">
@@ -118,10 +94,7 @@
             </div>
         </form>
 
-        <!-- TARJETAS DE INDICADORES -->
         <div class="row g-3">
-
-            <!-- TOTAL VEHÍCULOS -->
             <div class="col-md-3">
                 <div class="card p-4">
                     <h5>Total Vehículos</h5>
@@ -133,7 +106,6 @@
                 </div>
             </div>
 
-            <!-- SOLICITUDES PENDIENTES -->
             <div class="col-md-3">
                 <div class="card shadow-sm p-3">
                     <h5>Solicitudes Pendientes</h5>
@@ -145,7 +117,6 @@
                 </div>
             </div>
 
-            <!-- HERRAMIENTAS DISPONIBLES -->
             <div class="col-md-3">
                 <div class="card shadow-sm p-3">
                     <h5>Herramientas Disponibles</h5>
@@ -157,7 +128,6 @@
                 </div>
             </div>
                     
-                    <!-- NUEVO KPI: TOTAL SOLICITUDES DEL CONDUCTOR -->
             <div class="col-md-3">
                 <div class="card shadow-sm p-3">
                     <h5>Solicitudes Conductores</h5>
@@ -180,18 +150,15 @@
                     </h2>
                 </div>
             </div>
-
         </div>
 
-        <!-- SECCIÓN DE TABLAS -->
-        <div class="row mt-5">
+        <div class="row mt-4 g-3"> 
 
-            <!-- ÚLTIMAS SOLICITUDES -->
             <div class="col-md-6">
-                <div class="card p-3 shadow-sm">
+                <div class="card p-3 shadow-sm h-100">
                     <h5 class="title">Últimas Solicitudes</h5>
 
-                    <table class="table table-hover mt-3 align-middle">
+                    <table class="table table-hover mt-1 align-middle">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -203,82 +170,83 @@
                         <tbody>
                         <%
                             List<?> ultSolicitudes = (List<?>) request.getAttribute("ultimasSolicitudes");
-                            if (ultSolicitudes != null) {
+                            if (ultSolicitudes != null && !ultSolicitudes.isEmpty()) {
                                 for (Object s : ultSolicitudes) {
-
                                     solicitudes_reemplazo_herramienta sol = (solicitudes_reemplazo_herramienta) s;
                         %>
                             <tr>
                                 <td><%= sol.getIdSolicitud() %></td>
                                 <td><%= sol.getIdMecanico() %></td>
                                 <td><%= sol.getMotivo() %></td>
-                                <td><%= sol.getEstado() %></td>
+                                <td>
+                                    <span class="badge bg-primary"><%= sol.getEstado() %></span>
+                                </td>
                             </tr>
                         <%
                                 }
                             } else {
                         %>
                             <tr>
-                                <td colspan="4" class="text-center">Sin registros</td>
+                                <td colspan="4" class="text-center text-muted">Sin registros recientes</td>
                             </tr>
                         <% } %>
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
-                        
-                <!-- TABLA CONDUCTORES -->
-        <div class="col-md-6">
-            <div class="card p-3 shadow-sm">
-                <h5 class="title">Últimas Solicitudes (Conductores)</h5>
 
-                <table class="table table-hover mt-3 align-middle">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Conductor</th>
-                            <th>Motivo</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <%
-                        List<SolicitudReemplazo> ultCon = 
-                            (List<SolicitudReemplazo>) request.getAttribute("ultimasSolicitudesConductor");
+            <div class="col-md-6">
+                <div class="card p-3 shadow-sm h-100">
+                    <h5 class="title">Últimas Solicitudes (Conductores)</h5>
 
-                        if (ultCon != null) {
-                            for (SolicitudReemplazo sc : ultCon) {
-                    %>
-                        <tr>
-                            <td><%= sc.getIdSolicitud() %></td>
-                            <td><%= sc.getIdConductor() %></td>
-                            <td><%= sc.getMotivo() %></td>
-                            <td><%= sc.getEstado() %></td>
-                        </tr>
-                    <%
-                            }
-                        } else {
-                    %>
-                        <tr><td colspan="4" class="text-center">Sin registros</td></tr>
-                    <% } %>
-                    </tbody>
-                </table>
+                    <table class="table table-hover mt-1 align-middle">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Conductor</th>
+                                <th>Motivo</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <%
+                            List<SolicitudReemplazo> ultCon = 
+                                (List<SolicitudReemplazo>) request.getAttribute("ultimasSolicitudesConductor");
+
+                            if (ultCon != null && !ultCon.isEmpty()) {
+                                for (SolicitudReemplazo sc : ultCon) {
+                        %>
+                            <tr>
+                                <td><%= sc.getIdSolicitud() %></td>
+                                <td><%= sc.getIdConductor() %></td>
+                                <td><%= sc.getMotivo() %></td>
+                                <td>
+                                    <span class="badge bg-secondary"><%= sc.getEstado() %></span>
+                                </td>
+                            </tr>
+                        <%
+                                }
+                            } else {
+                        %>
+                            <tr><td colspan="4" class="text-center text-muted">Sin registros recientes</td></tr>
+                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
                     
-        <div class="row mt-5">
+        <div class="row mt-4 mb-5">
             <div class="col-md-12">
                 <div class="chart-container">
                     <h4 class="title mb-3">Gasto de Combustible por Mes</h4>
 
-                    <!-- Selector de año -->
                     <form method="GET" action="DashboardServlet" class="row g-2 mb-3">
                         <div class="col-md-3">
                             <label>Año:</label>
                             <select name="anio" class="form-control">
                                 <%
-                                    int anio = (int) request.getAttribute("anio");
+                                    int anio = (request.getAttribute("anio") != null) ? (int) request.getAttribute("anio") : 2024;
                                     for (int a = 2023; a <= 2026; a++) {
                                 %>
                                     <option value="<%=a%>" <%= (a == anio ? "selected" : "") %>>
@@ -300,14 +268,12 @@
 
     </div>
 
-    <!-- JS Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // Obtener los datos del backend
-        const gastosMes = <%= request.getAttribute("gastosMes") %>;
+        // Validación de datos para evitar errores de JS si es null
+        const gastosMes = <%= request.getAttribute("gastosMes") != null ? request.getAttribute("gastosMes") : "[0,0,0,0,0,0,0,0,0,0,0,0]" %>;
 
         const ctx = document.getElementById('graficoMeses').getContext('2d');
 
