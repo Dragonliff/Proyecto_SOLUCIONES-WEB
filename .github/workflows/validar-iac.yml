@@ -1,0 +1,91 @@
+name: Validar plantilla ARM IaC
+
+on:
+  push:
+    paths:
+      - "templates/**/*.json"
+      - ".github/workflows/validar-iac.yml"
+  pull_request:
+    paths:
+      - "templates/**/*.json"
+
+jobs:
+  validar-template:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Validar formato JSON de las plantillas
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          files = list(Path("templates").glob("*.json"))
+
+          if not files:
+              raise SystemExit("No se encontraron archivos JSON en la carpeta templates.")
+
+          for file in files:
+              with open(file, encoding="utf-8-sig") as f:
+                  json.load(f)
+              print(f"Archivo JSON válido: {file}")
+
+          print("Todas las plantillas JSON tienen formato correcto.")
+          PY
+
+      - name: Verificar recursos principales de Azure
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          template_file = Path("templates/template_test.json")
+
+          if not template_file.exists():
+              template_file = Path("templates/templates.json")
+
+          if not template_file.exists():
+              raise SystemExit("No se encontró template_test.json ni templates.json en la carpeta templates.")
+
+          with open(template_file, encoding="utf-8-sig") as f:
+              template = json.load(f)
+
+          resources = template.get("resources", [])
+          resource_types = {r.get("type", "") for r in resources}
+
+          print("Recursos encontrados en la plantilla:")
+          for resource_type in sorted(resource_types):
+              print(f"- {resource_type}")
+
+          expected_keywords = {
+              "Red virtual": "Microsoft.Network/virtualNetworks",
+              "Grupo de seguridad NSG": "Microsoft.Network/networkSecurityGroups",
+              "Máquina virtual": "Microsoft.Compute/virtualMachines",
+              "Base de datos MySQL": "Microsoft.DBforMySQL/flexibleServers",
+              "Cuenta de almacenamiento": "Microsoft.Storage/storageAccounts"
+          }
+
+          missing = []
+
+          for name, expected_type in expected_keywords.items():
+              if expected_type not in resource_types:
+                  missing.append(name)
+
+          if missing:
+              print("\nFaltan recursos principales:")
+              for item in missing:
+                  print(f"- {item}")
+              raise SystemExit("La plantilla no contiene todos los recursos principales del proyecto.")
+
+          print("\nVALIDACIÓN OK: La plantilla contiene los recursos principales del proyecto.")
+          PY
+
+      - name: Resumen de validación
+        run: |
+          echo "## Validación de Infraestructura como Código" >> $GITHUB_STEP_SUMMARY
+          echo "- El formato JSON fue validado correctamente." >> $GITHUB_STEP_SUMMARY
+          echo "- Se verificaron los recursos principales de Azure." >> $GITHUB_STEP_SUMMARY
+          echo "- La plantilla está lista para desplegarse manualmente desde Azure Portal." >> $GITHUB_STEP_SUMMARY
